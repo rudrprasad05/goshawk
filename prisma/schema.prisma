@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+
+model Account {
+    id                String    @id @default(auto()) @map("_id") @db.ObjectId
+    userId            String    @db.ObjectId
+    type              String  
+    provider          String  
+    providerAccountId String  
+    refresh_token     String?   @db.String
+    access_token      String?   @db.String
+    expires_at        Int?  
+    token_type        String?  
+    scope             String?  
+    id_token          String?   @db.String
+    session_state     String?
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([provider, providerAccountId])
+}
+
+model User {
+    id             String    @id @default(auto()) @map("_id") @db.ObjectId
+    name           String
+    address        String?
+    town           String?
+    country        String?
+    phone          String?
+    email          String    @unique
+    emailVerified  DateTime?
+    role           String    @default("buyer")
+    image          String?
+    hashedPassword String?
+
+    createdAt      DateTime  @default(now())
+    updatedAt      DateTime  @updatedAt
+
+    accounts Account[]
+    seller Seller?
+
+}
+
+
+model Seller {
+  id             String      @id @default(auto()) @map("_id") @db.ObjectId
+  companyName    String?
+  plan           String?
+  isPaid         Boolean   @default(false)
+  isVerified     Boolean   @default(false)
+  image          String?
+  hashedPassword String?
+
+  products Products[]
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique @db.ObjectId 
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Products {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  price       String
+  imageUrl    String
+  description String
+
+  seller   Seller @relation(fields: [sellerId], references: [id])
+  sellerId String @db.ObjectId
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
