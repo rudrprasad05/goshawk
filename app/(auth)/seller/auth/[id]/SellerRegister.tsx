@@ -88,7 +88,7 @@ const Step1 = ({ state, onclick }: { state: any; onclick: any }) => {
   return (
     <div className="py-16">
       <h1 className=" text-center text-xl font-semibold tracking-tight">
-        Select the plan that's right for you
+        Select the plan that&#146;s right for you
       </h1>
       <div className="pt-8 grid grid-cols-1 md:grid-cols-3 gap-10">
         {plans.map((plan) => (
