@@ -30,7 +30,7 @@ const items = [
 ];
 
 const SideNav = () => {
-  const [openNav, setOpenNav] = useState(false);
+  const [openNav, setOpenNav] = useState(true);
 
   const toggleCollapse = () => {
     if (openNav) setOpenNav(false);
