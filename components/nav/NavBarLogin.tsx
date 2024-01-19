@@ -9,7 +9,6 @@ import AvatarComponent from "./AvatarComponent";
 import { UserType } from "@/types";
 
 const NavBarLogin = ({ user }: { user?: UserType }) => {
-  const session = useSession();
   return (
     <div className="flex items-center">
       <SignIn user={user} />

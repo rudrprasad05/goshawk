@@ -14,6 +14,7 @@ import { Pagination } from "./pagination";
 import { Card } from "@/components/ui/card";
 import EditProfileSheet from "@/components/nav/EditProfileSheet";
 import AvatarComponent from "@/components/nav/AvatarComponent";
+import { UserType } from "@/types";
 // import { TagType } from "@/types";
 // import { GetAllTags } from "@/actions/tag";
 
@@ -24,9 +25,15 @@ type PageProps = {
   searchParams?: { [key: string]: string | string[] | undefined };
 };
 
-export const Feed = async (props: PageProps) => {
+export const Feed = async ({
+  props,
+  user,
+}: {
+  props: PageProps;
+  user: UserType;
+}) => {
   const pageNumber = Number(props?.searchParams?.page || 1);
-  const id = String(props?.params.id);
+  const id = user.seller.id;
   const search = String(props?.searchParams?.search || "");
   const tag = String(props?.searchParams?.tag || "");
   const tagid = String(props?.searchParams?.tagid || "");
@@ -40,6 +47,8 @@ export const Feed = async (props: PageProps) => {
     skip,
     search,
   });
+
+  console.log(data);
 
   // const tags = await GetAllTags();
 

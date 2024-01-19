@@ -35,7 +35,9 @@ const NavItems = () => {
     <div className="flex gap-4 h-full" ref={navRef}>
       <div className="flex items-center">
         {session.data?.user.role == "seller" && (
-          <Link href={"/seller/dashboard"}>Dashboard</Link>
+          <Link href={"/seller/dashboard"} className="text-base">
+            Dashboard
+          </Link>
         )}
       </div>
       {PRODUCT_CATEGORIES.map((category, i) => {

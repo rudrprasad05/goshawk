@@ -9,16 +9,16 @@ import EditProfileSheet from "../nav/EditProfileSheet";
 
 interface props {
   name: string;
-  Icon: LucideIcon;
+  children: React.ReactNode;
 }
 
-const Header: React.FC<props> = ({ name, Icon }) => {
+const Header: React.FC<props> = ({ name, children }) => {
   const session = useSession();
   const user = session.data?.user;
   return (
     <Card className="w-full flex flex-row px-6 py-3 bg-border">
       <div className="flex gap-3 items-center text-xl">
-        <Icon />
+        {children}
         {name}
       </div>
       <div className="flex gap-3 ml-auto">

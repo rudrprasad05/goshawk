@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { ProductSearchSchema, ProductSearchType } from "@/schemas/product";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";

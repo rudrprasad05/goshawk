@@ -1,12 +1,13 @@
-import Link from "next/link";
-import MaxWidthWrapper from "../MaxWidthWrapper";
-import NavItems from "./NavItems";
-import { buttonVariants } from "../ui/button";
-import { cookies } from "next/headers";
-import { Icons } from "../Icons";
-import Cart from "../Cart";
-import NavBarLogin from "./NavBarLogin";
 import { getCurrentUser } from "@/actions/user";
+import { cookies } from "next/headers";
+import Link from "next/link";
+
+import Cart from "../Cart";
+import { Icons } from "../Icons";
+import MaxWidthWrapper from "../MaxWidthWrapper";
+import { buttonVariants } from "../ui/button";
+import NavBarLogin from "./NavBarLogin";
+import NavItems from "./NavItems";
 
 const Navbar = async () => {
   const nextCookies = cookies();
@@ -16,7 +17,7 @@ const Navbar = async () => {
     <div className="bg-card sticky z-50 top-0 inset-x-0 h-16">
       <header className="relative bg-card">
         <MaxWidthWrapper>
-          <div className="border-b border-gray-200">
+          <div className="border-b">
             <div className="flex h-16 items-center">
               {/* <MobileNav /> */}
 

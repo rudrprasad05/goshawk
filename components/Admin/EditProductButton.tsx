@@ -20,9 +20,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { NewProductForm, NewProductType } from "@/schemas/product";
-import { UserType } from "@/types";
+import { ProductType, UserType } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 // import { useState } from "@/types";
 import { useState } from "react";
@@ -37,7 +38,13 @@ import { MdHeadset, MdOutlineCheck } from "react-icons/md";
 
 // TODO make sure the image name is unique by appending date to the end if not previous image will be deleted
 
-const NewProductButton = ({ user }: { user: UserType }) => {
+const EditProductButton = ({
+  user,
+  product,
+}: {
+  user: UserType;
+  product: ProductType;
+}) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState<File>();
@@ -47,9 +54,9 @@ const NewProductButton = ({ user }: { user: UserType }) => {
   const form = useForm<NewProductType>({
     resolver: zodResolver(NewProductForm),
     defaultValues: {
-      name: "",
-      description: "",
-      price: "",
+      name: (product.name as string) || "",
+      description: (product.description as string) || "",
+      price: (product.price as string) || "",
       sellerId: user.seller.id,
     },
   });
@@ -84,11 +91,16 @@ const NewProductButton = ({ user }: { user: UserType }) => {
   };
 
   function onSubmit(data: NewProductType) {
-    data.imageUrl = `https://mctechfiji.s3.amazonaws.com/alibaba/${file?.name}`;
+    if (formReadyToUpload) {
+      data.imageUrl = `https://mctechfiji.s3.amazonaws.com/alibaba/${file?.name}`;
+    } else {
+      data.imageUrl = product.imageUrl;
+    }
+
     data.sellerId = user.seller.id;
     console.log(data);
     axios
-      .post(`/api/product`, data)
+      .patch(`/api/product/${product.id}`, data)
       .then((res) => {
         if (res.status == 200) {
           toast.success("Product Created Successfully");
@@ -106,18 +118,18 @@ const NewProductButton = ({ user }: { user: UserType }) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <div className="bg-border duration-100 group group-hover:border-primary border rounded-md shadow-sm h-48 relative p-5 border-primary/20 hover:border-primary hover:cursor-pointer">
-          <div className="font-light text-2xl text-primary">Product</div>
+          <div className="font-light text-2xl text-primary">Edit</div>
           <div className="absolute bottom-5 right-5">
-            <MdHeadset className="group-hover:h-28 group-hover:w-28 group-hover:fill-muted-foreground/20 duration-200  w-16 h-16 stroke fill-muted-foreground" />
-            {/* <IoPersonAddOutline className="group-hover:stroke-primary w-16 h-16 stroke stroke-muted-foreground" /> */}
+            <Pencil className="group-hover:h-28 group-hover:w-28 group-hover:stroke-muted-foreground/20 duration-200  w-16 h-16 stroke stroke-muted-foreground" />
           </div>
-          <div className=" text-muted-foreground">New</div>
         </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>New Product</DialogTitle>
-          <DialogDescription>Create New Product</DialogDescription>
+          <DialogTitle>Edit Product</DialogTitle>
+          <DialogDescription>
+            Change the details of your product
+          </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -229,10 +241,8 @@ const NewProductButton = ({ user }: { user: UserType }) => {
                 )}
               </Button>
             </div>
-
-            <Button disabled={!formReadyToUpload} type="submit">
-              Submit
-            </Button>
+            {/* disabled={!formReadyToUpload} */}
+            <Button type="submit">Submit</Button>
           </form>
         </Form>
       </DialogContent>
@@ -240,4 +250,4 @@ const NewProductButton = ({ user }: { user: UserType }) => {
   );
 };
 
-export default NewProductButton;
+export default EditProductButton;

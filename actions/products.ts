@@ -63,7 +63,7 @@ export const GetSingleMerchantProducts = async ({
       AND: [
         {
           sellerId: id,
-          name: { contains: search, mode: "insensitive" },
+          // name: { contains: search, mode: "insensitive" },
         },
       ],
     },
@@ -72,6 +72,7 @@ export const GetSingleMerchantProducts = async ({
       createdAt: "desc",
     },
   });
+  console.log(id);
 
   const total = await prisma.products.count();
 

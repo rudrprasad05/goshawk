@@ -1,8 +1,9 @@
+"use client";
+
 import ThemeSwitcherOneClick from "@/theme/ThemeSwitcherOneClick";
-import React from "react";
-import { Card } from "../ui/card";
-import Link from "next/link";
 import {
+  ArrowLeftToLine,
+  ArrowRightToLine,
   Blocks,
   Cog,
   DollarSign,
@@ -12,53 +13,115 @@ import {
   PanelsTopLeft,
   SeparatorVertical,
 } from "lucide-react";
+import Link from "next/link";
+import React, { useState } from "react";
+
+import { Button } from "../ui/button";
+import { Card } from "../ui/card";
 import { Separator } from "../ui/separator";
+import { cn } from "@/lib/utils";
 
 const items = [
   { name: "Shop", icon: PanelsTopLeft, link: "" },
   { name: "Sales", icon: DollarSign, link: "" },
   { name: "Chat", icon: MessageSquareMore, link: "" },
-  { name: "Product", icon: PackagePlus, link: "" },
+  { name: "Product", icon: PackagePlus, link: "/seller/products" },
   { name: "Orders", icon: Blocks, link: "" },
-  { name: "Chat", icon: MessageSquareMore, link: "" },
 ];
 
 const SideNav = () => {
+  const [openNav, setOpenNav] = useState(false);
+
+  const toggleCollapse = () => {
+    if (openNav) setOpenNav(false);
+    else setOpenNav(true);
+  };
   return (
-    <Card className="rounded-none h-screen sticky top-0 w-[100px] flex flex-col bg-border">
+    <Card
+      className={cn(
+        "rounded-none h-screen sticky top-0 w-[100px] flex flex-col bg-border",
+        openNav && "w-[175px]"
+      )}
+    >
       <div className="flex flex-col items-center gap-5 p-5 grow">
-        <div className="w-min bg-background text-secondary-foreground hover:bg-background/60 transition rounded-md">
-          <Link className="h-min w-min" href={"/seller/dashboard"}>
+        <div className="w-full hover:bg-accent hover:text-accent-foreground flex items-start transition rounded-md">
+          <Link
+            className={cn("h-min w-min", openNav && "flex gap-3 items-center")}
+            href={"/seller/settings"}
+          >
             <div className="p-3">
-              <Home className="h-6 w-6" />
+              <Home className="stroke-primary h-6 w-6" />
             </div>
+            <div>{openNav && "Home"}</div>
           </Link>
         </div>
-        <Separator />
-        <div className="flex flex-col items-center gap-3">
+        <Separator className="bg-primary/50" />
+        <div
+          className={cn(
+            "flex flex-col w-full items-center gap-3",
+            openNav && "items-start"
+          )}
+        >
           {items.map((i) => (
             <div
               key={i.name}
-              className="w-min hover:bg-background/60 hover:text-accent-foreground transition rounded-md"
+              className="w-full hover:bg-background/60 hover:text-accent-foreground transition rounded-md"
             >
-              <Link className="h-min w-min" href={i.link}>
-                <div className="p-3">
-                  <i.icon className="h-6 w-6" />
+              <Link
+                className={cn(
+                  "h-min w-min",
+                  openNav && "flex gap-3 items-center"
+                )}
+                href={i.link}
+              >
+                <div className="p-3 flex items-center">
+                  <i.icon className="mx-auto stroke-primary h-6 w-6" />
                 </div>
+                <div>{openNav && i.name}</div>
               </Link>
             </div>
           ))}
         </div>
 
-        <div className="mt-auto flex flex-col items-center gap-3">
-          <Separator />
+        <div
+          className={cn(
+            "flex mt-auto flex-col w-full items-center gap-2",
+            openNav && "items-start"
+          )}
+        >
+          <Separator className="bg-primary/50" />
 
-          <ThemeSwitcherOneClick />
-          <div className="w-min hover:bg-accent hover:text-accent-foreground transition rounded-md">
-            <Link className="h-min w-min" href={"/seller/dashboard"}>
-              <div className="p-3">
-                <Cog className="h-6 w-6" />
+          <ThemeSwitcherOneClick seeName={openNav} />
+
+          <div className="w-min h-min hover:bg-accent hover:text-accent-foreground transition rounded-md">
+            <button
+              onClick={() => toggleCollapse()}
+              className={cn("w-full", openNav && "flex gap-3 items-center")}
+            >
+              <div className="p-2">
+                {!openNav && (
+                  <ArrowRightToLine className="stroke-primary h-6 w-6" />
+                )}
+                {openNav && (
+                  <ArrowLeftToLine className="stroke-primary h-6 w-6" />
+                )}
               </div>
+              {openNav && <div>Collapse</div>}
+            </button>
+          </div>
+
+          <div className="w-min h-min hover:bg-accent hover:text-accent-foreground transition rounded-md">
+            <Link
+              className={cn(
+                "h-min w-min",
+                openNav && "flex gap-3 items-center"
+              )}
+              href={"/seller/settings"}
+            >
+              <div className="p-2">
+                <Cog className="stroke-primary h-6 w-6" />
+              </div>
+              <div>{openNav && "Settings"}</div>
             </Link>
           </div>
         </div>
