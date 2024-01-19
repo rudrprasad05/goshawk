@@ -93,6 +93,7 @@ const Step1 = ({ state, onclick }: { state: any; onclick: any }) => {
       <div className="pt-8 grid grid-cols-1 md:grid-cols-3 gap-10">
         {plans.map((plan) => (
           <Card
+            key={plan.name}
             className={cn(
               "flex flex-col",
               selected(plan) && "border-primary shadow-lg shadow-primary/50"
@@ -107,7 +108,7 @@ const Step1 = ({ state, onclick }: { state: any; onclick: any }) => {
             <CardContent className="text-sm grow">
               <ul>
                 {plan.attr?.map((i) => (
-                  <li className="flex gap-1">
+                  <li className="flex gap-1" key={i.slice(0, 5)}>
                     <div>
                       <Check className="stroke-green-700 w-4 h-4" />
                     </div>
