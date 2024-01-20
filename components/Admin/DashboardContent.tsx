@@ -9,7 +9,7 @@ import NewProductButton from "./NewProductButton";
 import OrderCount from "./OrderCount";
 import ProductCount from "./ProductCount";
 
-const DashboardContent = ({ user }: { user: UserType }) => {
+const DashboardContent = ({ user }: { user: any }) => {
   return (
     <>
       <div className="flex flex-col gap-6">

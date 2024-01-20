@@ -30,7 +30,7 @@ export const Feed = async ({
   user,
 }: {
   props: PageProps;
-  user: UserType;
+  user: any;
 }) => {
   const pageNumber = Number(props?.searchParams?.page || 1);
   const id = user.seller.id;

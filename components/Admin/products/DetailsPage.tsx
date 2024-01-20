@@ -11,7 +11,7 @@ import { DeleteProductButton } from "../DeleteProductButton";
 import { HideProductButton } from "../HideProductButton";
 import { Badge } from "@/components/ui/badge";
 
-const DetailsPage = async ({ product }: { product: ProductType }) => {
+const DetailsPage = async ({ product }: { product: any }) => {
   const user = await getCurrentUser();
   return (
     <>
@@ -58,13 +58,7 @@ const ProductView = ({ product }: { product: ProductType }) => {
   );
 };
 
-const EditGrid = ({
-  user,
-  product,
-}: {
-  user: UserType;
-  product: ProductType;
-}) => {
+const EditGrid = ({ user, product }: { user: any; product: ProductType }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <EditProductButton product={product} user={user} />

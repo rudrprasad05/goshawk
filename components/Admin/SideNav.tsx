@@ -30,7 +30,7 @@ type Items = {
   icon: LucideIcon;
   link: string;
 };
-const SideNav = ({ user }: { user: UserType }) => {
+const SideNav = ({ user }: { user: any }) => {
   const items: Items[] = [
     { name: "Dashboard", icon: LayoutDashboard, link: "/seller/dashboard" },
     {

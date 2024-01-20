@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 
 interface props {
-  product: ProductType;
+  product: any;
 }
 
 export const SiteProductCard: React.FC<props> = ({ product }) => {
