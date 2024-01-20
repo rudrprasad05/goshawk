@@ -4,6 +4,8 @@ import SideNav from "./SideNav";
 
 const SideNavServerCont = async () => {
   const user = await GetUseDataOnly();
+  if (!user) return null;
+
   return <SideNav user={user} />;
 };
 

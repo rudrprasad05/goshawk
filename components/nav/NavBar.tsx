@@ -12,6 +12,7 @@ import NavItems from "./NavItems";
 const Navbar = async () => {
   const nextCookies = cookies();
   const user = await getCurrentUser();
+  if (!user) return null;
 
   return (
     <div className="bg-card sticky z-50 top-0 inset-x-0 h-16">

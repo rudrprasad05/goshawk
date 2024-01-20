@@ -13,6 +13,8 @@ import { Badge } from "@/components/ui/badge";
 
 const DetailsPage = async ({ product }: { product: any }) => {
   const user = await getCurrentUser();
+  if (!user) return null;
+
   return (
     <>
       <ProductView product={product} />

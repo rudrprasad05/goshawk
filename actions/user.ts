@@ -16,7 +16,11 @@ export const getCurrentUser = async () => {
         email: session?.user?.email as string,
       },
       include: {
-        seller: true,
+        seller: {
+          include: {
+            products: true,
+          },
+        },
       },
     });
 
