@@ -56,7 +56,6 @@ export const ShopSellerFeed = async ({
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-6">
         {data.map((seller) => {
-          // return <SiteProductCard key={product.id} product={product} />;
           return <ShopSellerFeedCard seller={seller} />;
         })}
         {data.length == 0 && <div className="">No Products here</div>}

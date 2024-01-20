@@ -9,8 +9,10 @@ import {
   DollarSign,
   Home,
   LayoutDashboard,
+  LucideIcon,
+  Megaphone,
   MessageSquareMore,
-  PackagePlus,
+  Package,
   PanelsTopLeft,
   SeparatorVertical,
 } from "lucide-react";
@@ -21,23 +23,35 @@ import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Separator } from "../ui/separator";
 import { cn } from "@/lib/utils";
+import { UserType } from "@/types";
 
-const items = [
-  { name: "Dashboard", icon: LayoutDashboard, link: "/seller/dashboard" },
-  { name: "Shop", icon: PanelsTopLeft, link: "" },
-  { name: "Sales", icon: DollarSign, link: "" },
-  { name: "Chat", icon: MessageSquareMore, link: "" },
-  { name: "Product", icon: PackagePlus, link: "/seller/products" },
-  { name: "Orders", icon: Blocks, link: "" },
-];
+type Items = {
+  name: string;
+  icon: LucideIcon;
+  link: string;
+};
+const SideNav = ({ user }: { user: UserType }) => {
+  const items: Items[] = [
+    { name: "Dashboard", icon: LayoutDashboard, link: "/seller/dashboard" },
+    {
+      name: "Shop",
+      icon: PanelsTopLeft,
+      link: `/shop/${user.seller.companyName}`,
+    },
+    { name: "Sales", icon: DollarSign, link: "" },
+    { name: "Chat", icon: MessageSquareMore, link: "" },
+    { name: "Product", icon: Package, link: "/seller/products" },
+    { name: "Orders", icon: Blocks, link: "" },
+    { name: "Ads", icon: Megaphone, link: "/seller/ads" },
+  ];
 
-const SideNav = () => {
   const [openNav, setOpenNav] = useState(true);
 
   const toggleCollapse = () => {
     if (openNav) setOpenNav(false);
     else setOpenNav(true);
   };
+
   return (
     <Card
       className={cn(
@@ -45,7 +59,7 @@ const SideNav = () => {
         openNav && "w-max"
       )}
     >
-      <div className="flex flex-col items-center gap-5 p-5 grow">
+      <div className="flex flex-col items-center gap-3 p-5 grow">
         <div className="w-full hover:bg-accent hover:text-accent-foreground flex items-start transition rounded-md">
           <Link
             className={cn("h-min w-min", openNav && "flex gap-3 items-center")}

@@ -62,6 +62,7 @@ export const options: AuthOptions = {
       // return session
       if (user) {
         if ((user as User).role == null) (user as User).role == "buyer";
+
         return {
           ...token,
           id: user.id,

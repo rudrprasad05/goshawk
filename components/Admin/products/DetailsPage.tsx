@@ -8,6 +8,8 @@ import Image from "next/image";
 import EditProductButton from "../EditProductButton";
 import { getCurrentUser } from "@/actions/user";
 import { DeleteProductButton } from "../DeleteProductButton";
+import { HideProductButton } from "../HideProductButton";
+import { Badge } from "@/components/ui/badge";
 
 const DetailsPage = async ({ product }: { product: ProductType }) => {
   const user = await getCurrentUser();
@@ -36,9 +38,17 @@ const ProductView = ({ product }: { product: ProductType }) => {
           />
         </div>
         <div className="grow">
-          <h1 className="mb-5 text-lg text-primary">
-            {product.seller.companyName}
-          </h1>
+          <div className="flex gap-5">
+            <h1 className="mb-5 text-lg text-primary">
+              {product.seller.companyName}
+            </h1>
+            <div>
+              <Badge variant={"secondary"}>
+                {product.isVisible ? "Visible" : "Hidden"}
+              </Badge>
+            </div>
+          </div>
+
           <h2 className="text-5xl font-bold capitalize">{product.name}</h2>
           <p className="my-8 text-muted-foreground">{product.description}</p>
           <p className="text-2xl font-bold">${product.price}</p>
@@ -59,6 +69,7 @@ const EditGrid = ({
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <EditProductButton product={product} user={user} />
       <DeleteProductButton product={product} user={user} />
+      <HideProductButton product={product} user={user} />
     </div>
   );
 };

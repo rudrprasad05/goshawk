@@ -1,4 +1,5 @@
 import SideNav from "@/components/Admin/SideNav";
+import SideNavServerCont from "@/components/Admin/SideNavServerCont";
 import Navbar from "@/components/nav/NavBar";
 import type { Metadata } from "next";
 
@@ -14,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <div className="flex">
-      <SideNav />
+      <SideNavServerCont />
       <div className="grow p-6">{children}</div>
     </div>
   );

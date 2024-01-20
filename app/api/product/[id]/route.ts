@@ -21,11 +21,11 @@ export async function DELETE(request: Request, { params }: any) {
 export async function PATCH(request: Request, { params }: any) {
   try {
     const { id } = params;
-    const body: NewProductType = await request.json();
+    const body = await request.json();
 
     console.log(body);
 
-    const { name, price, description, imageUrl } = body;
+    const { name, price, description, imageUrl, isVisible } = body;
 
     const product = await prisma.products.update({
       where: {
@@ -37,8 +37,10 @@ export async function PATCH(request: Request, { params }: any) {
         // tagId: tag,
         description,
         imageUrl,
+        isVisible: isVisible,
       },
     });
+    console.log(product);
     return NextResponse.json(product);
   } catch (error: any) {
     return [];

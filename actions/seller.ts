@@ -17,7 +17,11 @@ export const GetSellerByName = async (companyName: string) => {
         companyName,
       },
       include: {
-        products: true,
+        products: {
+          where: {
+            isVisible: true,
+          },
+        },
       },
     });
 
