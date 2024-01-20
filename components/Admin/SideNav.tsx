@@ -8,6 +8,7 @@ import {
   Cog,
   DollarSign,
   Home,
+  LayoutDashboard,
   MessageSquareMore,
   PackagePlus,
   PanelsTopLeft,
@@ -22,6 +23,7 @@ import { Separator } from "../ui/separator";
 import { cn } from "@/lib/utils";
 
 const items = [
+  { name: "Dashboard", icon: LayoutDashboard, link: "/seller/dashboard" },
   { name: "Shop", icon: PanelsTopLeft, link: "" },
   { name: "Sales", icon: DollarSign, link: "" },
   { name: "Chat", icon: MessageSquareMore, link: "" },
@@ -40,14 +42,14 @@ const SideNav = () => {
     <Card
       className={cn(
         "rounded-none h-screen sticky top-0 w-[100px] flex flex-col bg-border",
-        openNav && "w-[175px]"
+        openNav && "w-max"
       )}
     >
       <div className="flex flex-col items-center gap-5 p-5 grow">
         <div className="w-full hover:bg-accent hover:text-accent-foreground flex items-start transition rounded-md">
           <Link
             className={cn("h-min w-min", openNav && "flex gap-3 items-center")}
-            href={"/seller/settings"}
+            href={"/"}
           >
             <div className="p-3">
               <Home className="stroke-primary h-6 w-6" />
@@ -77,7 +79,7 @@ const SideNav = () => {
                 <div className="p-3 flex items-center">
                   <i.icon className="mx-auto stroke-primary h-6 w-6" />
                 </div>
-                <div>{openNav && i.name}</div>
+                <div className="px-5">{openNav && i.name}</div>
               </Link>
             </div>
           ))}

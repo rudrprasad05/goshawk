@@ -36,7 +36,7 @@ export const DeleteProductButton = ({
     await axios.delete(`/api/product/${product.id}`).then(() => {
       toast.success("Product Deleted");
       setLoading(false);
-      router.back();
+      router.push("/seller/products");
     });
   };
   return (

@@ -93,7 +93,7 @@ const NewProductButton = ({ user }: { user: UserType }) => {
         if (res.status == 200) {
           toast.success("Product Created Successfully");
           setOpen(false);
-          router.refresh();
+          form.reset();
         }
       })
       .catch((error) => {

@@ -98,3 +98,19 @@ export const GetProductDetails = async (id: string) => {
   });
   return product;
 };
+
+export const GetSuperAdminProducts = async () => {
+  const results = await prisma.products.findMany({
+    where: {
+      seller: {
+        companyName: { contains: "Goshawk", mode: "insensitive" },
+      },
+    },
+
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return results;
+};
