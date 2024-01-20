@@ -48,14 +48,14 @@ export const ProductCard: React.FC<props> = ({ product }) => {
   if (!domLoaded) return null;
 
   return (
-    <Card className=" flex flex-col justify-between">
+    <Card className="h-full flex flex-col justify-between">
       <CardHeader>
-        <div className="w-full h-40">
+        <div className="w-full h-[220px]">
           <Image
             src={product.imageUrl}
             alt={product.name}
-            width={200}
-            height={200}
+            width={220}
+            height={220}
             className="object-cover w-full h-full"
           />
         </div>
@@ -66,9 +66,9 @@ export const ProductCard: React.FC<props> = ({ product }) => {
       </CardHeader>
       <CardDescription className="">
         <CardContent className="flex flex-col justify-between">
-          <div className="line-clamp-2 text-ellipsis">
+          {/* <div className="line-clamp-2 text-ellipsis">
             {product.description}
-          </div>
+          </div> */}
 
           <div className="flex items-center py-2">
             <CardTitle className="grow">${product.price}</CardTitle>
@@ -84,12 +84,6 @@ export const ProductCard: React.FC<props> = ({ product }) => {
 
       <CardFooter className="flex justify-between">
         <div>
-          <Link
-            href={`products/${product.id}`}
-            className={`${buttonVariants({ variant: "link" })} px-0 py-0 p-0`}
-          >
-            <div className="p-0">Details</div>
-          </Link>
           <ProductQuantityButton product={product} />
         </div>
         <div>

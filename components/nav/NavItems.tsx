@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import NavItem from "./NavItem";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { buttonVariants } from "../ui/button";
 
 const NavItems = () => {
   const session = useSession();
@@ -35,10 +36,21 @@ const NavItems = () => {
     <div className="flex gap-4 h-full" ref={navRef}>
       <div className="flex items-center">
         {session.data?.user.role == "seller" && (
-          <Link href={"/seller/dashboard"} className="text-base">
+          <Link
+            href={"/seller/dashboard"}
+            className={`${buttonVariants({ variant: "ghost" })}text-sm`}
+          >
             Dashboard
           </Link>
         )}
+      </div>
+      <div className="flex items-center">
+        <Link
+          href={"/shop"}
+          className={`${buttonVariants({ variant: "ghost" })}text-sm`}
+        >
+          Shops
+        </Link>
       </div>
       {PRODUCT_CATEGORIES.map((category, i) => {
         const handleOpen = () => {
