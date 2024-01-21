@@ -23,7 +23,7 @@ const ShopPage = ({ seller, props }: { seller: any; props: PageProps }) => {
       </div>
 
       <div className="w-full py-6">
-        <LandingPageHorizontal />
+        <LandingPageHorizontal location="s1" />
       </div>
       <ShopRecentFeed user={seller} props={props} />
     </div>

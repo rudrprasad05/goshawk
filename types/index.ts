@@ -1,4 +1,4 @@
-import { User, Products, Seller } from "@prisma/client";
+import { Ad, Products, Seller, User } from "@prisma/client";
 
 export type UserType = User & {
   seller: SellerType;
@@ -11,3 +11,11 @@ export type SellerType = Seller & {
 export type ProductType = Products & {
   seller: Seller;
 };
+
+export type AdsEndPoint = User & {
+  seller: Seller & {
+    ad: Ad;
+  };
+};
+
+export type AdType = Ad;

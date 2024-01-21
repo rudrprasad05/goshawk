@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/theme/ThemeProvider";
 import { Toaster } from "react-hot-toast";
 import AuthContext from "@/context/AuthContext";
+import { CartContextProvider } from "@/context/CartContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,12 +21,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <AuthContext>
-            <Toaster />
-            <main className="min-h-screen">{children}</main>
-          </AuthContext>
-        </ThemeProvider>
+        <AuthContext>
+          <CartContextProvider>
+            <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+              <Toaster />
+              <main className="min-h-screen">{children}</main>
+            </ThemeProvider>
+          </CartContextProvider>
+        </AuthContext>
       </body>
     </html>
   );

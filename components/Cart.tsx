@@ -17,12 +17,16 @@ import Image from "next/image";
 // import { useCart } from '@/hooks/use-cart'
 import { ScrollArea } from "./ui/scroll-area";
 // import CartItem from './CartItem'
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { formatPrice } from "@/lib/utils";
+import { CartContext } from "@/context/CartContext";
+import CartItem from "./cart/CartItem";
 
 const Cart = () => {
   // const { items } = useCart()
   // const itemCount = items.length
+  const { cartProducts, getTotal } = useContext(CartContext);
+
   const itemCount = 0;
 
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -31,10 +35,7 @@ const Cart = () => {
     setIsMounted(true);
   }, []);
 
-  // const cartTotal = items.reduce(
-  //   (total, { product }) => total + product.price,
-  //   0
-  // )
+  const cartTotal = getTotal();
 
   const fee = 1;
 
@@ -53,16 +54,16 @@ const Cart = () => {
         <SheetHeader className="space-y-2.5 pr-6">
           {/* <SheetTitle>Cart ({itemCount})</SheetTitle> */}
         </SheetHeader>
-        {itemCount > 0 ? (
+        {cartProducts.length > 0 ? (
           <>
-            <div className="flex w-full flex-col pr-6">
-              {/* <ScrollArea>
-                {items.map(({ product }) => (
+            <div className="relative overflow-auto flex w-full flex-col pr-6">
+              <ScrollArea>
+                {cartProducts.map((product) => (
                   <CartItem product={product} key={product.id} />
                 ))}
-              </ScrollArea> */}
+              </ScrollArea>
             </div>
-            <div className="space-y-4 pr-6">
+            <div className="mt-auto space-y-4 pr-6">
               <Separator />
               <div className="space-y-1.5 text-sm">
                 <div className="flex">
@@ -75,7 +76,7 @@ const Cart = () => {
                 </div>
                 <div className="flex">
                   <span className="flex-1">Total</span>
-                  {/* <span>{formatPrice(cartTotal + fee)}</span> */}
+                  <span>{formatPrice(cartTotal + fee)}</span>
                 </div>
               </div>
 

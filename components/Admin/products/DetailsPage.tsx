@@ -1,7 +1,7 @@
 "use server";
 
 import { ProductType, UserType } from "@/types";
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../Header";
 import { Layers3, PanelsTopLeft } from "lucide-react";
 import Image from "next/image";
@@ -11,8 +11,10 @@ import { DeleteProductButton } from "../DeleteProductButton";
 import { HideProductButton } from "../HideProductButton";
 import { Badge } from "@/components/ui/badge";
 
-const DetailsPage = async ({ product }: { product: any }) => {
+const DetailsPage = async ({ product }: { product: ProductType }) => {
   const user = await getCurrentUser();
+  const date = new Date();
+  console.log(date.getTime(), new Date(product.createdAt).getTime());
   if (!user) return null;
 
   return (

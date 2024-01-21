@@ -10,13 +10,13 @@ const SuperAdminProducts = ({ products }: { products: ProductType[] }) => {
     <div className="px-20">
       <div className="flex gap-6 py-6">
         <div className="flex flex-col gap-6 grow">
-          <LandingPageHorizontal />
+          <LandingPageHorizontal location="a1" />
           <div className="grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
-          <LandingPageHorizontal />
+          <LandingPageHorizontal location="a2" />
         </div>
         {/* <div className="">
           <LandingPageVertical />

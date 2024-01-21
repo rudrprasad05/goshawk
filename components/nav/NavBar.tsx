@@ -10,7 +10,6 @@ import NavBarLogin from "./NavBarLogin";
 import NavItems from "./NavItems";
 
 const Navbar = async () => {
-  const nextCookies = cookies();
   const user = await getCurrentUser();
   if (!user) return null;
 
