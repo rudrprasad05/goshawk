@@ -1,4 +1,6 @@
 import { GetSellerByName } from "@/actions/seller";
+import { getCurrentUser } from "@/actions/user";
+import AdminControls from "@/components/shop/AdminControls";
 import ShopPage from "@/components/shop/ShopPage";
 import React from "react";
 
@@ -10,10 +12,12 @@ type PageProps = {
 const page = async (props: PageProps) => {
   const { companyName } = props.params;
   const seller = await GetSellerByName(companyName as string);
+  const currentUser = await getCurrentUser();
 
   return (
     <div>
-      <ShopPage seller={seller} props={props} />
+      {currentUser?.role == "admin" && <AdminControls seller={seller} />}
+      <ShopPage seller={seller} />
     </div>
   );
 };

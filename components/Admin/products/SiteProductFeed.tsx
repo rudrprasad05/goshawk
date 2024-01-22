@@ -15,6 +15,7 @@ import { Card } from "@/components/ui/card";
 import EditProfileSheet from "@/components/nav/EditProfileSheet";
 import AvatarComponent from "@/components/nav/AvatarComponent";
 import { UserType } from "@/types";
+import AwaitVerification from "../AwaitVerification";
 // import { TagType } from "@/types";
 // import { GetAllTags } from "@/actions/tag";
 
@@ -32,6 +33,10 @@ export const Feed = async ({
   props: PageProps;
   user: any;
 }) => {
+  if (!user.seller.isVerified) {
+    return <AwaitVerification />;
+  }
+
   const pageNumber = Number(props?.searchParams?.page || 1);
   const id = user.seller.id;
   const search = String(props?.searchParams?.search || "");
@@ -52,7 +57,7 @@ export const Feed = async ({
 
   // const tags = await GetAllTags();
 
-  if (!data) return <div>loadinf</div>;
+  if (!data) return <div>loading...</div>;
 
   return (
     <div className="">

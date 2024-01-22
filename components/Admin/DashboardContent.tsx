@@ -8,8 +8,12 @@ import Header from "./Header";
 import NewProductButton from "./NewProductButton";
 import OrderCount from "./OrderCount";
 import ProductCount from "./ProductCount";
+import AwaitVerification from "./AwaitVerification";
 
-const DashboardContent = ({ user }: { user: any }) => {
+const DashboardContent = ({ user }: { user: UserType }) => {
+  if (!user.seller.isVerified) {
+    return <AwaitVerification />;
+  }
   return (
     <>
       <div className="flex flex-col gap-6">

@@ -10,9 +10,10 @@ import EditProfileSheet from "../nav/EditProfileSheet";
 interface props {
   name: string;
   children: React.ReactNode;
+  showProfile?: boolean;
 }
 
-const Header: React.FC<props> = ({ name, children }) => {
+const Header: React.FC<props> = ({ name, children, showProfile = true }) => {
   const session = useSession();
   const user = session.data?.user;
   return (
@@ -21,18 +22,20 @@ const Header: React.FC<props> = ({ name, children }) => {
         {children}
         {name}
       </div>
-      <div className="flex gap-3 ml-auto">
-        <div className="text-right">
-          <p className="font-bold text-lg">{user?.name}</p>
-          <p className="text-sm">Merchant</p>
+      {showProfile && (
+        <div className="flex gap-3 ml-auto">
+          <div className="text-right">
+            <p className="font-bold text-lg">{user?.name}</p>
+            <p className="text-sm">Merchant</p>
+          </div>
+          <EditProfileSheet user={user}>
+            <AvatarComponent
+              fallback={user?.name?.slice(0, 2).toUpperCase() || "AD"}
+              src={user?.image}
+            />
+          </EditProfileSheet>
         </div>
-        <EditProfileSheet user={user}>
-          <AvatarComponent
-            fallback={user?.name?.slice(0, 2).toUpperCase() || "AD"}
-            src={user?.image}
-          />
-        </EditProfileSheet>
-      </div>
+      )}
     </Card>
   );
 };

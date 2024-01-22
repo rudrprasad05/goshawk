@@ -8,9 +8,10 @@ import { Button } from "@/components/ui/button";
 
 interface props {
   product: ProductType;
+  setButton: (x: boolean) => void;
 }
 
-const ProductQuantityButton: React.FC<props> = ({ product }) => {
+const ProductQuantityButton: React.FC<props> = ({ product, setButton }) => {
   const [isButtonDiabled, setIsButtonDiabled] = useState<boolean>(false);
   const { removeCart, addCart, cartProducts } = useContext(CartContext);
   const [count, setCount] = useState<number>(0);
@@ -31,6 +32,7 @@ const ProductQuantityButton: React.FC<props> = ({ product }) => {
   const handleCountDec = () => {
     if (count === 0) {
       setIsButtonDiabled(true);
+      setButton(false);
       return;
     } else {
       setIsButtonDiabled(false);

@@ -6,9 +6,12 @@ import React from "react";
 import Header from "../Admin/Header";
 import { AdType, AdsEndPoint } from "@/types";
 import NewAdButton from "./NewAdButton";
+import AwaitVerification from "../Admin/AwaitVerification";
 
 const AdminLandingPage = ({ data }: { data: AdsEndPoint }) => {
-  console.log(data);
+  if (!data.seller.isVerified) {
+    return <AwaitVerification />;
+  }
   return (
     <>
       <div>

@@ -44,7 +44,7 @@ export const GetUseDataOnly = async () => {
 
     const currentUser = await prisma.user.findUnique({
       where: {
-        email: session?.user?.email as string,
+        id: session?.user?.id as string,
       },
       include: {
         seller: true,

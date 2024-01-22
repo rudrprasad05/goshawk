@@ -1,7 +1,7 @@
 import { GetUseDataOnly, getCurrentUser } from "@/actions/user";
 import React from "react";
 import SideNav from "./SideNav";
-import RedirectToSellerAuth from "./RedirectToSellerAuth";
+import RedirectToSellerAuth from "../Admin/RedirectToSellerAuth";
 
 const SideNavServerCont = async () => {
   const user = (await GetUseDataOnly()) || null;

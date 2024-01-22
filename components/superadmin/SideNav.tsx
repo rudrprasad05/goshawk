@@ -15,6 +15,7 @@ import {
   Package,
   PanelsTopLeft,
   SeparatorVertical,
+  Store,
 } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -32,17 +33,18 @@ type Items = {
 };
 const SideNav = ({ user }: { user: any }) => {
   const items: Items[] = [
-    { name: "Dashboard", icon: LayoutDashboard, link: "/seller/dashboard" },
+    { name: "Dashboard", icon: LayoutDashboard, link: "/admin/dashboard" },
     {
       name: "Shop",
       icon: PanelsTopLeft,
-      link: `/shop/${user.seller.companyName}`,
+      link: `/seller/dashboard`,
     },
-    { name: "Sales", icon: DollarSign, link: "" },
-    { name: "Chat", icon: MessageSquareMore, link: "" },
-    { name: "Product", icon: Package, link: "/seller/products" },
-    { name: "Orders", icon: Blocks, link: "" },
-    { name: "Ads", icon: Megaphone, link: "/seller/ads" },
+    {
+      name: "Sellers",
+      icon: Store,
+      link: "/admin/sellers",
+    },
+    { name: "Ads", icon: Megaphone, link: "/admin/ads" },
   ];
 
   const [openNav, setOpenNav] = useState(false);
@@ -62,13 +64,13 @@ const SideNav = ({ user }: { user: any }) => {
       <div className="flex flex-col items-center gap-3 p-5 grow">
         <div className="w-full hover:bg-accent hover:text-accent-foreground flex items-start transition rounded-md">
           <Link
-            className={cn("h-min w-min", openNav && "flex gap-3 items-center")}
+            className={cn("h-min w-full", openNav && "flex gap-3 items-center")}
             href={"/"}
           >
             <div className="p-3">
               <Home className="stroke-primary h-6 w-6" />
             </div>
-            <div>{openNav && "Home"}</div>
+            <div className="">{openNav && "Home"}</div>
           </Link>
         </div>
         <Separator className="bg-primary/50" />

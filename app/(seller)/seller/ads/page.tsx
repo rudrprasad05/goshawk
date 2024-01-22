@@ -5,11 +5,7 @@ import React from "react";
 const page = async () => {
   const data = await AdsEndPoint();
   if (!data) return null;
-  return (
-    <div>
-      <AdminLandingPage data={data} />
-    </div>
-  );
+  return <AdminLandingPage data={data} />;
 };
 
 export default page;

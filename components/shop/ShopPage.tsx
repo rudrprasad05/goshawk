@@ -4,13 +4,10 @@ import React from "react";
 import LandingPageHorizontal from "../ads/LandingPageHorizontal";
 import { ProductCard } from "../landing/ProductCard";
 import { ShopRecentFeed } from "./ShopRecentFeed";
+import { useSession } from "next-auth/react";
+import AdminControls from "./AdminControls";
 
-type PageProps = {
-  params: { [key: string]: string | string[] | undefined };
-  searchParams?: { [key: string]: string | string[] | undefined };
-};
-
-const ShopPage = ({ seller, props }: { seller: any; props: PageProps }) => {
+const ShopPage = ({ seller }: { seller: SellerType }) => {
   return (
     <div className="px-20">
       <div className="w-full py-10">
@@ -25,7 +22,7 @@ const ShopPage = ({ seller, props }: { seller: any; props: PageProps }) => {
       <div className="w-full py-6">
         <LandingPageHorizontal location="s1" />
       </div>
-      <ShopRecentFeed user={seller} props={props} />
+      <ShopRecentFeed user={seller} />
     </div>
   );
 };

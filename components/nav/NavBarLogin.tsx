@@ -57,7 +57,7 @@ const CreateAccount = ({ user }: { user: any }) => {
 
 const Seperator = ({ user }: { user: any }) => {
   if (user) return null;
-  return <span className="h-6 w-px bg-gray-200" aria-hidden="true" />;
+  return <span className="h-6 w-px bg-muted" aria-hidden="true" />;
 };
 
 export default NavBarLogin;

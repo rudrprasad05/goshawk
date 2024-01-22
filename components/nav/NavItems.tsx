@@ -32,10 +32,16 @@ const NavItems = () => {
 
   useOnClickOutside(navRef, () => setActiveIndex(null));
 
+  const checkRole = () => {
+    return (
+      session.data?.user.role == "seller" || session.data?.user.role == "admin"
+    );
+  };
+
   return (
     <div className="flex gap-4 h-full" ref={navRef}>
       <div className="flex items-center">
-        {session.data?.user.role == "seller" && (
+        {checkRole() && (
           <Link
             href={"/seller/dashboard"}
             className={`${buttonVariants({ variant: "ghost" })}text-sm`}
@@ -44,6 +50,18 @@ const NavItems = () => {
           </Link>
         )}
       </div>
+
+      {session.data?.user.role == "admin" && (
+        <div className="flex items-center">
+          <Link
+            href={"/admin/dashboard"}
+            className={`${buttonVariants({ variant: "ghost" })}text-sm`}
+          >
+            Admin Panel
+          </Link>
+        </div>
+      )}
+
       <div className="flex items-center">
         <Link
           href={"/shop"}

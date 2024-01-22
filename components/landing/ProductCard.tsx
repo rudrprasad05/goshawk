@@ -84,10 +84,10 @@ export const ProductCard: React.FC<props> = ({ product }) => {
 
       <CardFooter className="flex justify-between">
         <div>
-          <ProductQuantityButton product={product} />
+          <ProductQuantityButton product={product} setButton={setaddToCart} />
         </div>
         <div>
-          {cartProducts && addToCart && (
+          {addToCart ? (
             <Button
               onClick={() => {
                 setaddToCart(false);
@@ -98,9 +98,7 @@ export const ProductCard: React.FC<props> = ({ product }) => {
                 <MdAddShoppingCart className="w-6 h-6 stroke-primary" />
               </span>
             </Button>
-          )}
-
-          {cartProducts && !addToCart && (
+          ) : (
             <Button
               variant={"destructive"}
               onClick={() => {
@@ -113,6 +111,32 @@ export const ProductCard: React.FC<props> = ({ product }) => {
               </span>
             </Button>
           )}
+          {/* {cartProducts && addToCart && (
+            <Button
+              onClick={() => {
+                setaddToCart(false);
+                addCart(product);
+              }}
+            >
+              <span>
+                <MdAddShoppingCart className="w-6 h-6 stroke-primary" />
+              </span>
+            </Button>
+          )} */}
+
+          {/* {cartProducts && !addToCart && (
+            <Button
+              variant={"destructive"}
+              onClick={() => {
+                setaddToCart(true);
+                removeCart(product, true);
+              }}
+            >
+              <span>
+                <MdRemoveShoppingCart className="w-6 h-6 stroke-primary" />
+              </span>
+            </Button>
+          )} */}
         </div>
       </CardFooter>
     </Card>

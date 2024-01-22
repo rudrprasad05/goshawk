@@ -6,12 +6,6 @@ import { revalidatePath } from "next/cache";
 
 export const GetSellerByName = async (companyName: string) => {
   try {
-    const session = await getSession();
-
-    if (!session?.user?.email) {
-      return null;
-    }
-
     const seller = await prisma.seller.findUnique({
       where: {
         companyName,
@@ -73,4 +67,20 @@ export const GetMerchantForFeed = async ({
       totalPages: Math.ceil(total / take),
     },
   };
+};
+
+export const GetAllMerchants = async () => {
+  "use server";
+
+  const results = await prisma.seller.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  const total = await prisma.products.count();
+
+  revalidatePath("/");
+
+  return results;
 };

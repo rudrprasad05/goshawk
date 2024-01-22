@@ -11,18 +11,7 @@ import { Input } from "../ui/input";
 
 const PAGE_SIZE = 10;
 
-type PageProps = {
-  params: { [key: string]: string | string[] | undefined };
-  searchParams?: { [key: string]: string | string[] | undefined };
-};
-
-export const ShopRecentFeed = ({
-  props,
-  user,
-}: {
-  props: PageProps;
-  user: SellerType;
-}) => {
+export const ShopRecentFeed = ({ user }: { user: SellerType }) => {
   const [search, setSearch] = useState("");
   // const tags = await GetAllTags();
 

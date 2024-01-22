@@ -1,7 +1,7 @@
-import bcrypt from "bcrypt";
 import prisma from "@/lib/prismadb";
-import { NextResponse } from "next/server";
 import { RegisterFormType, SellerRegisterType } from "@/schemas/auth";
+import bcrypt from "bcrypt";
+import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     const seller = await prisma.seller.create({
       data: {
         plan,
-        companyName,
+        companyName: companyName as string,
         userId: userId,
       },
     });
