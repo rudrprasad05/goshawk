@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -29,7 +29,7 @@ export default function AdCaro({ products }: { products: ProductType[] }) {
 
   return (
     <Carousel className="w-4/5  mx-auto py-6">
-      <CarouselContent className="h-[250px]">
+      <CarouselContent className="">
         {products.map((product, index) => (
           <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
             <Card className="relative w-full h-full">
@@ -38,8 +38,9 @@ export default function AdCaro({ products }: { products: ProductType[] }) {
                 alt={product.name}
                 width={200}
                 height={200}
-                className="rounded-md w-full h-full object-cover"
+                className="w-full h-[200px] rounded-md object-cover"
               />
+              <CardTitle className="py-10">{product.name}</CardTitle>
             </Card>
           </CarouselItem>
         ))}

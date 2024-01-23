@@ -30,38 +30,40 @@ model Account {
 }
 
 model User {
-  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
-  name               String
-  address            String?
-  town               String?
-  country            String?
-  phone              String?
-  email              String    @unique
-  emailVerified      DateTime?
-  role               String    @default("buyer")
-  image              String?
-  hashedPassword     String?
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  address        String?
+  town           String?
+  country        String?
+  phone          String?
+  email          String    @unique
+  emailVerified  DateTime?
+  role           String    @default("buyer")
+  image          String?
+  hashedPassword String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   accounts Account[]
+  orders   Order[]
   seller   Seller?
 }
 
 model Seller {
-  id                 String  @id @default(auto()) @map("_id") @db.ObjectId
-  companyName        String  @unique
-  plan               String?
-  isPaid             Boolean @default(false)
-  isVerified         Boolean @default(false)
-  image              String?
-  hashedPassword     String?
+  id             String  @id @default(auto()) @map("_id") @db.ObjectId
+  companyName    String  @unique
+  plan           String?
+  isPaid         Boolean @default(false)
+  isVerified     Boolean @default(false)
+  image          String?
+  hashedPassword String?
 
   products Products[]
+  orders   OrderList[]
 
-  user   User        @relation(fields: [userId], references: [id])
-  userId String      @unique @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique @db.ObjectId
 
   ad Ad?
 
@@ -70,29 +72,72 @@ model Seller {
 }
 
 model Products {
-  id               String  @id @default(auto()) @map("_id") @db.ObjectId
-  name             String
-  price            String
-  imageUrl         String
-  description      String
-  isVisible        Boolean @default(true)
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  price       String
+  imageUrl    String
+  description String
+  isVisible   Boolean @default(true)
+  isVerified  Boolean @default(false)
 
-  seller           Seller @relation(fields: [sellerId], references: [id])
-  sellerId         String @db.ObjectId
+  seller   Seller @relation(fields: [sellerId], references: [id])
+  sellerId String @db.ObjectId
 
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  orders OrderList[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Ad {
-  id               String  @id @default(auto()) @map("_id") @db.ObjectId
-  location         String  @unique
-  isPaid           Boolean @default(false)
-  imageUrl         String
-        
-  seller           Seller @relation(fields: [sellerId], references: [id])
-  sellerId         String @unique @db.ObjectId
-        
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  location   String  @unique
+  isPaid     Boolean @default(false)
+  imageUrl   String
+  isVerified Boolean @default(false)
+
+  seller   Seller @relation(fields: [sellerId], references: [id])
+  sellerId String @unique @db.ObjectId
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+
+  customer   User        @relation(fields: [customerId], references: [id])
+  customerId String      @unique @db.ObjectId
+
+  total      Int
+
+  isDelivered Boolean @default(false)
+  isPaid Boolean @default(false)
+
+  address    String
+  city       String
+  country    String
+  contact    String
+
+  orderList  OrderList[]
+}
+
+model OrderList {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId String @unique @db.ObjectId
+
+  seller   Seller @relation(fields: [sellerId], references: [id])
+  sellerId String @unique @db.ObjectId
+
+  product   Products @relation(fields: [productId], references: [id])
+  productId String   @unique @db.ObjectId
+
+  quanity Int
+  price Int
+
+  isDelivered Boolean @default(false)
+  isPaid Boolean @default(false)
+
 }

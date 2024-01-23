@@ -21,6 +21,7 @@ import { useContext, useEffect, useState } from "react";
 import { formatPrice } from "@/lib/utils";
 import { CartContext } from "@/context/CartContext";
 import CartItem from "./cart/CartItem";
+import { Badge } from "./ui/badge";
 
 const Cart = () => {
   // const { items } = useCart()
@@ -42,13 +43,17 @@ const Cart = () => {
   return (
     <Sheet>
       <SheetTrigger className="group -m-2 flex items-center p-2">
-        <ShoppingCart
-          aria-hidden="true"
-          className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-        />
-        {/* <span className='ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800'>
-          {isMounted ? itemCount : 0}
-        </span> */}
+        <div className="relative">
+          <ShoppingCart
+            aria-hidden="true"
+            className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+          />
+          {cartProducts.length > 0 && (
+            <Badge className="absolute top-[-10px] right-[-10px] p-1 h-5 w-5 flex items-center justify-center">
+              {cartProducts.length}
+            </Badge>
+          )}
+        </div>
       </SheetTrigger>
       <SheetContent className="flex w-full flex-col pr-0 sm:max-w-lg">
         <SheetHeader className="space-y-2.5 pr-6">
