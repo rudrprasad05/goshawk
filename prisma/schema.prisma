@@ -107,7 +107,7 @@ model Order {
   id         String      @id @default(auto()) @map("_id") @db.ObjectId
 
   customer   User        @relation(fields: [customerId], references: [id])
-  customerId String      @unique @db.ObjectId
+  customerId String      @db.ObjectId
 
   total      Int
 
@@ -120,24 +120,30 @@ model Order {
   contact    String
 
   orderList  OrderList[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model OrderList {
   id      String @id @default(auto()) @map("_id") @db.ObjectId
 
   order   Order  @relation(fields: [orderId], references: [id])
-  orderId String @unique @db.ObjectId
+  orderId String @db.ObjectId
 
   seller   Seller @relation(fields: [sellerId], references: [id])
-  sellerId String @unique @db.ObjectId
+  sellerId String @db.ObjectId
 
   product   Products @relation(fields: [productId], references: [id])
-  productId String   @unique @db.ObjectId
+  productId String @db.ObjectId
 
   quanity Int
   price Int
 
   isDelivered Boolean @default(false)
   isPaid Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
 }

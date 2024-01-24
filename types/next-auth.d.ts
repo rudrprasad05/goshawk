@@ -16,6 +16,9 @@ declare module "next-auth" {
       id: UserId;
       username?: string;
       role?: string;
+      address?: string;
+      town?: string;
+      country?: string;
     };
   }
 }

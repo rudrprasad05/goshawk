@@ -67,8 +67,9 @@ export const options: AuthOptions = {
           ...token,
           id: user.id,
           role: (user as User).role,
+          town: (user as User).town,
           country: (user as User).country || "Fiji",
-          adress: (user as User).address,
+          address: (user as User).address,
         };
       }
 
@@ -85,8 +86,8 @@ export const options: AuthOptions = {
           id: token.id,
           role: token.role,
           country: token.country,
-          adress: token.address,
-          town: token.city,
+          address: token.address,
+          town: token.town,
         },
       };
     },

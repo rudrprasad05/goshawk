@@ -19,6 +19,7 @@ export const getCurrentUser = async () => {
         seller: {
           include: {
             products: true,
+            orders: true,
           },
         },
       },

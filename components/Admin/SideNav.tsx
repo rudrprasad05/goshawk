@@ -41,7 +41,7 @@ const SideNav = ({ user }: { user: any }) => {
     { name: "Sales", icon: DollarSign, link: "" },
     { name: "Chat", icon: MessageSquareMore, link: "" },
     { name: "Product", icon: Package, link: "/seller/products" },
-    { name: "Orders", icon: Blocks, link: "" },
+    { name: "Orders", icon: Blocks, link: "/seller/orders" },
     { name: "Ads", icon: Megaphone, link: "/seller/ads" },
   ];
 

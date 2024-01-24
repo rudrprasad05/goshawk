@@ -1,14 +1,23 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { PRODUCT_CATEGORIES } from "@/config";
 import { CartContext } from "@/context/CartContext";
 import { cn, formatPrice } from "@/lib/utils";
+import axios from "axios";
 import { Check, Loader2, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const Page = () => {
   const { cartProducts, getTotal, removeCart } = useContext(CartContext);
@@ -25,7 +34,7 @@ const Page = () => {
 
   const fee = 1;
 
-  const handleClick = () => {
+  const handleClick = async () => {
     let groupingViaCommonProperty = Object.values(
       cartProducts.reduce((acc, current) => {
         acc[current.id] = acc[current.id] ?? [];
@@ -35,8 +44,16 @@ const Page = () => {
     );
 
     setLoading(true);
-    // const groupedObjToArr = Object.values(groupingViaCommonProperty);
-    console.log(groupingViaCommonProperty);
+    await axios
+      .post("/api/order", groupingViaCommonProperty)
+      .then(() => {
+        setLoading(false);
+        toast.success("Order Sent Successfully");
+      })
+      .catch((error: any) => {
+        console.log("error");
+        toast.error("Something went wrong");
+      });
   };
 
   return (
@@ -152,13 +169,15 @@ const Page = () => {
             </ul>
           </div>
 
-          <section className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
-            <h2 className="text-lg font-medium text-gray-900">Order summary</h2>
+          <Card className="mt-16 rounded-lg   lg:col-span-5 lg:mt-0">
+            <CardHeader>
+              <h2 className="text-lg font-medium">Order summary</h2>
+            </CardHeader>
 
-            <div className="mt-6 space-y-4">
+            <CardContent className="mt-6 space-y-4">
               <div className="flex items-center justify-between">
-                <p className="text-sm text-gray-600">Subtotal</p>
-                <p className="text-sm font-medium text-gray-900">
+                <p className="text-sm text-muted-foreground">Subtotal</p>
+                <p className="text-sm font-medium text-muted-foreground">
                   {isMounted ? (
                     formatPrice(cartTotal)
                   ) : (
@@ -167,11 +186,13 @@ const Page = () => {
                 </p>
               </div>
 
-              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+              <Separator />
+
+              <div className="flex items-center justify-between border-tpt-4">
                 <div className="flex items-center text-sm text-muted-foreground">
                   <span>Flat Transaction Fee</span>
                 </div>
-                <div className="text-sm font-medium text-gray-900">
+                <div className="text-sm font-medium text-muted-foreground">
                   {isMounted ? (
                     formatPrice(fee)
                   ) : (
@@ -180,11 +201,9 @@ const Page = () => {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                <div className="text-base font-medium text-gray-900">
-                  Order Total
-                </div>
-                <div className="text-base font-medium text-gray-900">
+              <div className="flex items-center justify-between border-t pt-4">
+                <div className="text-base font-medium">Order Total</div>
+                <div className="text-base font-medium">
                   {isMounted ? (
                     formatPrice(cartTotal + fee)
                   ) : (
@@ -192,9 +211,9 @@ const Page = () => {
                   )}
                 </div>
               </div>
-            </div>
+            </CardContent>
 
-            <div className="mt-6">
+            <CardFooter className="mt-6">
               <Button
                 // disabled={cartProducts.length === 0 || loading}
                 className="w-full"
@@ -204,8 +223,8 @@ const Page = () => {
                 {loading && <Loader2 className="w-4 h-4 animate-spin mr-1.5" />}
                 Checkout
               </Button>
-            </div>
-          </section>
+            </CardFooter>
+          </Card>
         </div>
       </div>
     </div>

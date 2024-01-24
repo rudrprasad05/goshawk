@@ -14,6 +14,7 @@ const DashboardContent = ({ user }: { user: UserType }) => {
   if (!user.seller.isVerified) {
     return <AwaitVerification />;
   }
+
   return (
     <>
       <div className="flex flex-col gap-6">
@@ -27,7 +28,7 @@ const DashboardContent = ({ user }: { user: UserType }) => {
           <NewProductButton user={user} />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <OrderCount />
+          <OrderCount user={user} />
           <ProductCount user={user} />
         </div>
       </div>

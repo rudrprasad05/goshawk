@@ -11,9 +11,11 @@ import {
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import { ProductType } from "@/types";
+import { useSession } from "next-auth/react";
 
 export default function AdCaro({ products }: { products: ProductType[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const session = useSession();
 
   const nextSlide = () => {
     setActiveIndex((prevIndex) =>
