@@ -1,7 +1,10 @@
 "use server";
 
 // import SearchFilter from "./SearchFilter";
-import { GetSingleMerchantOrders } from "@/actions/orders";
+import {
+  GetMerchantOrderForFeed,
+  GetSingleMerchantOrders,
+} from "@/actions/orders";
 import { Card } from "@/components/ui/card";
 import AwaitVerification from "../Admin/AwaitVerification";
 import SearchBar from "../Admin/products/SearchBar";
@@ -38,7 +41,7 @@ export const OrderFeed = async ({
   const take = PAGE_SIZE;
   const skip = (pageNumber - 1) * take;
 
-  const { data, metadata } = await GetSingleMerchantOrders({
+  const { data, metadata } = await GetMerchantOrderForFeed({
     id: id,
     take,
     skip,
@@ -63,8 +66,8 @@ export const OrderFeed = async ({
       </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-6">
-        {data.map((product) => {
-          return <OrderFeedCard key={product.id} order={product} />;
+        {data.map((merchantOrder) => {
+          return <OrderFeedCard key={merchantOrder.id} order={merchantOrder} />;
         })}
         {data.length == 0 && <div className="">No Products here</div>}
       </div>

@@ -36,25 +36,23 @@ const Page = () => {
   const handleClick = async () => {
     let groupingViaCommonProperty = Object.values(
       cartProducts.reduce((acc, current) => {
-        acc[current.id] = acc[current.id] ?? [];
-        acc[current.id].push(current);
+        acc[current.seller.id] = acc[current.seller.id] ?? [];
+        acc[current.seller.id].push(current);
         return acc;
       }, {})
     );
 
-    console.log(groupingViaCommonProperty);
-
-    // setLoading(true);
-    // await axios
-    //   .post("/api/order", groupingViaCommonProperty)
-    //   .then(() => {
-    //     setLoading(false);
-    //     toast.success("Order Sent Successfully");
-    //   })
-    //   .catch((error: any) => {
-    //     console.log("error");
-    //     toast.error("Something went wrong");
-    //   });
+    setLoading(true);
+    await axios
+      .post("/api/order", groupingViaCommonProperty)
+      .then(() => {
+        setLoading(false);
+        toast.success("Order Sent Successfully");
+      })
+      .catch((error: any) => {
+        console.log("error");
+        toast.error("Something went wrong");
+      });
   };
 
   return (

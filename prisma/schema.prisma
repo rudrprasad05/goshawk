@@ -60,7 +60,7 @@ model Seller {
   hashedPassword String?
 
   products Products[]
-  orders   OrderList[]
+  merchantOrder   MerchantOrder[]
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique @db.ObjectId
@@ -119,14 +119,17 @@ model Order {
   country    String
   contact    String
 
-  orderList  OrderList[]
+  merchantOrders  MerchantOrder[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model OrderList {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
+model MerchantOrder{
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+
+  isDelivered Boolean @default(false)
+  isPaid Boolean @default(false)
 
   order   Order  @relation(fields: [orderId], references: [id])
   orderId String @db.ObjectId
@@ -134,14 +137,24 @@ model OrderList {
   seller   Seller @relation(fields: [sellerId], references: [id])
   sellerId String @db.ObjectId
 
+  orderLists OrderList[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+}
+
+model OrderList {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+
+  merchantOrders   MerchantOrder  @relation(fields: [merchantOrdersId], references: [id])
+  merchantOrdersId String @db.ObjectId
+
   product   Products @relation(fields: [productId], references: [id])
   productId String @db.ObjectId
 
   quanity Int
   price Int
-
-  isDelivered Boolean @default(false)
-  isPaid Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

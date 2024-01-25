@@ -27,16 +27,25 @@ export async function POST(request: Request) {
     });
 
     for (let i = 0; i < body.length; i++) {
-      let temp = await prisma.orderList.create({
+      let tempMerchantOrder = await prisma.merchantOrder.create({
         data: {
           orderId: order.id,
           sellerId: body[i][0].sellerId,
-          productId: body[i][0].id,
-          quanity: body[i].length,
-          price: parseInt(body[i][0].price),
+          // isPaid set this after payment system
         },
       });
-      orderListArr.push(temp);
+
+      for (let j = 0; j < body[i].length; j++) {
+        let tempOrderList = await prisma.orderList.create({
+          data: {
+            merchantOrdersId: tempMerchantOrder.id,
+            productId: body[i][j].id,
+            quanity: 1,
+            price: parseInt(body[i][j].price),
+          },
+        });
+      }
+      orderListArr.push(tempMerchantOrder);
     }
 
     return NextResponse.json(orderListArr);

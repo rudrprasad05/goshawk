@@ -4,7 +4,7 @@ import prisma from "@/lib/prismadb";
 import getSession from "./getSession";
 import { revalidatePath } from "next/cache";
 
-export const GetSingleMerchantOrders = async ({
+export const GetMerchantOrderForFeed = async ({
   id,
   take,
   skip,
@@ -17,7 +17,7 @@ export const GetSingleMerchantOrders = async ({
 }) => {
   "use server";
 
-  const results = await prisma.orderList.findMany({
+  const results = await prisma.merchantOrder.findMany({
     take,
     skip,
     where: {
@@ -36,7 +36,7 @@ export const GetSingleMerchantOrders = async ({
       ],
     },
     include: {
-      product: true,
+      order: true,
     },
 
     orderBy: {
@@ -57,16 +57,24 @@ export const GetSingleMerchantOrders = async ({
   };
 };
 
-export const GetOrdertListDetails = async (id: string) => {
-  const order = await prisma.orderList.findUnique({
+export const GetOneMerchantList = async (id: string) => {
+  const orderRes = await prisma.merchantOrder.findUnique({
     where: {
       id,
     },
     include: {
       seller: true,
-      product: true,
-      order: true,
+      order: {
+        include: {
+          customer: true,
+        },
+      },
+      orderLists: {
+        include: {
+          product: true,
+        },
+      },
     },
   });
-  return order;
+  return orderRes;
 };
