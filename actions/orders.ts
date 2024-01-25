@@ -39,9 +39,9 @@ export const GetSingleMerchantOrders = async ({
       product: true,
     },
 
-    // orderBy: {
-    //   createdAt: "desc",
-    // },
+    orderBy: {
+      orderId: "desc",
+    },
   });
 
   const total = await prisma.products.count();
@@ -55,4 +55,18 @@ export const GetSingleMerchantOrders = async ({
       totalPages: Math.ceil(total / take),
     },
   };
+};
+
+export const GetOrdertListDetails = async (id: string) => {
+  const order = await prisma.orderList.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      seller: true,
+      product: true,
+      order: true,
+    },
+  });
+  return order;
 };

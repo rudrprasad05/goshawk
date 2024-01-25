@@ -14,7 +14,7 @@ import { Badge } from "@/components/ui/badge";
 const DetailsPage = async ({ product }: { product: ProductType }) => {
   const user = await getCurrentUser();
   const date = new Date();
-  console.log(date.getTime(), new Date(product.createdAt).getTime());
+
   if (!user) return null;
 
   return (

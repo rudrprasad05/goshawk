@@ -7,8 +7,6 @@ export async function DELETE(request: Request, { params }: any) {
   try {
     const { id } = params;
 
-    console.log(id);
-
     const product = await prisma.seller.delete({
       where: {
         id,
@@ -26,8 +24,6 @@ export async function PATCH(request: Request, { params }: any) {
     const { id } = params;
     const body = await request.json();
 
-    console.log(body);
-
     const { isVerified } = body;
 
     const product = await prisma.seller.update({
@@ -38,7 +34,6 @@ export async function PATCH(request: Request, { params }: any) {
         isVerified,
       },
     });
-    console.log(product);
     return NextResponse.json(product);
   } catch (error: any) {
     return [];

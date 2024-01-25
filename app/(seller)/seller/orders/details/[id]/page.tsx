@@ -1,12 +1,14 @@
+import { GetOrdertListDetails } from "@/actions/orders";
 import { GetProductDetails } from "@/actions/products";
 import DetailsPage from "@/components/Admin/products/DetailsPage";
+import OrderDetailsPage from "@/components/orders/OrderDetailsPage";
 import React from "react";
 
 const page = async ({ params }: { params: { id: string } }) => {
   const id = params.id;
-  const product = await GetProductDetails(id);
+  const order = await GetOrdertListDetails(id);
 
-  return <DetailsPage product={product} />;
+  return <OrderDetailsPage order={order} />;
 };
 
 export default page;

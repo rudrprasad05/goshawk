@@ -19,23 +19,26 @@ interface props {
 
 export const OrderFeedCard: React.FC<props> = ({ order }) => {
   const router = useRouter();
-  console.log(order);
 
   return (
     <Card className=" flex flex-col justify-between">
       <CardHeader>
         <div className="flex flex-col gap-5 pt-5">
           <CardTitle className="grow p-0">{order.product.name}</CardTitle>
-          <p className="text-sm text-muted-foreground">Order Id: {order.id}</p>
         </div>
       </CardHeader>
       <CardDescription className="">
         <CardContent className="flex flex-col justify-between">
-          <div className="line-clamp-2 text-ellipsis">{}</div>
-
+          <p className="text-sm text-muted-foreground">Order Id: {order.id}</p>
+          <p className="text-sm text-muted-foreground">
+            Quantity: {order.quanity}
+          </p>
+          <p className="text-sm text-muted-foreground">
+            Per Unit: ${order.price}
+          </p>
           <div className="flex items-center py-2">
             <CardTitle className="grow">
-              ${order.price * order.quanity}
+              Total: ${order.price * order.quanity}
             </CardTitle>
             <Link
               href={`/seller/orders/details/${order.id}`}

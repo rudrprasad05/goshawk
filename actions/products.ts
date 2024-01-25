@@ -25,9 +25,13 @@ export const GetAllProductsPagination = async ({
       },
     },
 
-    orderBy: {
-      createdAt: "desc",
+    include: {
+      seller: true,
     },
+
+    // orderBy: {
+    //   createdAt: "desc",
+    // },
   });
 
   const total = await prisma.products.count();
@@ -105,6 +109,10 @@ export const GetSuperAdminProducts = async () => {
       seller: {
         companyName: { contains: "Goshawk", mode: "insensitive" },
       },
+    },
+
+    include: {
+      seller: true,
     },
 
     orderBy: {

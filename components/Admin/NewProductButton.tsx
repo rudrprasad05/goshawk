@@ -86,7 +86,7 @@ const NewProductButton = ({ user }: { user: UserType }) => {
   function onSubmit(data: NewProductType) {
     data.imageUrl = `https://mctechfiji.s3.amazonaws.com/alibaba/${file?.name}`;
     data.sellerId = user.seller.id;
-    console.log(data);
+
     axios
       .post(`/api/product`, data)
       .then((res) => {

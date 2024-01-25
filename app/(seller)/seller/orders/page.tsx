@@ -13,7 +13,6 @@ const page = async (props: PageProps) => {
   if (!user) return null;
   return (
     <>
-      <QuickActions user={user} />
       <OrderFeed user={user} props={props} />
     </>
   );

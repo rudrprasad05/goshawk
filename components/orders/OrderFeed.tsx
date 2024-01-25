@@ -7,10 +7,11 @@ import AwaitVerification from "../Admin/AwaitVerification";
 import SearchBar from "../Admin/products/SearchBar";
 import { Pagination } from "../Admin/products/pagination";
 import { OrderFeedCard } from "./OrderFeedCard";
+import { Blocks } from "lucide-react";
 // import { TagType } from "@/types";
 // import { GetAllTags } from "@/actions/tag";
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 12;
 
 type PageProps = {
   params: { [key: string]: string | string[] | undefined };
@@ -50,29 +51,14 @@ export const OrderFeed = async ({
 
   return (
     <div className="">
-      {/* <div className="flex pb-10 gap-3">
-        <h1 className="items-center grow text-3xl text-primary font-bold ">
-          Products
-        </h1>
-        <SearchBar defaultValue={search} />
-        {/* <SearchFilter tags={tags} /> 
-      </div> */}
+      <Card className="w-full flex flex-row items-center px-6 py-3 bg-border">
+        <div className="flex flex-row items-center gap-3">
+          <Blocks />
+          <div className="flex gap-3 items-center text-xl">Orders</div>
+        </div>
 
-      <Card className="w-full flex flex-row px-6 py-3 bg-border">
-        <div className="flex gap-3 items-center text-xl">Order</div>
         <div className="flex gap-3 ml-auto">
           <SearchBar defaultValue={search} />
-
-          {/* <div className="text-right">
-            <p className="font-bold text-lg">{user?.name}</p>
-            <p className="text-sm">Merchant</p>
-          </div> */}
-          {/* <EditProfileSheet user={user}>
-            <AvatarComponent
-              fallback={user?.name?.slice(0, 2).toUpperCase() || "AD"}
-              src={user?.image}
-            />
-          </EditProfileSheet> */}
         </div>
       </Card>
 

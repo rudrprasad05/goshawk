@@ -98,7 +98,7 @@ const EditProductButton = ({
     }
 
     data.sellerId = user.seller.id;
-    console.log(data);
+
     axios
       .patch(`/api/product/${product.id}`, data)
       .then((res) => {

@@ -22,7 +22,6 @@ import toast from "react-hot-toast";
 const Page = () => {
   const { cartProducts, getTotal, removeCart } = useContext(CartContext);
   const [loading, setLoading] = useState(false);
-
   const router = useRouter();
 
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -43,17 +42,19 @@ const Page = () => {
       }, {})
     );
 
-    setLoading(true);
-    await axios
-      .post("/api/order", groupingViaCommonProperty)
-      .then(() => {
-        setLoading(false);
-        toast.success("Order Sent Successfully");
-      })
-      .catch((error: any) => {
-        console.log("error");
-        toast.error("Something went wrong");
-      });
+    console.log(groupingViaCommonProperty);
+
+    // setLoading(true);
+    // await axios
+    //   .post("/api/order", groupingViaCommonProperty)
+    //   .then(() => {
+    //     setLoading(false);
+    //     toast.success("Order Sent Successfully");
+    //   })
+    //   .catch((error: any) => {
+    //     console.log("error");
+    //     toast.error("Something went wrong");
+    //   });
   };
 
   return (
@@ -169,7 +170,7 @@ const Page = () => {
             </ul>
           </div>
 
-          <Card className="mt-16 rounded-lg   lg:col-span-5 lg:mt-0">
+          <Card className="mt-16 rounded-lg sticky top-24 lg:col-span-5 lg:mt-0">
             <CardHeader>
               <h2 className="text-lg font-medium">Order summary</h2>
             </CardHeader>

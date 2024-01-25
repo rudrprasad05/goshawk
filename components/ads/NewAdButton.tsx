@@ -89,7 +89,7 @@ const NewAdButton = ({ user }: { user: SellerType }) => {
   function onSubmit(data: NewAdType) {
     data.imageUrl = `https://mctechfiji.s3.amazonaws.com/alibaba/${file?.name}`;
     data.sellerId = user.id;
-    console.log(data);
+
     axios
       .post(`/api/ad`, data)
       .then((res) => {

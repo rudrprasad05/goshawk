@@ -34,7 +34,6 @@ const AdminLandingPage = ({ data }: { data: AdsEndPoint }) => {
 };
 
 const YourAds = ({ ad }: { ad: AdType }) => {
-  console.log(ad);
   if (!ad) return <div>You dont have any ads. Create one now</div>;
   return (
     <>

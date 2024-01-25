@@ -53,8 +53,6 @@ export const Feed = async ({
     search,
   });
 
-  console.log(data);
-
   // const tags = await GetAllTags();
 
   if (!data) return <div>loading...</div>;
