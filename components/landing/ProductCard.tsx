@@ -61,7 +61,7 @@ export const ProductCard: React.FC<props> = ({ product }) => {
         </div>
         <div className="flex gap-5 pt-5">
           <CardTitle className="grow p-0">{product.name}</CardTitle>
-          {/* <Badge className="h-min">{product.tag.name}</Badge> */}
+          <Badge className="h-min">{product.seller.companyName}</Badge>
         </div>
       </CardHeader>
       <CardDescription className="">

@@ -6,6 +6,7 @@ import {
   OrderList,
   Order,
   MerchantOrder,
+  Billboard,
 } from "@prisma/client";
 
 export type UserType = User & {
@@ -20,10 +21,8 @@ export type ProductType = Products & {
   seller: Seller;
 };
 
-export type AdsEndPoint = User & {
-  seller: Seller & {
-    ad: Ad;
-  };
+export type AdsEndPoint = Seller & {
+  ads: Ad[];
 };
 
 export type AdType = Ad;
@@ -41,5 +40,11 @@ export type MerchantOrderType = MerchantOrder & {
   seller: Seller;
   orderLists: OrderList[] & {
     product: Products;
+  };
+};
+
+export type BillboardType = Billboard & {
+  ad: Ad & {
+    seller: Seller;
   };
 };

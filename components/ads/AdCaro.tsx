@@ -31,10 +31,10 @@ export default function AdCaro({ products }: { products: ProductType[] }) {
   };
 
   return (
-    <Carousel className="w-4/5  mx-auto py-6">
+    <Carousel className="w-11/12 mx-auto py-6">
       <CarouselContent className="">
         {products.map((product, index) => (
-          <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+          <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4">
             <ProductCard product={product} />
           </CarouselItem>
         ))}

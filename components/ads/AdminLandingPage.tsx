@@ -1,15 +1,21 @@
 "use client";
 
-import { Megaphone, Shield } from "lucide-react";
+import { Megaphone, MessageSquarePlus, Shield } from "lucide-react";
 import React from "react";
 
 import Header from "../Admin/Header";
-import { AdType, AdsEndPoint } from "@/types";
+import { AdType, AdsEndPoint, BillboardType } from "@/types";
 import NewAdButton from "./NewAdButton";
 import AwaitVerification from "../Admin/AwaitVerification";
 
-const AdminLandingPage = ({ data }: { data: AdsEndPoint }) => {
-  if (!data.seller.isVerified) {
+const AdLandingPage = ({
+  data,
+  billboards,
+}: {
+  data: AdsEndPoint;
+  billboards: BillboardType[];
+}) => {
+  if (!data.isVerified) {
     return <AwaitVerification />;
   }
   return (
@@ -20,26 +26,31 @@ const AdminLandingPage = ({ data }: { data: AdsEndPoint }) => {
         </Header>
       </div>
       <div>
-        <h1>Your Advertisements</h1>
-        <YourAds ad={data.seller.ad} />
+        <YourAds ads={data.ads} />
       </div>
       <div>
-        <h1>Quick Actions</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <NewAdButton user={data.seller} />
+        <Header showProfile={false} name="Quick Actions">
+          <MessageSquarePlus />
+        </Header>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 py-6">
+          <NewAdButton billboards={billboards} user={data} />
         </div>
       </div>
     </>
   );
 };
 
-const YourAds = ({ ad }: { ad: AdType }) => {
-  if (!ad) return <div>You dont have any ads. Create one now</div>;
+const YourAds = ({ ads }: { ads: AdType[] }) => {
+  if (!ads) return <div>You dont have any ads. Create one now</div>;
   return (
     <>
-      <div>{ad.location}</div>
+      <div>
+        {ads?.map((i) => (
+          <>{i.id}</>
+        ))}
+      </div>
     </>
   );
 };
 
-export default AdminLandingPage;
+export default AdLandingPage;

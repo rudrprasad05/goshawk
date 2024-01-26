@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const NewAdSchema = z.object({
-  location: z.string().optional(),
+  billboardId: z.string().optional(),
   imageUrl: z.string().optional(),
   sellerId: z.string().optional(),
 });

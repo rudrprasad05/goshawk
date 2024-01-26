@@ -7,7 +7,7 @@ import { ProductCard } from "./ProductCard";
 
 const SuperAdminProducts = ({ products }: { products: ProductType[] }) => {
   return (
-    <div className="px-20">
+    <div className="lg:px-20 px-6">
       <div className="flex gap-6 py-6">
         <div className="flex flex-col gap-6 grow">
           <LandingPageHorizontal location="a1" />

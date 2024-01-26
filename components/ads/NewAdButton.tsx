@@ -21,7 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { NewAdSchema, NewAdType } from "@/schemas/ad";
 import { NewProductForm, NewProductType } from "@/schemas/product";
-import { SellerType, UserType } from "@/types";
+import { BillboardType, SellerType, UserType } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Megaphone } from "lucide-react";
@@ -42,7 +42,13 @@ import {
 
 const locations = [{ name: "a1" }, { name: "a2" }, { name: "a3" }];
 
-const NewAdButton = ({ user }: { user: SellerType }) => {
+const NewAdButton = ({
+  user,
+  billboards,
+}: {
+  user: SellerType;
+  billboards: BillboardType[];
+}) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState<File>();
@@ -57,7 +63,7 @@ const NewAdButton = ({ user }: { user: SellerType }) => {
     },
   });
 
-  const location = form.watch("location");
+  const location = form.watch("billboardId");
 
   const handleImageUpload = async () => {
     setloadingImage(true);
@@ -89,6 +95,8 @@ const NewAdButton = ({ user }: { user: SellerType }) => {
   function onSubmit(data: NewAdType) {
     data.imageUrl = `https://mctechfiji.s3.amazonaws.com/alibaba/${file?.name}`;
     data.sellerId = user.id;
+
+    console.log(data);
 
     axios
       .post(`/api/ad`, data)
@@ -129,7 +137,7 @@ const NewAdButton = ({ user }: { user: SellerType }) => {
           >
             <FormField
               control={form.control}
-              name="location"
+              name="billboardId"
               render={({ field }) => {
                 return (
                   <FormItem>
@@ -141,11 +149,13 @@ const NewAdButton = ({ user }: { user: SellerType }) => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {locations?.map((i) => (
-                          <SelectItem key={i.name} value={i?.name}>
-                            {i.name}
-                          </SelectItem>
-                        ))}
+                        {billboards
+                          .filter((i) => i.ad == null)
+                          .map((i) => (
+                            <SelectItem key={i.name} value={i?.id}>
+                              {i.name}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />

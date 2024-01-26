@@ -65,7 +65,7 @@ model Seller {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique @db.ObjectId
 
-  ad Ad? 
+  ads Ad[] 
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -84,20 +84,6 @@ model Products {
   sellerId String @db.ObjectId
 
   orders OrderList[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Ad {
-  id         String  @id @default(auto()) @map("_id") @db.ObjectId
-  location   String  @unique
-  isPaid     Boolean @default(false)
-  imageUrl   String
-  isVerified Boolean @default(false)
-
-  seller   Seller @relation(fields: [sellerId], references: [id])
-  sellerId String @unique @db.ObjectId
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -159,4 +145,34 @@ model OrderList {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+}
+
+
+model Ad {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  isPaid     Boolean @default(false)
+  imageUrl   String
+  isVerified Boolean @default(false)
+
+  seller   Seller @relation(fields: [sellerId], references: [id])
+  sellerId String @db.ObjectId
+
+  billboard   Billboard @relation(fields: [billboardId], references: [id])
+  billboardId String @unique @db.ObjectId
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model Billboard{
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  location String @unique
+  name String
+  description String
+
+  ad Ad?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

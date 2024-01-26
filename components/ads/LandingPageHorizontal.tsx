@@ -1,12 +1,15 @@
-import React from "react";
-import { Card, CardHeader, CardTitle } from "../ui/card";
 import { GetAdBasedOnLocation } from "@/actions/ad";
+import React from "react";
 
+import { Card, CardHeader, CardTitle } from "../ui/card";
+import Image from "next/image";
+
+// pixel size is 1280 * 320
 const LandingPageHorizontal = async ({ location }: { location: string }) => {
-  const ad = await GetAdBasedOnLocation(location);
-  if (!ad)
+  const billboard = await GetAdBasedOnLocation(location);
+  if (!billboard?.ad)
     return (
-      <Card className="w-full h-[250px] border border-dashed ">
+      <Card className="w-full aspect-[4/1] border border-dashed ">
         <CardHeader>
           <CardTitle>
             Ad space for rent. Place your here. Location: {location}
@@ -15,10 +18,14 @@ const LandingPageHorizontal = async ({ location }: { location: string }) => {
       </Card>
     );
   return (
-    <Card className="w-full h-[250px] border border-dashed ">
-      <CardHeader>
-        <CardTitle>{ad?.seller.companyName}</CardTitle>
-      </CardHeader>
+    <Card className="w-full overflow-hidden aspect-[4/1] border border-dashed ">
+      <Image
+        src={billboard.ad?.imageUrl}
+        alt={billboard.ad.id}
+        height={320}
+        width={1280}
+        className="object-contain"
+      />
     </Card>
   );
 };

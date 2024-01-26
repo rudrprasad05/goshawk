@@ -61,26 +61,3 @@ export const GetUseDataOnly = async () => {
     return null;
   }
 };
-
-export const AdsEndPoint = async () => {
-  const session = await getSession();
-
-  if (!session?.user?.email) {
-    return null;
-  }
-
-  const currentUser = await prisma.user.findUnique({
-    where: {
-      id: session?.user?.id as string,
-    },
-    include: {
-      seller: {
-        include: {
-          ad: true,
-        },
-      },
-    },
-  });
-
-  return currentUser;
-};

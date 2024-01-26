@@ -1,18 +1,18 @@
 import prisma from "@/lib/prismadb";
-import { NextResponse } from "next/server";
-import { ProductType } from "@/types";
 import { NewProductType } from "@/schemas/product";
+import { ProductType } from "@/types";
+import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { billboardId, imageUrl, sellerId } = body;
+    const { location, name, description } = body;
 
-    const product = await prisma.ad.create({
+    const product = await prisma.billboard.create({
       data: {
-        billboardId,
-        imageUrl,
-        sellerId,
+        location,
+        name,
+        description,
       },
     });
 
