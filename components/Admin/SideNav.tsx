@@ -15,6 +15,7 @@ import {
   Package,
   PanelsTopLeft,
   SeparatorVertical,
+  Store,
 } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -33,16 +34,16 @@ type Items = {
 const SideNav = ({ user }: { user: any }) => {
   const items: Items[] = [
     { name: "Dashboard", icon: LayoutDashboard, link: "/seller/dashboard" },
-    {
-      name: "Shop",
-      icon: PanelsTopLeft,
-      link: `/shop/${user.seller.companyName}`,
-    },
-    { name: "Sales", icon: DollarSign, link: "" },
-    { name: "Chat", icon: MessageSquareMore, link: "" },
     { name: "Product", icon: Package, link: "/seller/products" },
     { name: "Orders", icon: Blocks, link: "/seller/orders" },
+    {
+      name: "Shop",
+      icon: Store,
+      link: `/shop/${user.seller.companyName}`,
+    },
+
     { name: "Ads", icon: Megaphone, link: "/seller/ads" },
+    { name: "Chat", icon: MessageSquareMore, link: "" },
   ];
 
   const [openNav, setOpenNav] = useState(false);

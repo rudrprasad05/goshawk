@@ -23,7 +23,9 @@ export const OrderFeedCard: React.FC<props> = ({ order }) => {
     <Card className=" flex flex-col justify-between">
       <CardHeader>
         <div className="flex flex-col gap-5 pt-5">
-          <CardTitle className="grow p-0">{order.order.id}</CardTitle>
+          <CardTitle className="grow p-0">
+            Customer: {order.order.customer.name}
+          </CardTitle>
         </div>
       </CardHeader>
       <CardDescription className="">

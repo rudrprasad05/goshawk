@@ -6,42 +6,51 @@ import getSession from "@/actions/getSession";
 
 export async function POST(request: Request) {
   try {
-    const body: ProductType[][] = await request.json();
+    const body = await request.json();
+    const { data, customer } = body;
     const session = await getSession();
 
     let total = 0;
     let orderListArr = [];
-    let res = body.map((i: ProductType[]) =>
+    let res = data.map((i: ProductType[]) =>
       i.map((j: ProductType) => (total += parseInt(j.price)))
     );
 
-    const order = await prisma.order.create({
-      data: {
-        customerId: session?.user.id as string,
-        total,
-        address: session?.user.address as string,
-        city: session?.user.town as string,
-        country: session?.user.country as string,
-        contact: "911",
+    const user = await prisma.user.findUnique({
+      where: {
+        id: session?.user.id,
       },
     });
 
-    for (let i = 0; i < body.length; i++) {
+    if (!user) return new NextResponse("internal error", { status: 500 });
+
+    const order = await prisma.order.create({
+      data: {
+        total,
+        address: "user.address as string",
+        city: "user.town as string",
+        country: "user.country as string",
+        contact: "911",
+        customerId: customer,
+      },
+    });
+
+    for (let i = 0; i < data.length; i++) {
       let tempMerchantOrder = await prisma.merchantOrder.create({
         data: {
           orderId: order.id,
-          sellerId: body[i][0].sellerId,
+          sellerId: data[i][0].sellerId,
           // isPaid set this after payment system
         },
       });
 
-      for (let j = 0; j < body[i].length; j++) {
+      for (let j = 0; j < data[i].length; j++) {
         let tempOrderList = await prisma.orderList.create({
           data: {
             merchantOrdersId: tempMerchantOrder.id,
-            productId: body[i][j].id,
+            productId: data[i][j].id,
             quanity: 1,
-            price: parseInt(body[i][j].price),
+            price: parseInt(data[i][j].price),
           },
         });
       }

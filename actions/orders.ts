@@ -3,6 +3,14 @@
 import prisma from "@/lib/prismadb";
 import getSession from "./getSession";
 import { revalidatePath } from "next/cache";
+import { getCurrentUser } from "./user";
+
+export const OrderCountApi = async () => {
+  const user = await getCurrentUser();
+  return await prisma.merchantOrder.count({
+    where: { seller: { userId: user?.id } },
+  });
+};
 
 export const GetMerchantOrderForFeed = async ({
   id,
@@ -36,7 +44,11 @@ export const GetMerchantOrderForFeed = async ({
       ],
     },
     include: {
-      order: true,
+      order: {
+        include: {
+          customer: true,
+        },
+      },
     },
 
     orderBy: {

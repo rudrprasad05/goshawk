@@ -100,6 +100,13 @@ const OrderDetailsPage = ({ order }: { order: MerchantOrderType }) => {
                 <div className="text-base font-medium">Delivery</div>
                 <div className="text-base font-medium">
                   {order.isDelivered ? "Delivered" : "Pending"}
+                  <Link
+                    className="ml-3 text-primary underline-offset-4 hover:underline"
+                    // href={`/shop/products/${order.product.id}`}
+                    href={`seller/user/${order.order.customerId}`}
+                  >
+                    Change
+                  </Link>
                 </div>
               </div>
               <div className="flex items-center justify-between border-t pt-4">
@@ -107,6 +114,13 @@ const OrderDetailsPage = ({ order }: { order: MerchantOrderType }) => {
                 <div className="text-base font-medium">
                   {order.order.address}, {order.order.city},{" "}
                   {order.order.country}
+                  <Link
+                    className="ml-3 text-primary underline-offset-4 hover:underline"
+                    // href={`/shop/products/${order.product.id}`}
+                    href={`seller/user/${order.order.customerId}`}
+                  >
+                    View
+                  </Link>
                 </div>
               </div>
               <div className="flex items-start justify-between border-t pt-4">

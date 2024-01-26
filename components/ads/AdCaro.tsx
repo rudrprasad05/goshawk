@@ -12,6 +12,7 @@ import {
 import Image from "next/image";
 import { ProductType } from "@/types";
 import { useSession } from "next-auth/react";
+import { ProductCard } from "../landing/ProductCard";
 
 export default function AdCaro({ products }: { products: ProductType[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -34,16 +35,7 @@ export default function AdCaro({ products }: { products: ProductType[] }) {
       <CarouselContent className="">
         {products.map((product, index) => (
           <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-            <Card className="relative w-full h-full">
-              <Image
-                src={product.imageUrl}
-                alt={product.name}
-                width={200}
-                height={200}
-                className="w-full h-[200px] rounded-md object-cover"
-              />
-              <CardTitle className="py-10">{product.name}</CardTitle>
-            </Card>
+            <ProductCard product={product} />
           </CarouselItem>
         ))}
       </CarouselContent>

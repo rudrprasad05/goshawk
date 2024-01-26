@@ -73,7 +73,7 @@ export const ProductCard: React.FC<props> = ({ product }) => {
           <div className="flex items-center py-2">
             <CardTitle className="grow">${product.price}</CardTitle>
             <Link
-              href={`/seller/products/details/${product.id}`}
+              href={`/shop/products/details/${product.id}`}
               className={`text-primary underline-offset-4 hover:underline px-0`}
             >
               Details

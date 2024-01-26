@@ -13,6 +13,7 @@ import { CartContext } from "@/context/CartContext";
 import { cn, formatPrice } from "@/lib/utils";
 import axios from "axios";
 import { Check, Loader2, X } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -21,6 +22,7 @@ import toast from "react-hot-toast";
 
 const Page = () => {
   const { cartProducts, getTotal, removeCart } = useContext(CartContext);
+  const session = useSession();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -44,7 +46,10 @@ const Page = () => {
 
     setLoading(true);
     await axios
-      .post("/api/order", groupingViaCommonProperty)
+      .post("/api/order", {
+        data: groupingViaCommonProperty,
+        customer: session.data?.user.id,
+      })
       .then(() => {
         setLoading(false);
         toast.success("Order Sent Successfully");

@@ -69,7 +69,7 @@ export const OrderFeed = async ({
         {data.map((merchantOrder) => {
           return <OrderFeedCard key={merchantOrder.id} order={merchantOrder} />;
         })}
-        {data.length == 0 && <div className="">No Products here</div>}
+        {data.length == 0 && <div className="">No Orders to display</div>}
       </div>
       <Pagination {...props.searchParams} {...metadata} />
     </div>

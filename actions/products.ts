@@ -3,6 +3,44 @@
 import prisma from "@/lib/prismadb";
 import getSession from "./getSession";
 import { revalidatePath } from "next/cache";
+import { getCurrentUser } from "./user";
+
+export const ProductsCountApi = async () => {
+  const user = await getCurrentUser();
+  return await prisma.products.count({
+    where: { seller: { userId: user?.id } },
+  });
+};
+
+export const GetLandingCaroProducts = async () => {
+  "use server";
+
+  const results = await prisma.products.findMany({
+    take: 10,
+    where: {
+      NOT: [
+        {
+          seller: {
+            companyName: {
+              contains: "Goshawk",
+              mode: "insensitive",
+            },
+          },
+        },
+      ],
+    },
+
+    include: {
+      seller: true,
+    },
+
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return results;
+};
 
 export const GetAllProductsPagination = async ({
   take,

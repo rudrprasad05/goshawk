@@ -1,6 +1,7 @@
 "use client";
 
 import { ProductType } from "@/types";
+import { ShoppingCart } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
@@ -141,7 +142,9 @@ export function CartContextProvider({
         return arr;
       });
     }
-    toast.success("Product Deleted");
+    toast.success("Product Deleted", {
+      icon: "🗑️",
+    });
   };
 
   const clearCart = () => {
