@@ -70,6 +70,15 @@ const NavItems = () => {
           Shops
         </Link>
       </div>
+
+      <div className="flex items-center">
+        <Link
+          href={"/shop/products"}
+          className={`${buttonVariants({ variant: "ghost" })}text-sm`}
+        >
+          Products
+        </Link>
+      </div>
       {PRODUCT_CATEGORIES.map((category, i) => {
         const handleOpen = () => {
           if (activeIndex === i) {

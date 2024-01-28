@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/actions/user";
+import { NavbarUser, getCurrentUser } from "@/actions/user";
 import { cookies } from "next/headers";
 import Link from "next/link";
 
@@ -10,7 +10,7 @@ import NavBarLogin from "./NavBarLogin";
 import NavItems from "./NavItems";
 
 const Navbar = async () => {
-  const user = (await getCurrentUser()) || null;
+  const user = await NavbarUser();
 
   return (
     <div className="bg-card sticky z-50 top-0 inset-x-0 h-16">

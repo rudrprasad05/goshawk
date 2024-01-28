@@ -65,6 +65,7 @@ const SellerLoginForm = (props: LoginPageProps) => {
       })
       .finally(() => {
         setIsLoading(false);
+        router.push("/");
       });
   };
 

@@ -22,15 +22,17 @@ export async function POST(request: Request) {
       },
     });
 
+    console.log(user);
+
     if (!user) return new NextResponse("internal error", { status: 500 });
 
     const order = await prisma.order.create({
       data: {
         total,
-        address: "user.address as string",
-        city: "user.town as string",
-        country: "user.country as string",
-        contact: "911",
+        address: user.address as string,
+        city: user.town as string,
+        country: user.country as string,
+        contact: user.phone as string,
         customerId: customer,
       },
     });
@@ -57,7 +59,7 @@ export async function POST(request: Request) {
       orderListArr.push(tempMerchantOrder);
     }
 
-    return NextResponse.json(orderListArr);
+    return NextResponse.json("orderListArr");
   } catch (error: any) {
     console.log(error, "NEW BRANCH ERROR");
     return new NextResponse("internal error", { status: 500 });

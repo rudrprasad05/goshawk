@@ -26,6 +26,7 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Icons } from "@/components/Icons";
 import { ArrowRight } from "lucide-react";
 import { LoginPageProps } from "./page";
+import { z } from "zod";
 
 const BuyerLoginForm = (props: LoginPageProps) => {
   const searchParamsType = String(props?.searchParams?.type);
@@ -63,6 +64,7 @@ const BuyerLoginForm = (props: LoginPageProps) => {
       })
       .finally(() => {
         setIsLoading(false);
+        router.push("/");
       });
   };
 

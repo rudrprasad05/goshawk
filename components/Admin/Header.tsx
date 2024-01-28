@@ -26,10 +26,11 @@ const Header: React.FC<props> = ({ name, children, showProfile = true }) => {
         <div className="flex gap-3 ml-auto">
           <div className="text-right">
             <p className="font-bold text-lg">{user?.name}</p>
-            <p className="text-sm">Merchant</p>
+            <p className="text-sm text-primary">Merchant</p>
           </div>
           <EditProfileSheet user={user}>
             <AvatarComponent
+              className="border-primary/50"
               fallback={user?.name?.slice(0, 2).toUpperCase() || "AD"}
               src={user?.image}
             />

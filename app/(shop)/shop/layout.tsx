@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/nav/NavBar";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Goswak Shops and Marketplace",
@@ -16,6 +17,7 @@ export default function RootLayout({
       <div className="">
         <Navbar />
         {children}
+        <Footer />
       </div>
     </main>
   );

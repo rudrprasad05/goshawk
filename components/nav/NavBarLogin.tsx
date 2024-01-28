@@ -1,22 +1,37 @@
 "use client";
 
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { buttonVariants } from "../ui/button";
 import { useSession } from "next-auth/react";
 import EditProfileSheet from "./EditProfileSheet";
 import AvatarComponent from "./AvatarComponent";
 import { UserType } from "@/types";
+import { Loader2 } from "lucide-react";
 
 const NavBarLogin = ({ user }: { user?: UserType }) => {
-  return (
-    <div className="flex items-center">
-      <SignIn user={user} />
-      <Seperator user={user} />
-      <CreateAccount user={user} />
-      <Seperator user={user} />
-    </div>
-  );
+  const [domLoaded, setdomLoaded] = useState(false);
+  const [navKey, setNavKey] = useState(0);
+  useEffect(() => {
+    setdomLoaded(true);
+    setNavKey((prev) => prev + 1);
+  }, [user]);
+
+  if (domLoaded)
+    return (
+      <div key={navKey} className="flex items-center">
+        <SignIn user={user} />
+        <Seperator user={user} />
+        <CreateAccount user={user} />
+        <Seperator user={user} />
+      </div>
+    );
+  else
+    return (
+      <>
+        <Loader2 className={"animate-spin mr-3"} />
+      </>
+    );
 };
 
 const SignIn = ({ user }: { user: any }) => {

@@ -3,15 +3,17 @@
 import React from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
 
 interface props {
   fallback: string;
   src: string | null | undefined;
+  className?: string;
 }
 
-const AvatarComponent: React.FC<props> = ({ fallback, src }) => {
+const AvatarComponent: React.FC<props> = ({ fallback, src, className }) => {
   return (
-    <Avatar className="rounded-full">
+    <Avatar className={cn("rounded-full border", className)}>
       <AvatarImage src={src || ""} />
       <AvatarFallback>{fallback}</AvatarFallback>
     </Avatar>

@@ -12,6 +12,17 @@ export const OrderCountApi = async () => {
   });
 };
 
+export const ChangeDeliveryStatusApi = async (val: boolean, id: string) => {
+  return await prisma.merchantOrder.update({
+    where: {
+      id,
+    },
+    data: {
+      isDelivered: val,
+    },
+  });
+};
+
 export const GetMerchantOrderForFeed = async ({
   id,
   take,

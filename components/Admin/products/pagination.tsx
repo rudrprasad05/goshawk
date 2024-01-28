@@ -26,11 +26,11 @@ export const Pagination = (props: PaginationProps) => {
 
   const getPagesToShow = () => {
     let startPage = currentPage - 2;
-    let endPage = currentPage + 2;
+    let endPage = totalPages;
 
     if (currentPage <= 3) {
       startPage = 1;
-      endPage = 5;
+      endPage = totalPages;
     } else if (currentPage >= totalPages - 2) {
       startPage = totalPages - 4;
       endPage = totalPages;

@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import Navbar from "@/components/nav/NavBar";
 import type { Metadata } from "next";
 
@@ -15,6 +16,7 @@ export default function RootLayout({
     <main className="w-full h-full">
       <Navbar />
       <div className="w-full h-full ">{children}</div>
+      <Footer />
     </main>
   );
 }

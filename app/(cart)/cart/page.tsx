@@ -7,10 +7,20 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { PRODUCT_CATEGORIES } from "@/config";
 import { CartContext } from "@/context/CartContext";
 import { cn, formatPrice } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Check, Loader2, X } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -18,10 +28,32 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { FaSpinner } from "react-icons/fa";
+import { FiEyeOff, FiEye } from "react-icons/fi";
+import { z } from "zod";
+
+const PersonalDetailsSchema = z.object({
+  town: z
+    .string()
+    .min(2, { message: "Should have more than 2 characters" })
+    .max(50, { message: "Should have less than 50 characters" }),
+  country: z
+    .string()
+    .min(2, { message: "Should have more than 2 characters" })
+    .max(50, { message: "Should have less than 50 characters" }),
+  address: z
+    .string()
+    .min(6, { message: "Password must contain more than 2 characters" })
+    .max(32, { message: "Password must have less than 2 characters" }),
+});
+
+type PersonalDetailsType = z.infer<typeof PersonalDetailsSchema>;
 
 const Page = () => {
-  const { cartProducts, getTotal, removeCart } = useContext(CartContext);
+  const { cartProducts, getTotal, removeCart, clearCart } =
+    useContext(CartContext);
   const session = useSession();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -34,6 +66,9 @@ const Page = () => {
   const cartTotal = getTotal();
 
   const fee = 1;
+
+  const user = session.data?.user;
+  console.log(user);
 
   const handleClick = async () => {
     let groupingViaCommonProperty = Object.values(
@@ -57,7 +92,27 @@ const Page = () => {
       .catch((error: any) => {
         console.log("error");
         toast.error("Something went wrong");
+      })
+      .finally(() => {
+        clearCart();
+        router.push("/");
       });
+  };
+
+  const form = useForm<PersonalDetailsType>({
+    resolver: zodResolver(PersonalDetailsSchema),
+    defaultValues: {
+      town: "",
+      country: "",
+      address: "",
+    },
+  });
+
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    console.log(data);
+    axios.patch(`/api/user/${user?.id}`, data).then(() => {
+      toast.success("Personal Details Updated");
+    });
   };
 
   return (
@@ -173,62 +228,146 @@ const Page = () => {
             </ul>
           </div>
 
-          <Card className="mt-16 rounded-lg sticky top-24 lg:col-span-5 lg:mt-0">
-            <CardHeader>
-              <h2 className="text-lg font-medium">Order summary</h2>
-            </CardHeader>
+          <div className="mt-16 rounded-lg sticky top-24 lg:col-span-5 lg:mt-0">
+            {(user?.address == null ||
+              user.country == null ||
+              user.town == null) && (
+              <Card className="">
+                <CardHeader>
+                  <h2 className="text-lg font-medium">Personal Details</h2>
+                </CardHeader>
 
-            <CardContent className="mt-6 space-y-4">
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-muted-foreground">Subtotal</p>
-                <p className="text-sm font-medium text-muted-foreground">
-                  {isMounted ? (
-                    formatPrice(cartTotal)
-                  ) : (
-                    <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-                  )}
-                </p>
-              </div>
+                <CardContent className="mt-6 space-y-4">
+                  <Form {...form}>
+                    <form
+                      onSubmit={form.handleSubmit(onSubmit)}
+                      className="space-y-3"
+                    >
+                      <FormField
+                        control={form.control}
+                        name="address"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>address</FormLabel>
+                            <FormControl>
+                              <Input
+                                autoComplete="off"
+                                placeholder="enter address"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-              <Separator />
+                      <FormField
+                        control={form.control}
+                        name="town"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>town</FormLabel>
+                            <FormControl>
+                              <Input
+                                autoComplete="off"
+                                placeholder="enter town"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-              <div className="flex items-center justify-between border-tpt-4">
-                <div className="flex items-center text-sm text-muted-foreground">
-                  <span>Flat Transaction Fee</span>
+                      <FormField
+                        control={form.control}
+                        name="country"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>country</FormLabel>
+                            <FormControl>
+                              <Input
+                                autoComplete="off"
+                                placeholder="enter country"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <Button className="w-full" type="submit">
+                        {/* {isLoading && ( */}
+                        <FaSpinner className={"animate-spin mr-3"} />
+                        {/* )} */}
+                        Login
+                      </Button>
+                    </form>
+                  </Form>
+                </CardContent>
+              </Card>
+            )}
+
+            <Card className="">
+              <CardHeader>
+                <h2 className="text-lg font-medium">Order summary</h2>
+              </CardHeader>
+
+              <CardContent className="mt-6 space-y-4">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm text-muted-foreground">Subtotal</p>
+                  <p className="text-sm font-medium text-muted-foreground">
+                    {isMounted ? (
+                      formatPrice(cartTotal)
+                    ) : (
+                      <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                    )}
+                  </p>
                 </div>
-                <div className="text-sm font-medium text-muted-foreground">
-                  {isMounted ? (
-                    formatPrice(fee)
-                  ) : (
-                    <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-                  )}
-                </div>
-              </div>
 
-              <div className="flex items-center justify-between border-t pt-4">
-                <div className="text-base font-medium">Order Total</div>
-                <div className="text-base font-medium">
-                  {isMounted ? (
-                    formatPrice(cartTotal + fee)
-                  ) : (
-                    <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-                  )}
-                </div>
-              </div>
-            </CardContent>
+                <Separator />
 
-            <CardFooter className="mt-6">
-              <Button
-                // disabled={cartProducts.length === 0 || loading}
-                className="w-full"
-                size="lg"
-                onClick={() => handleClick()}
-              >
-                {loading && <Loader2 className="w-4 h-4 animate-spin mr-1.5" />}
-                Checkout
-              </Button>
-            </CardFooter>
-          </Card>
+                <div className="flex items-center justify-between border-tpt-4">
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <span>Flat Transaction Fee</span>
+                  </div>
+                  <div className="text-sm font-medium text-muted-foreground">
+                    {isMounted ? (
+                      formatPrice(fee)
+                    ) : (
+                      <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between border-t pt-4">
+                  <div className="text-base font-medium">Order Total</div>
+                  <div className="text-base font-medium">
+                    {isMounted ? (
+                      formatPrice(cartTotal + fee)
+                    ) : (
+                      <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                    )}
+                  </div>
+                </div>
+              </CardContent>
+
+              <CardFooter className="mt-6">
+                <Button
+                  // disabled={cartProducts.length === 0 || loading}
+                  className="w-full"
+                  size="lg"
+                  onClick={() => handleClick()}
+                >
+                  {loading && (
+                    <Loader2 className="w-4 h-4 animate-spin mr-1.5" />
+                  )}
+                  Checkout
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
