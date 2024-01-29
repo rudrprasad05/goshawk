@@ -9,7 +9,7 @@ import { CartContextProvider } from "@/context/CartContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Alibaba Clone",
+  title: "Goshawk, Your one stop shop for anything online",
   description: "Designed, developed and Powered by Procyon",
 };
 

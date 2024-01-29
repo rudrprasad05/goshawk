@@ -1,12 +1,14 @@
-import { ProductType } from "@/types";
-import React from "react";
-import { Layers3, PanelsTopLeft } from "lucide-react";
 import { getCurrentUser } from "@/actions/user";
-import Header from "../Admin/Header";
+import { ProductType } from "@/types";
+import { Layers3, PanelsTopLeft } from "lucide-react";
+import React from "react";
+
 import { DeleteProductButton } from "../Admin/DeleteProductButton";
 import EditProductButton from "../Admin/EditProductButton";
+import Header from "../Admin/Header";
 import { HideProductButton } from "../Admin/HideProductButton";
 import { ProductView } from "./ProductView";
+import { GetRelatedProducts } from "@/actions/products";
 
 export const ShopProductsDetails = async ({
   product,
@@ -14,19 +16,20 @@ export const ShopProductsDetails = async ({
   product: ProductType;
 }) => {
   const user = await getCurrentUser();
+  const related = await GetRelatedProducts(product.id);
 
-  if (!user) return null;
-  if (user.seller)
-    return (
-      <>
-        <ProductView product={product} user={user} />
-        <EditGrid user={user} product={product} />
-      </>
-    );
+  if (user)
+    if (user.seller)
+      return (
+        <>
+          <ProductView related={related} product={product} user={user} />
+          <EditGrid user={user} product={product} />
+        </>
+      );
 
   return (
     <>
-      <ProductView product={product} user={user} />
+      <ProductView related={related} product={product} user={user} />
     </>
   );
 };

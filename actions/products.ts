@@ -128,6 +128,23 @@ export const GetSingleMerchantProducts = async ({
   };
 };
 
+export const GetRelatedProducts = async (id: string) => {
+  const product = await prisma.products.findMany({
+    take: 8,
+    where: {
+      NOT: [
+        {
+          id: id,
+        },
+      ],
+    },
+    include: {
+      seller: true,
+    },
+  });
+  return product;
+};
+
 export const GetProductDetails = async (id: string) => {
   const product = await prisma.products.findUnique({
     where: {

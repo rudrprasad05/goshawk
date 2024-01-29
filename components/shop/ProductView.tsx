@@ -9,14 +9,16 @@ import { useRouter } from "next/navigation";
 import ProductQuantityButton from "../Admin/products/ProductQuantityButton";
 import { Button } from "../ui/button";
 import { ShoppingCart } from "lucide-react";
+import AdCaro from "../ads/AdCaro";
 
 export const ProductView = ({
   product,
-  user,
+  related,
 }: {
   product: ProductType;
-  user: UserType;
+  related: ProductType[];
 }) => {
+  console.log(product);
   const { cartProducts, addCart, removeCart } = useContext(CartContext);
   const [domLoaded, setDomLoaded] = useState(false);
   const [addToCart, setaddToCart] = useState(true);
@@ -36,15 +38,16 @@ export const ProductView = ({
     });
     setDomLoaded(true);
   }, [cartProducts, product.id]);
+
   return (
     <div>
       <div className="px-20 py-10 flex gap-20 items-center">
-        <div>
+        <div className="w-[400px] h-[400px]">
           <Image
-            className="rounded-md"
+            className="rounded-md aspect-square object-cover"
             alt={product.name}
-            width={500}
-            height={500}
+            width={400}
+            height={400}
             src={product.imageUrl}
           />
         </div>
@@ -53,13 +56,6 @@ export const ProductView = ({
             <h1 className="mb-5 text-lg text-primary">
               {product.seller.companyName}
             </h1>
-            <div>
-              {user.seller && (
-                <Badge variant={"secondary"}>
-                  {product.isVisible ? "Visible" : "Hidden"}
-                </Badge>
-              )}
-            </div>
           </div>
 
           <h2 className="text-5xl font-bold capitalize">{product.name}</h2>
@@ -101,6 +97,7 @@ export const ProductView = ({
           </div>
         </div>
       </div>
+      <AdCaro products={related} />
     </div>
   );
 };
