@@ -85,6 +85,9 @@ model Products {
   seller   Seller @relation(fields: [sellerId], references: [id])
   sellerId String @db.ObjectId
 
+  category   Subcategory? @relation(fields: [categoryId], references: [id])
+  categoryId String? @db.ObjectId
+
   orders OrderList[]
 
   createdAt DateTime @default(now())
@@ -149,7 +152,6 @@ model OrderList {
 
 }
 
-
 model Ad {
   id         String  @id @default(auto()) @map("_id") @db.ObjectId
   isPaid     Boolean @default(false)
@@ -166,7 +168,6 @@ model Ad {
   updatedAt DateTime @updatedAt
 }
 
-
 model Billboard{
   id      String @id @default(auto()) @map("_id") @db.ObjectId
   location String @unique
@@ -174,6 +175,30 @@ model Billboard{
   description String
 
   ad Ad?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category{
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+
+  subcategories Subcategory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+}
+
+model Subcategory{
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+
+  parentCategory Category @relation(fields: [parentCategoryId], references: [id])
+  parentCategoryId String @db.ObjectId
+
+  products Products[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

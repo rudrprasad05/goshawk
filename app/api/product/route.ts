@@ -6,7 +6,7 @@ import { NewProductType } from "@/schemas/product";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, description, price, imageUrl, sellerId } = body;
+    const { name, description, price, imageUrl, sellerId, category } = body;
 
     const product = await prisma.products.create({
       data: {
@@ -15,6 +15,7 @@ export async function POST(request: Request) {
         price,
         imageUrl,
         sellerId,
+        categoryId: category,
       },
     });
 

@@ -20,36 +20,53 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { NewProductForm, NewProductType } from "@/schemas/product";
-import { ProductType, UserType } from "@/types";
+import { CategoryType, ProductType, SubcategoryType, UserType } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import axios from "axios";
 import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 // import { useState } from "@/types";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { FieldValue, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaSpinner } from "react-icons/fa";
 import { MdHeadset, MdOutlineCheck } from "react-icons/md";
 
-// interface props {
-//   tags: TagType[];
-// }
-
-// TODO make sure the image name is unique by appending date to the end if not previous image will be deleted
+type CategoryTypeLocal = CategoryType & {
+  subcategories: SubcategoryType[];
+};
 
 const EditProductButton = ({
   user,
   product,
+  parentCategories,
 }: {
   user: UserType;
   product: ProductType;
+  parentCategories: CategoryTypeLocal[];
 }) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState<File>();
+  const [catState, setcatState] = useState<FieldValue<String>>();
   const [loadingImage, setloadingImage] = useState<boolean>(false);
   const [formReadyToUpload, setFormReadyToUpload] = useState<boolean>(false);
+
+  useEffect(() => {
+    parentCategories
+      ?.filter((i) => i.id == catState)
+      .map((j) => console.log(j.name));
+    parentCategories
+      ?.filter((i) => i.id == catState)[0]
+      .subcategories.map((k) => console.log(k.name));
+  }, [catState]);
 
   const form = useForm<NewProductType>({
     resolver: zodResolver(NewProductForm),
@@ -58,10 +75,14 @@ const EditProductButton = ({
       description: (product.description as string) || "",
       price: (product.price as string) || "",
       sellerId: user.seller.id,
+      category: product.categoryId as string,
+      subcategory: "",
     },
   });
 
-  // const tag = form.watch("tag");
+  console.log(form.control._fields.category?._f.value);
+
+  const category = form.watch("category");
 
   const handleImageUpload = async () => {
     setloadingImage(true);
@@ -193,32 +214,72 @@ const EditProductButton = ({
               )}
             />
 
-            {/* <FormField
+            <FormField
               control={form.control}
-              name="tag"
+              name="category"
               render={({ field }) => {
                 return (
                   <FormItem>
                     <FormLabel>Tags</FormLabel>
-                    <Select onValueChange={field.onChange}>
+                    <Select
+                      onValueChange={(e) => {
+                        field.onChange;
+                        setcatState(e);
+                      }}
+                      defaultValue={product.categoryId}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select a tag" />
                         </SelectTrigger>
                       </FormControl>
-                      {/* <SelectContent>
-                        {tags?.map((i) => (
+                      <SelectContent>
+                        {parentCategories?.map((i) => (
                           <SelectItem key={i.id} value={i?.id}>
                             {i.name}
                           </SelectItem>
                         ))}
-                      </SelectContent> 
+                      </SelectContent>
                     </Select>
                     <FormMessage />
                   </FormItem>
                 );
               }}
-            /> */}
+            />
+
+            <FormField
+              control={form.control}
+              name="subcategory"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel>Tags</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      // defaultValue={product.categoryId}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a tag" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {parentCategories
+                          ?.filter((i) => i.id == catState)
+                          .map((j) =>
+                            j.subcategories.map((k) => (
+                              <SelectItem key={k.id} value={k?.id}>
+                                {k.name}
+                              </SelectItem>
+                            ))
+                          )}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
 
             <div className="flex gap-10">
               <input

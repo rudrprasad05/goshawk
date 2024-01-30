@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import EditProfileSheet from "./EditProfileSheet";
 import AvatarComponent from "./AvatarComponent";
 import { UserType } from "@/types";
-import { Loader2 } from "lucide-react";
+import { Loader2, LogIn } from "lucide-react";
 
 const NavBarLogin = ({ user }: { user?: UserType }) => {
   const [domLoaded, setdomLoaded] = useState(false);
@@ -20,10 +20,7 @@ const NavBarLogin = ({ user }: { user?: UserType }) => {
   if (domLoaded)
     return (
       <div key={navKey} className="flex items-center">
-        <SignIn user={user} />
-        <Seperator user={user} />
-        <CreateAccount user={user} />
-        <Seperator user={user} />
+        {!user ? <SignIn user={user} /> : <CreateAccount user={user} />}
       </div>
     );
   else
@@ -37,13 +34,8 @@ const NavBarLogin = ({ user }: { user?: UserType }) => {
 const SignIn = ({ user }: { user: any }) => {
   if (user) return null;
   return (
-    <Link
-      href="/login"
-      className={buttonVariants({
-        variant: "ghost",
-      })}
-    >
-      Login
+    <Link href="/login" className="">
+      <LogIn className="h-6 w-6 flex-shrink-0 text-gray-400 hover:text-gray-500" />
     </Link>
   );
 };

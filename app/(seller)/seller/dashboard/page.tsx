@@ -1,3 +1,4 @@
+import { GetAllParentCategories } from "@/actions/category";
 import { getCurrentUser } from "@/actions/user";
 import DashboardContent from "@/components/Admin/DashboardContent";
 import Header from "@/components/Admin/Header";
@@ -7,12 +8,13 @@ import React from "react";
 
 const page = async () => {
   const user = await getCurrentUser();
+  const categories = await GetAllParentCategories();
   if (!user) return null;
   if (!user.seller) return null;
 
   return (
     <>
-      <DashboardContent user={user} />
+      <DashboardContent parentCategories={categories} user={user} />
     </>
   );
 };

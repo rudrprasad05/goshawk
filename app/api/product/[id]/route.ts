@@ -23,7 +23,15 @@ export async function PATCH(request: Request, { params }: any) {
     const { id } = params;
     const body = await request.json();
 
-    const { name, price, description, imageUrl, isVisible } = body;
+    const {
+      name,
+      price,
+      description,
+      imageUrl,
+      isVisible,
+      category,
+      subcategory,
+    } = body;
 
     const product = await prisma.products.update({
       where: {
@@ -36,6 +44,7 @@ export async function PATCH(request: Request, { params }: any) {
         description,
         imageUrl,
         isVisible: isVisible,
+        categoryId: subcategory,
       },
     });
     return NextResponse.json(product);

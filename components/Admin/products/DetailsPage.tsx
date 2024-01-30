@@ -10,6 +10,10 @@ import { getCurrentUser } from "@/actions/user";
 import { DeleteProductButton } from "../DeleteProductButton";
 import { HideProductButton } from "../HideProductButton";
 import { Badge } from "@/components/ui/badge";
+import {
+  GetAllParentCategories,
+  GetAllParentWithChildCategories,
+} from "@/actions/category";
 
 const DetailsPage = async ({ product }: { product: ProductType }) => {
   const user = await getCurrentUser();
@@ -62,10 +66,18 @@ const ProductView = ({ product }: { product: ProductType }) => {
   );
 };
 
-const EditGrid = ({ user, product }: { user: any; product: ProductType }) => {
+const EditGrid = async ({
+  user,
+  product,
+}: {
+  user: any;
+  product: ProductType;
+}) => {
+  const cat = await GetAllParentWithChildCategories();
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <EditProductButton product={product} user={user} />
+      <EditProductButton parentCategories={cat} product={product} user={user} />
       <DeleteProductButton product={product} user={user} />
       <HideProductButton product={product} user={user} />
     </div>

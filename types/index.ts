@@ -7,6 +7,8 @@ import {
   Order,
   MerchantOrder,
   Billboard,
+  Category,
+  Subcategory,
 } from "@prisma/client";
 
 export type UserType = User & {
@@ -24,6 +26,10 @@ export type ProductType = Products & {
 export type AdsEndPoint = Seller & {
   ads: Ad[];
 };
+
+export type CategoryType = Category;
+
+export type SubcategoryType = Subcategory;
 
 export type AdType = Ad;
 

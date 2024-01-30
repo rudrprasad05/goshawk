@@ -6,6 +6,7 @@ import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import MaxWidthWrapper from "../MaxWidthWrapper";
 
 type Category = (typeof PRODUCT_CATEGORIES)[number];
 
@@ -25,7 +26,7 @@ const NavItem = ({
   isOpen,
 }: NavItemProps) => {
   return (
-    <div className="flex">
+    <div className="flex hshshs">
       <div className="relative flex items-center">
         <Button
           className="gap-1.5"
@@ -45,7 +46,7 @@ const NavItem = ({
         <div
           onClick={() => close()}
           className={cn(
-            "absolute inset-x-0 top-full text-sm text-muted-foreground",
+            "absolute inset-x-0 top-full text-sm text-muted-foreground bg-card",
             {
               "animate-in fade-in-10 slide-in-from-top-5": !isAnyOpen,
             }
@@ -56,39 +57,22 @@ const NavItem = ({
             aria-hidden="true"
           />
 
-          <div className="relative bg-card">
-            <div className="mx-auto max-w-7xl px-8">
-              <div className="grid grid-cols-4 gap-x-8 gap-y-10 py-16">
-                <div className="col-span-4 col-start-1 grid grid-cols-3 gap-x-8">
-                  {category.featured.map((item) => (
-                    <div
-                      onClick={() => close}
-                      key={item.name}
-                      className="group relative text-base sm:text-sm"
-                    >
-                      <div className="relative aspect-video overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
-                        <Image
-                          src={item.imageSrc}
-                          alt="product category image"
-                          fill
-                          className="object-cover object-center"
-                        />
-                      </div>
-
-                      <Link
-                        href={item.href}
-                        className="mt-6 block font-medium text-gray-900"
-                      >
-                        {item.name}
-                      </Link>
-                      <p className="mt-1" aria-hidden="true">
-                        Shop now
-                      </p>
-                    </div>
-                  ))}
-                </div>
+          <div className="relative bg-card mb-6">
+            <MaxWidthWrapper className="">
+              <div className="grid grid-cols-5 pb-6  border-b">
+                {category.featured.map((item) => (
+                  <div
+                    onClick={() => close}
+                    key={item.name}
+                    className="group p-6 text-center relative text-base sm:text-sm"
+                  >
+                    <Link href={item.href} className="block font-medium ">
+                      {item.name}
+                    </Link>
+                  </div>
+                ))}
               </div>
-            </div>
+            </MaxWidthWrapper>
           </div>
         </div>
       ) : null}

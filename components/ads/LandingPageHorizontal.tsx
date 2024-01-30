@@ -24,7 +24,7 @@ const LandingPageHorizontal = async ({ location }: { location: string }) => {
         alt={billboard.ad.id}
         height={320}
         width={1280}
-        className="object-contain"
+        className="object-contain aspect-[4/1] w-full h-full"
       />
     </Card>
   );

@@ -5,6 +5,7 @@ import {
 } from "@/actions/products";
 import AdCaroSection from "@/components/landing/AdCaroSection";
 import LandingHeader from "@/components/landing/LandingHeader";
+import Perks from "@/components/landing/Perks";
 import SuperAdminProducts from "@/components/landing/SuperAdminProducts";
 
 export default async function Home() {
@@ -16,6 +17,7 @@ export default async function Home() {
       <LandingHeader />
       <SuperAdminProducts products={AdminProducts} />
       <AdCaroSection products={products} />
+      <Perks />
     </>
   );
 }

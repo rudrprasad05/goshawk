@@ -48,7 +48,7 @@ export const ProductCard: React.FC<props> = ({ product }) => {
   if (!domLoaded) return null;
 
   return (
-    <Card className="h-full flex flex-col justify-between">
+    <Card className="h-full bg-black flex flex-col justify-between">
       <CardHeader>
         <div className="w-full h-[220px]">
           <Image

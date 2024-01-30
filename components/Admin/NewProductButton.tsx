@@ -20,8 +20,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { NewProductForm, NewProductType } from "@/schemas/product";
-import { UserType } from "@/types";
+import { CategoryType, UserType } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 // import { useState } from "@/types";
@@ -37,7 +44,13 @@ import { MdHeadset, MdOutlineCheck } from "react-icons/md";
 
 // TODO make sure the image name is unique by appending date to the end if not previous image will be deleted
 
-const NewProductButton = ({ user }: { user: UserType }) => {
+const NewProductButton = ({
+  user,
+  parentCategories,
+}: {
+  user: UserType;
+  parentCategories: CategoryType[];
+}) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState<File>();
@@ -54,7 +67,7 @@ const NewProductButton = ({ user }: { user: UserType }) => {
     },
   });
 
-  // const tag = form.watch("tag");
+  const tag = form.watch("category");
 
   const handleImageUpload = async () => {
     setloadingImage(true);
@@ -84,6 +97,7 @@ const NewProductButton = ({ user }: { user: UserType }) => {
   };
 
   function onSubmit(data: NewProductType) {
+    console.log(data);
     data.imageUrl = `https://mctechfiji.s3.amazonaws.com/alibaba/${file?.name}`;
     data.sellerId = user.seller.id;
 
@@ -136,7 +150,7 @@ const NewProductButton = ({ user }: { user: UserType }) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        placeholder="enter tag name"
+                        placeholder="enter product name"
                         {...field}
                       />
                     </FormControl>
@@ -182,32 +196,32 @@ const NewProductButton = ({ user }: { user: UserType }) => {
               )}
             />
 
-            {/* <FormField
+            <FormField
               control={form.control}
-              name="tag"
+              name="category"
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <FormLabel>Tags</FormLabel>
+                    <FormLabel>Parent Category</FormLabel>
                     <Select onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a tag" />
+                          <SelectValue placeholder="Select a category" />
                         </SelectTrigger>
                       </FormControl>
-                      {/* <SelectContent>
-                        {tags?.map((i) => (
+                      <SelectContent>
+                        {parentCategories?.map((i) => (
                           <SelectItem key={i.id} value={i?.id}>
                             {i.name}
                           </SelectItem>
                         ))}
-                      </SelectContent> 
+                      </SelectContent>
                     </Select>
                     <FormMessage />
                   </FormItem>
                 );
               }}
-            /> */}
+            />
 
             <div className="flex gap-10">
               <input

@@ -16,12 +16,12 @@ export const NewProductForm = z.object({
     .min(1, { message: "Press Upload before submitting the form" })
     .optional(),
   sellerId: z.string().optional(),
+  category: z.string(),
+  subcategory: z.string().optional(),
 });
-export const ProductSearchSchema = z.object({
-  search: z
-    .string()
 
-    .max(20, { message: "max search length exceeded" }),
+export const ProductSearchSchema = z.object({
+  search: z.string().max(20, { message: "max search length exceeded" }),
 });
 
 export type ProductSearchType = z.infer<typeof ProductSearchSchema>;

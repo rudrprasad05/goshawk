@@ -40,6 +40,7 @@ const NavItems = () => {
 
   return (
     <div className="flex gap-4 h-full" ref={navRef}>
+      {/* dashboard */}
       <div className="flex items-center">
         {checkRole() && (
           <Link
@@ -51,6 +52,7 @@ const NavItems = () => {
         )}
       </div>
 
+      {/* adminm panel */}
       {session.data?.user.role == "admin" && (
         <div className="flex items-center">
           <Link
@@ -62,6 +64,7 @@ const NavItems = () => {
         </div>
       )}
 
+      {/* shops */}
       <div className="flex items-center">
         <Link
           href={"/shop"}
@@ -71,6 +74,7 @@ const NavItems = () => {
         </Link>
       </div>
 
+      {/* products */}
       <div className="flex items-center">
         <Link
           href={"/shop/products"}
@@ -79,6 +83,17 @@ const NavItems = () => {
           Products
         </Link>
       </div>
+
+      {/* suprises */}
+      <div className="flex items-center">
+        <Link
+          href={"/gifts"}
+          className={`${buttonVariants({ variant: "ghost" })}text-sm`}
+        >
+          Gifts
+        </Link>
+      </div>
+
       {PRODUCT_CATEGORIES.map((category, i) => {
         const handleOpen = () => {
           if (activeIndex === i) {

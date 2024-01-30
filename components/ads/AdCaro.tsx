@@ -13,6 +13,7 @@ import Image from "next/image";
 import { ProductType } from "@/types";
 import { useSession } from "next-auth/react";
 import { ProductCard } from "../landing/ProductCard";
+import Autoplay from "embla-carousel-autoplay";
 
 export default function AdCaro({ products }: { products: ProductType[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -31,8 +32,17 @@ export default function AdCaro({ products }: { products: ProductType[] }) {
   };
 
   return (
-    <Carousel className="w-11/12 mx-auto py-6">
+    <Carousel
+      className="w-11/12 mx-auto py-6"
+      opts={{ align: "start", loop: true }}
+      plugins={[Autoplay({ delay: 2000 })]}
+    >
       <CarouselContent className="">
+        {products.map((product, index) => (
+          <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4">
+            <ProductCard product={product} />
+          </CarouselItem>
+        ))}
         {products.map((product, index) => (
           <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4">
             <ProductCard product={product} />

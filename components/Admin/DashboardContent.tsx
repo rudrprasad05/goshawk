@@ -1,6 +1,6 @@
 "use server";
 
-import { UserType } from "@/types";
+import { CategoryType, UserType } from "@/types";
 import { Presentation, Shield } from "lucide-react";
 import React from "react";
 import { HiSpeakerphone } from "react-icons/hi";
@@ -12,7 +12,13 @@ import AwaitVerification from "./AwaitVerification";
 import { MdHeadset } from "react-icons/md";
 import Link from "next/link";
 
-const DashboardContent = ({ user }: { user: UserType }) => {
+const DashboardContent = ({
+  user,
+  parentCategories,
+}: {
+  user: UserType;
+  parentCategories: CategoryType[];
+}) => {
   if (!user.seller.isVerified) {
     return <AwaitVerification />;
   }
@@ -24,10 +30,8 @@ const DashboardContent = ({ user }: { user: UserType }) => {
           <Shield />
         </Header>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <NewProductButton user={user} />
+          <NewProductButton parentCategories={parentCategories} user={user} />
           <NewAdButton />
-          <NewProductButton user={user} />
-          <NewProductButton user={user} />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <OrderCount />

@@ -16,6 +16,7 @@ import {
   PanelsTopLeft,
   SeparatorVertical,
   Store,
+  Tag,
 } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -43,6 +44,11 @@ const SideNav = ({ user }: { user: any }) => {
       name: "Sellers",
       icon: Store,
       link: "/admin/sellers",
+    },
+    {
+      name: "Category",
+      icon: Tag,
+      link: "/admin/category",
     },
     { name: "Ads", icon: Megaphone, link: "/admin/ads" },
   ];

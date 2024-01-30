@@ -16,7 +16,7 @@ export const GetLandingCaroProducts = async () => {
   "use server";
 
   const results = await prisma.products.findMany({
-    take: 10,
+    take: 20,
     where: {
       NOT: [
         {
@@ -152,6 +152,7 @@ export const GetProductDetails = async (id: string) => {
     },
     include: {
       seller: true,
+      category: true,
     },
   });
   return product;

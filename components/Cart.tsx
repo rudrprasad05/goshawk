@@ -1,35 +1,26 @@
 "use client";
 
 import { ShoppingCart } from "lucide-react";
+import { Separator } from "./ui/separator";
 import {
   Sheet,
   SheetContent,
   SheetFooter,
   SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
-import { Separator } from "./ui/separator";
-// import { formatPrice } from '@/lib/utils'
+import Image from "next/image";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
-import Image from "next/image";
-// import { useCart } from '@/hooks/use-cart'
 import { ScrollArea } from "./ui/scroll-area";
-// import CartItem from './CartItem'
-import { useContext, useEffect, useState } from "react";
-import { formatPrice } from "@/lib/utils";
 import { CartContext } from "@/context/CartContext";
+import { formatPrice } from "@/lib/utils";
+import { useContext, useEffect, useState } from "react";
 import CartItem from "./cart/CartItem";
 import { Badge } from "./ui/badge";
 
 const Cart = () => {
-  // const { items } = useCart()
-  // const itemCount = items.length
   const { cartProducts, getTotal } = useContext(CartContext);
-
-  const itemCount = 0;
-
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {

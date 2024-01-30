@@ -10,8 +10,6 @@ export type PageProps = {
 };
 
 const page = async (props: PageProps) => {
-  const user = await getCurrentUser();
-  if (!user) return null;
   return (
     <>
       <ProductFeed props={props} />

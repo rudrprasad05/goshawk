@@ -1,44 +1,124 @@
 export const PRODUCT_CATEGORIES = [
   {
-    label: 'UI Kits',
-    value: 'ui_kits' as const,
+    label: "Categories",
+    value: "categories" as const,
     featured: [
       {
-        name: 'Editor picks',
-        href: `/products?category=ui_kits`,
-        imageSrc: '/nav/ui-kits/mixed.jpg',
+        name: "Security",
+        href: `/products?search=security`,
+        imageSrc: "/nav/ui-kits/mixed.jpg",
       },
       {
-        name: 'New Arrivals',
-        href: '/products?category=ui_kits&sort=desc',
-        imageSrc: '/nav/ui-kits/blue.jpg',
+        name: "Phones & laptops",
+        href: "/products?search=gadgets",
+        imageSrc: "/nav/ui-kits/blue.jpg",
       },
       {
-        name: 'Bestsellers',
-        href: '/products?category=ui_kits',
-        imageSrc: '/nav/ui-kits/purple.jpg',
+        name: "Autoparts",
+        href: "/products?search=autoparts",
+        imageSrc: "/nav/ui-kits/purple.jpg",
+      },
+      {
+        name: "Gardens",
+        href: "/products?search=gardens",
+        imageSrc: "/nav/ui-kits/purple.jpg",
+      },
+      {
+        name: "Electronic",
+        href: "/products?search=electronic",
+        imageSrc: "/nav/ui-kits/purple.jpg",
+      },
+      {
+        name: "Agriculture",
+        href: "/products?search=agriculture",
+        imageSrc: "/nav/ui-kits/purple.jpg",
+      },
+      {
+        name: "Perosonal Protection (PPE)",
+        href: "/products?search=ppe",
+        imageSrc: "/nav/ui-kits/purple.jpg",
+      },
+      {
+        name: "Construction",
+        href: "/products?search=construction",
+        imageSrc: "/nav/ui-kits/purple.jpg",
+      },
+      {
+        name: "Sports",
+        href: "/products?search=sports",
+        imageSrc: "/nav/ui-kits/purple.jpg",
+      },
+      {
+        name: "Kids",
+        href: "/products?search=kids",
+        imageSrc: "/nav/ui-kits/purple.jpg",
+      },
+      {
+        name: "Fashion",
+        href: "/products?search=fashion",
+        imageSrc: "/nav/ui-kits/purple.jpg",
       },
     ],
   },
   {
-    label: 'Icons',
-    value: 'icons' as const,
+    label: "Pets",
+    value: "pets" as const,
     featured: [
       {
-        name: 'Favorite Icon Picks',
-        href: `/products?category=icons`,
-        imageSrc: '/nav/icons/picks.jpg',
+        name: "Collars",
+        href: `/products?category=pets`,
+        imageSrc: "/nav/icons/picks.jpg",
       },
       {
-        name: 'New Arrivals',
-        href: '/products?category=icons&sort=desc',
-        imageSrc: '/nav/icons/new.jpg',
+        name: "Pendants",
+        href: "/products?category=Pendants&sort=desc",
+        imageSrc: "/nav/icons/new.jpg",
       },
       {
-        name: 'Bestselling Icons',
-        href: '/products?category=icons',
-        imageSrc: '/nav/icons/bestsellers.jpg',
+        name: "GPS tracker",
+        href: `/products?category=GPS tracker`,
+        imageSrc: "/nav/icons/picks.jpg",
+      },
+      {
+        name: "Shoes",
+        href: `/products?category=Shoes`,
+        imageSrc: "/nav/icons/picks.jpg",
+      },
+      {
+        name: "Nails",
+        href: `/products?category=Nails`,
+        imageSrc: "/nav/icons/picks.jpg",
+      },
+      {
+        name: "Clothes",
+        href: `/products?category=Clothes`,
+        imageSrc: "/nav/icons/picks.jpg",
+      },
+      {
+        name: "Supplements",
+        href: `/products?category=Supplements`,
+        imageSrc: "/nav/icons/picks.jpg",
+      },
+      {
+        name: "Minerals",
+        href: `/products?category=pets`,
+        imageSrc: "/nav/icons/picks.jpg",
+      },
+      {
+        name: "Food",
+        href: `/products?category=Food`,
+        imageSrc: "/nav/icons/picks.jpg",
+      },
+      {
+        name: "Shower Set",
+        href: `/products?category=Shower Set`,
+        imageSrc: "/nav/icons/picks.jpg",
+      },
+      {
+        name: "Anti-bacterials",
+        href: `/products?category=Anti-bacterials`,
+        imageSrc: "/nav/icons/picks.jpg",
       },
     ],
   },
-]
+];
