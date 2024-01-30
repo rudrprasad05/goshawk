@@ -57,10 +57,32 @@ export const GetAllProductsPagination = async ({
     take,
     skip,
     where: {
-      name: {
-        contains: search,
-        mode: "insensitive",
-      },
+      OR: [
+        {
+          name: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+        {
+          category: {
+            name: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+        },
+        {
+          category: {
+            parentCategory: {
+              name: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+          },
+        },
+      ],
     },
 
     include: {
@@ -152,7 +174,11 @@ export const GetProductDetails = async (id: string) => {
     },
     include: {
       seller: true,
-      category: true,
+      category: {
+        include: {
+          parentCategory: true,
+        },
+      },
     },
   });
   return product;

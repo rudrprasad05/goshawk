@@ -18,17 +18,23 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { NewProductForm, NewProductType } from "@/schemas/product";
-import { CategoryType, ProductType, SubcategoryType, UserType } from "@/types";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
   SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { NewProductForm, NewProductType } from "@/schemas/product";
+import {
+  CategoryType,
+  ProductType,
+  SellerType,
+  SubcategoryType,
+  UserType,
+} from "@/types";
+import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -37,10 +43,17 @@ import { useEffect, useState } from "react";
 import { FieldValue, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaSpinner } from "react-icons/fa";
-import { MdHeadset, MdOutlineCheck } from "react-icons/md";
+import { MdOutlineCheck } from "react-icons/md";
 
 type CategoryTypeLocal = CategoryType & {
   subcategories: SubcategoryType[];
+};
+
+export type ProductTypeLocal = ProductType & {
+  seller: SellerType;
+  category: SubcategoryType & {
+    parentCategory: CategoryType;
+  };
 };
 
 const EditProductButton = ({
@@ -49,7 +62,7 @@ const EditProductButton = ({
   parentCategories,
 }: {
   user: UserType;
-  product: ProductType;
+  product: ProductTypeLocal;
   parentCategories: CategoryTypeLocal[];
 }) => {
   const router = useRouter();
@@ -59,15 +72,6 @@ const EditProductButton = ({
   const [loadingImage, setloadingImage] = useState<boolean>(false);
   const [formReadyToUpload, setFormReadyToUpload] = useState<boolean>(false);
 
-  useEffect(() => {
-    parentCategories
-      ?.filter((i) => i.id == catState)
-      .map((j) => console.log(j.name));
-    parentCategories
-      ?.filter((i) => i.id == catState)[0]
-      .subcategories.map((k) => console.log(k.name));
-  }, [catState]);
-
   const form = useForm<NewProductType>({
     resolver: zodResolver(NewProductForm),
     defaultValues: {
@@ -75,14 +79,17 @@ const EditProductButton = ({
       description: (product.description as string) || "",
       price: (product.price as string) || "",
       sellerId: user.seller.id,
-      category: product.categoryId as string,
-      subcategory: "",
+      subcategory: (product.categoryId as string) || "",
+      category: product.category.parentCategoryId || "",
     },
   });
 
-  console.log(form.control._fields.category?._f.value);
+  useEffect(() => {
+    setcatState(form.control._defaultValues.category);
+  }, [catState]);
 
   const category = form.watch("category");
+  const subcategory = form.watch("subcategory");
 
   const handleImageUpload = async () => {
     setloadingImage(true);
@@ -119,7 +126,7 @@ const EditProductButton = ({
     }
 
     data.sellerId = user.seller.id;
-
+    console.log(data);
     axios
       .patch(`/api/product/${product.id}`, data)
       .then((res) => {
@@ -225,8 +232,9 @@ const EditProductButton = ({
                       onValueChange={(e) => {
                         field.onChange;
                         setcatState(e);
+                        console.log(e);
                       }}
-                      defaultValue={product.categoryId}
+                      defaultValue={product.category.parentCategoryId as string}
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -256,7 +264,7 @@ const EditProductButton = ({
                     <FormLabel>Tags</FormLabel>
                     <Select
                       onValueChange={field.onChange}
-                      // defaultValue={product.categoryId}
+                      defaultValue={product.categoryId as string}
                     >
                       <FormControl>
                         <SelectTrigger>

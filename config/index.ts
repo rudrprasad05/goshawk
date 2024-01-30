@@ -66,57 +66,57 @@ export const PRODUCT_CATEGORIES = [
     featured: [
       {
         name: "Collars",
-        href: `/products?category=pets`,
+        href: `/shop/products?search=pets`,
         imageSrc: "/nav/icons/picks.jpg",
       },
       {
         name: "Pendants",
-        href: "/products?category=Pendants&sort=desc",
+        href: "/shop/products?search=Pendants&sort=desc",
         imageSrc: "/nav/icons/new.jpg",
       },
       {
         name: "GPS tracker",
-        href: `/products?category=GPS tracker`,
+        href: `/shop/products?search=GPS tracker`,
         imageSrc: "/nav/icons/picks.jpg",
       },
       {
         name: "Shoes",
-        href: `/products?category=Shoes`,
+        href: `/shop/products?search=Shoes`,
         imageSrc: "/nav/icons/picks.jpg",
       },
       {
         name: "Nails",
-        href: `/products?category=Nails`,
+        href: `/shop/products?search=Nails`,
         imageSrc: "/nav/icons/picks.jpg",
       },
       {
         name: "Clothes",
-        href: `/products?category=Clothes`,
+        href: `/shop/products?search=Clothes`,
         imageSrc: "/nav/icons/picks.jpg",
       },
       {
         name: "Supplements",
-        href: `/products?category=Supplements`,
+        href: `/shop/products?search=Supplements`,
         imageSrc: "/nav/icons/picks.jpg",
       },
       {
         name: "Minerals",
-        href: `/products?category=pets`,
+        href: `/shop/products?search=pets`,
         imageSrc: "/nav/icons/picks.jpg",
       },
       {
         name: "Food",
-        href: `/products?category=Food`,
+        href: `/shop/products?search=Food`,
         imageSrc: "/nav/icons/picks.jpg",
       },
       {
         name: "Shower Set",
-        href: `/products?category=Shower Set`,
+        href: `/shop/products?search=Shower Set`,
         imageSrc: "/nav/icons/picks.jpg",
       },
       {
         name: "Anti-bacterials",
-        href: `/products?category=Anti-bacterials`,
+        href: `/shop/products?search=Anti-bacterials`,
         imageSrc: "/nav/icons/picks.jpg",
       },
     ],

@@ -35,6 +35,7 @@ const SearchBar: React.FC<props> = ({ defaultValue }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
+        autoComplete="off"
         className="flex gap-2 items-center"
       >
         <div className="flex gap-3">
@@ -45,6 +46,7 @@ const SearchBar: React.FC<props> = ({ defaultValue }) => {
               <FormItem className="">
                 <FormControl>
                   <Input
+                    type="text"
                     autoComplete="off"
                     placeholder="Search..."
                     {...field}

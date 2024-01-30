@@ -16,8 +16,8 @@ export const NewProductForm = z.object({
     .min(1, { message: "Press Upload before submitting the form" })
     .optional(),
   sellerId: z.string().optional(),
-  category: z.string(),
-  subcategory: z.string().optional(),
+  category: z.any().optional(),
+  subcategory: z.any().optional(),
 });
 
 export const ProductSearchSchema = z.object({

@@ -1,9 +1,15 @@
 "use server";
 
-import { ProductType, UserType } from "@/types";
+import {
+  CategoryType,
+  ProductType,
+  SellerType,
+  SubcategoryType,
+  UserType,
+} from "@/types";
 import React, { useEffect } from "react";
 import Header from "../Header";
-import { Layers3, PanelsTopLeft } from "lucide-react";
+import { ChevronRight, Layers3, PanelsTopLeft } from "lucide-react";
 import Image from "next/image";
 import EditProductButton from "../EditProductButton";
 import { getCurrentUser } from "@/actions/user";
@@ -15,7 +21,14 @@ import {
   GetAllParentWithChildCategories,
 } from "@/actions/category";
 
-const DetailsPage = async ({ product }: { product: ProductType }) => {
+export type ProductTypeLocal = ProductType & {
+  seller: SellerType;
+  category: SubcategoryType & {
+    parentCategory: CategoryType;
+  };
+};
+
+const DetailsPage = async ({ product }: { product: ProductTypeLocal }) => {
   const user = await getCurrentUser();
   const date = new Date();
 
@@ -29,7 +42,7 @@ const DetailsPage = async ({ product }: { product: ProductType }) => {
   );
 };
 
-const ProductView = ({ product }: { product: ProductType }) => {
+const ProductView = ({ product }: { product: ProductTypeLocal }) => {
   return (
     <div>
       <Header name={product.name}>
@@ -58,7 +71,12 @@ const ProductView = ({ product }: { product: ProductType }) => {
           </div>
 
           <h2 className="text-5xl font-bold capitalize">{product.name}</h2>
-          <p className="my-8 text-muted-foreground">{product.description}</p>
+          <p className="mt-8 text-muted-foreground flex gap-2">
+            {product.category.parentCategory.name}
+            <ChevronRight />
+            {product.category.name}
+          </p>
+          <p className="mb-8 text-muted-foreground">{product.description}</p>
           <p className="text-2xl font-bold">${product.price}</p>
         </div>
       </div>
@@ -71,7 +89,7 @@ const EditGrid = async ({
   product,
 }: {
   user: any;
-  product: ProductType;
+  product: ProductTypeLocal;
 }) => {
   const cat = await GetAllParentWithChildCategories();
 
