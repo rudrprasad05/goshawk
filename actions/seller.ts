@@ -87,3 +87,16 @@ export const GetAllMerchants = async () => {
 
   return results;
 };
+
+export const ChatApi = async () => {
+  const results = await prisma.seller.findMany({
+    include: {
+      user: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return results;
+};

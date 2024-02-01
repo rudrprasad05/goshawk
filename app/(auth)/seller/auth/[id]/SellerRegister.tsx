@@ -40,21 +40,25 @@ const plans = [
       "Download on 6 supported devices at a time",
     ],
   },
-  { name: "Diamond", price: "$20", icon: Gem },
 ];
 
-type SelectedPlanType = "Personal" | "Company" | "Diamond";
+type SelectedPlanType = "Personal" | "Company" | null;
 
 const SellerRegister = ({ userId }: { userId: string }) => {
   const session = useSession();
-  const [selectedPlan, setSelectedPlan] = useState<SelectedPlanType>();
+  const [selectedPlan, setSelectedPlan] = useState<SelectedPlanType>(null);
   let additionalData: SellerRegisterType;
 
   return (
     <div className="px-20 py-10">
       <Header />
       <Step1 onclick={setSelectedPlan} state={selectedPlan} />
-      <Step2 additionalData={{ plan: selectedPlan as string }} user={userId} />
+      {selectedPlan != null && (
+        <Step2
+          additionalData={{ plan: selectedPlan as string }}
+          user={userId}
+        />
+      )}
     </div>
   );
 };
@@ -88,9 +92,9 @@ const Step1 = ({ state, onclick }: { state: any; onclick: any }) => {
   return (
     <div className="py-16">
       <h1 className=" text-center text-xl font-semibold tracking-tight">
-        Select the plan that&#146;s right for you
+        Select the plan that&#39;s right for you
       </h1>
-      <div className="pt-8 grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div className="pt-8 grid grid-cols-1 md:grid-cols-2 gap-10">
         {plans.map((plan) => (
           <Card
             key={plan.name}

@@ -6,25 +6,20 @@ import {
   ArrowRightToLine,
   Blocks,
   Cog,
-  DollarSign,
   Home,
   LayoutDashboard,
   LucideIcon,
   Megaphone,
   MessageSquareMore,
   Package,
-  PanelsTopLeft,
-  SeparatorVertical,
   Store,
 } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
 
-import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
 import { Card } from "../ui/card";
 import { Separator } from "../ui/separator";
-import { cn } from "@/lib/utils";
-import { UserType } from "@/types";
 
 type Items = {
   name: string;
@@ -43,7 +38,7 @@ const SideNav = ({ user }: { user: any }) => {
     },
 
     { name: "Ads", icon: Megaphone, link: "/seller/ads" },
-    { name: "Chat", icon: MessageSquareMore, link: "" },
+    { name: "Chat", icon: MessageSquareMore, link: "/seller/chat" },
   ];
 
   const [openNav, setOpenNav] = useState(false);

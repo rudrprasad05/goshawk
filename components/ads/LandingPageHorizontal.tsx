@@ -9,7 +9,7 @@ const LandingPageHorizontal = async ({ location }: { location: string }) => {
   const billboard = await GetAdBasedOnLocation(location);
   if (!billboard?.ad)
     return (
-      <Card className="w-full aspect-[4/1] border border-dashed ">
+      <Card className="w-11/12 aspect-[4/1] border border-dashed ">
         <CardHeader>
           <CardTitle>
             Ad space for rent. Place your here. Location: {location}
@@ -22,8 +22,8 @@ const LandingPageHorizontal = async ({ location }: { location: string }) => {
       <Image
         src={billboard.ad?.imageUrl}
         alt={billboard.ad.id}
-        height={320}
-        width={1280}
+        height={180}
+        width={720}
         className="object-contain aspect-[4/1] w-full h-full"
       />
     </Card>

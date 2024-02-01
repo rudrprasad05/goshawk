@@ -9,6 +9,8 @@ import {
   Billboard,
   Category,
   Subcategory,
+  Conversation,
+  Message,
 } from "@prisma/client";
 
 export type UserType = User & {
@@ -28,6 +30,11 @@ export type AdsEndPoint = Seller & {
 };
 
 export type CategoryType = Category;
+
+export type ConversationType = Conversation & {
+  messages: Message[];
+  users: User[];
+};
 
 export type SubcategoryType = Subcategory;
 

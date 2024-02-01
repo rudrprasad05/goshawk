@@ -4,7 +4,7 @@ import { ProductType } from "@/types";
 
 const AdCaroSection = ({ products }: { products: ProductType[] }) => {
   return (
-    <div className="px-6">
+    <div className="px-12">
       <AdCaro products={products} />
     </div>
   );

@@ -94,6 +94,16 @@ const NavItems = () => {
         </Link>
       </div>
 
+      {/* repairs */}
+      <div className="flex items-center">
+        <Link
+          href={"/repairs"}
+          className={`${buttonVariants({ variant: "ghost" })}text-sm`}
+        >
+          Repairs
+        </Link>
+      </div>
+
       {PRODUCT_CATEGORIES.map((category, i) => {
         const handleOpen = () => {
           if (activeIndex === i) {

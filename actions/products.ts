@@ -186,7 +186,7 @@ export const GetProductDetails = async (id: string) => {
 
 export const GetSuperAdminProducts = async () => {
   const results = await prisma.products.findMany({
-    take: 4,
+    take: 3,
     where: {
       seller: {
         companyName: { contains: "Goshawk", mode: "insensitive" },
