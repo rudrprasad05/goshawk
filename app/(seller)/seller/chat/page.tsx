@@ -5,6 +5,7 @@ import DashboardContent from "@/components/Admin/DashboardContent";
 import Header from "@/components/Admin/Header";
 import RedirectToSellerAuth from "@/components/Admin/RedirectToSellerAuth";
 import ChatSection from "@/components/chat/ChatSection";
+import MessageInputContainer from "@/components/chat/Form";
 import UserList from "@/components/chat/UserList";
 import {
   Card,

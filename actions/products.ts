@@ -53,6 +53,8 @@ export const GetAllProductsPagination = async ({
 }) => {
   "use server";
 
+  if (search == "0") search = "";
+
   const results = await prisma.products.findMany({
     take,
     skip,

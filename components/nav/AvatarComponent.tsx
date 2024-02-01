@@ -13,7 +13,7 @@ interface props {
 
 const AvatarComponent: React.FC<props> = ({ fallback, src, className }) => {
   return (
-    <Avatar className={cn("rounded-full border", className)}>
+    <Avatar className={cn("rounded-full border border-primary", className)}>
       <AvatarImage src={src || ""} />
       <AvatarFallback>{fallback}</AvatarFallback>
     </Avatar>

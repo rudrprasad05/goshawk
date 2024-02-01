@@ -10,7 +10,11 @@ export const GetSelectedConvo = async (id: string) => {
     where: { id: id },
     include: {
       users: true,
-      messages: true,
+      messages: {
+        include: {
+          sender: true,
+        },
+      },
     },
   });
 };

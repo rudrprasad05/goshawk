@@ -8,16 +8,12 @@ import AvatarComponent from "../nav/AvatarComponent";
 import { Card } from "../ui/card";
 import { cn } from "@/lib/utils";
 
-interface UseBoxProps {
-  data: Seller & {
-    user: User;
-  };
-}
+type UserListProps = Seller & {
+  user: User;
+};
 
-const UserBox: React.FC<UseBoxProps> = ({ data }) => {
+const UserBox = ({ data }: { data: UserListProps }) => {
   const router = useRouter();
-  const param = useSearchParams();
-  const convoid = param.get("c");
   const [loading, setloading] = useState(false);
 
   const handleClick = useCallback(() => {
@@ -49,7 +45,7 @@ const UserBox: React.FC<UseBoxProps> = ({ data }) => {
           "text-sm hover:bg-border py-2 px-3 flex items-center gap-3 rounded-md "
         )}
       >
-        <div className="rounded-full border border-primary">
+        <div className="rounded-full">
           <AvatarComponent fallback="AD" src={data.user.image} />
         </div>
         <div>{data?.user.name}</div>

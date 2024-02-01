@@ -30,7 +30,6 @@ const Header: React.FC<props> = ({ name, children, showProfile = true }) => {
           </div>
           <EditProfileSheet user={user}>
             <AvatarComponent
-              className="border-primary/50"
               fallback={user?.name?.slice(0, 2).toUpperCase() || "AD"}
               src={user?.image}
             />

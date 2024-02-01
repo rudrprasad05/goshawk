@@ -1,28 +1,36 @@
+"use client";
+
 import { User, Seller } from "@prisma/client";
 import React from "react";
 import UserBox from "./UserBox";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { useSession } from "next-auth/react";
+import { SellerType } from "@/types";
 
-interface UserListProps {
-  items: Seller[] & {
-    user: User;
-  };
-}
+type UserListProps = Seller & {
+  user: User;
+};
 
-const UserList: React.FC<UserListProps> = ({ items }) => {
+const UserList = ({ items }: { items: UserListProps[] }) => {
+  return <HandleAdmin items={items} />;
+};
+
+const HandleAdmin = ({ items }: { items: UserListProps[] }) => {
+  const session = useSession();
+  const isAdmin = session.data?.user.role?.toLowerCase() == "admin";
+  const admin: UserListProps = items.filter(
+    (i) => (i?.user?.role as string).toLowerCase() == "admin"
+  )[0];
+  if (isAdmin)
+    return (
+      <div className="flex flex-col gap-4">
+        {items && items?.map((item) => <UserBox key={item.id} data={item} />)}
+      </div>
+    );
   return (
-    <Card className="w-[250px] overflow-auto">
-      <CardHeader>
-        <CardTitle>
-          <div className="text-xl">Users</div>
-        </CardTitle>
-      </CardHeader>
-
-      <CardContent className="flex flex-col gap-4">
-        {items && items?.map((item) => <UserBox key={item.id} data={item} />)}
-        {items && items?.map((item) => <UserBox key={item.id} data={item} />)}
-      </CardContent>
-    </Card>
+    <>
+      <UserBox key={admin.id} data={admin} />
+    </>
   );
 };
 

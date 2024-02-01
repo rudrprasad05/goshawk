@@ -38,6 +38,8 @@ export type ConversationType = Conversation & {
 
 export type SubcategoryType = Subcategory;
 
+export type MessageType = Message;
+
 export type AdType = Ad;
 
 export type OrderListType = OrderList & {

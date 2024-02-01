@@ -5,14 +5,16 @@ import { GetOnlyCurrentUser, getCurrentUser } from "@/actions/user";
 import AvatarComponent from "../nav/AvatarComponent";
 import { ConversationType } from "@/types";
 import Messages from "./Messages";
+import MessageInputContainer from "./Form";
 
 const ChatSection = async ({ id }: { id: string }) => {
   const convo = await GetSelectedConvo(id);
 
   return (
-    <Card className="w-full h-full overflow-auto">
+    <Card className="w-full h-full flex flex-col overflow-auto">
       <Header convo={convo} />
       <Messages initialMessages={convo} />
+      <MessageInputContainer id={id} />
     </Card>
   );
 };
