@@ -3,9 +3,9 @@ import AdLandingPage from "@/components/ads/AdminLandingPage";
 import React from "react";
 
 const page = async () => {
-  const user = await GetAdForEachMerchant();
+  const ads = await GetAdForEachMerchant();
   const billboards = await GetAllBillboardsNewAd();
-  return <AdLandingPage billboards={billboards} data={user} />;
+  return <AdLandingPage billboards={billboards} data={ads} />;
 };
 
 export default page;

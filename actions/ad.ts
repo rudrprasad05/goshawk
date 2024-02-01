@@ -59,3 +59,11 @@ export const GetAdForEachMerchant = async () => {
 
   return currentUser;
 };
+
+export const DeleteAd = async (id: string) => {
+  return await prisma.ad.delete({
+    where: {
+      id: id,
+    },
+  });
+};

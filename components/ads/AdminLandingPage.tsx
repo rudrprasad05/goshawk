@@ -7,6 +7,8 @@ import Header from "../Admin/Header";
 import { AdType, AdsEndPoint, BillboardType } from "@/types";
 import NewAdButton from "./NewAdButton";
 import AwaitVerification from "../Admin/AwaitVerification";
+import LandingPageHorizontal from "./LandingPageHorizontal";
+import AdControls from "./AdControls";
 
 const AdLandingPage = ({
   data,
@@ -41,14 +43,16 @@ const AdLandingPage = ({
 };
 
 const YourAds = ({ ads }: { ads: AdType[] }) => {
-  if (!ads) return <div>You dont have any ads. Create one now</div>;
+  if (!ads || ads.length == 0)
+    return <div className="py-6">You dont have any ads. Create one now</div>;
   return (
     <>
-      <div>
-        {ads?.map((i) => (
-          <>{i.id}</>
-        ))}
-      </div>
+      {ads?.map((i) => (
+        <div key={i.id} className="my-6 relative">
+          <LandingPageHorizontal src={i} />
+          <AdControls ad={i} />
+        </div>
+      ))}
     </>
   );
 };

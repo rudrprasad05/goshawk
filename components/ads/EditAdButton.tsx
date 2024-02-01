@@ -9,46 +9,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Form } from "@/components/ui/form";
 import { NewAdSchema, NewAdType } from "@/schemas/ad";
-import { NewProductForm, NewProductType } from "@/schemas/product";
-import { BillboardType, SellerType, UserType } from "@/types";
+import { SellerType } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { Megaphone } from "lucide-react";
+import { Megaphone, Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
-// import { useState } from "@/types";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaSpinner } from "react-icons/fa";
 import { MdOutlineCheck } from "react-icons/md";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
 
-const locations = [{ name: "a1" }, { name: "a2" }, { name: "a3" }];
-
-const NewAdButton = ({
-  user,
-  billboards,
-}: {
-  user: SellerType;
-  billboards: BillboardType[];
-}) => {
+const EditAdButton = ({ id }: { id: string }) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState<File>();
@@ -59,11 +33,8 @@ const NewAdButton = ({
     resolver: zodResolver(NewAdSchema),
     defaultValues: {
       imageUrl: "",
-      sellerId: user.id,
     },
   });
-
-  const location = form.watch("billboardId");
 
   const handleImageUpload = async () => {
     setloadingImage(true);
@@ -95,12 +66,12 @@ const NewAdButton = ({
 
   function onSubmit(data: NewAdType) {
     data.imageUrl = `https://mctechfiji.s3.amazonaws.com/alibaba/${file?.name}`;
-    data.sellerId = user.id;
+    data.sellerId = id;
 
     console.log(data);
 
     axios
-      .post(`/api/ad`, data)
+      .patch(`/api/ad/${id}`, data)
       .then((res) => {
         if (res.status == 200) {
           toast.success("Product Created Successfully");
@@ -117,18 +88,14 @@ const NewAdButton = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <div className="bg-border duration-100 group group-hover:border-primary border rounded-md shadow-sm h-48 relative p-5 border-primary/20 hover:border-primary hover:cursor-pointer">
-          <div className="font-light text-2xl text-primary">Ad</div>
-          <div className="absolute bottom-5 right-5">
-            <Megaphone className="group-hover:h-28 group-hover:w-28 group-hover:fill-muted-foreground/20 duration-200  w-16 h-16 stroke fill-muted-foreground" />
-          </div>
-          <div className=" text-muted-foreground">New</div>
-        </div>
+        <Button variant={"secondary"}>
+          <Pencil />
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>New Ad</DialogTitle>
-          <DialogDescription>Create New Ad</DialogDescription>
+          <DialogTitle>Edit Ad</DialogTitle>
+          <DialogDescription>Edit Ad</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -136,35 +103,6 @@ const NewAdButton = ({
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-8 w-11/12"
           >
-            <FormField
-              control={form.control}
-              name="billboardId"
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>Tags</FormLabel>
-                    <Select onValueChange={field.onChange}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a tag" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {billboards
-                          .filter((i) => i.ad == null)
-                          .map((i) => (
-                            <SelectItem key={i.name} value={i?.id}>
-                              {i.name}
-                            </SelectItem>
-                          ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
-            />
-
             <div className="flex gap-10">
               <input
                 type="file"
@@ -197,4 +135,4 @@ const NewAdButton = ({
   );
 };
 
-export default NewAdButton;
+export default EditAdButton;
