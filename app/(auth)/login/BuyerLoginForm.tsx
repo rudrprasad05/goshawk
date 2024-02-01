@@ -60,11 +60,11 @@ const BuyerLoginForm = (props: LoginPageProps) => {
           toast.error("Invalid Credentials");
         } else if (callback?.ok) {
           toast.success("Signed In Successfully");
+          router.push("/");
         }
       })
       .finally(() => {
         setIsLoading(false);
-        router.push("/");
       });
   };
 

@@ -97,7 +97,7 @@ const SellerRegisterForm = (props: RegisterPageProps) => {
               variant: "link",
               className: "gap-1.5",
             })}
-            href="/sign-in"
+            href="/login"
           >
             Already have an account? Sign-in
             <ArrowRight className="h-4 w-4" />

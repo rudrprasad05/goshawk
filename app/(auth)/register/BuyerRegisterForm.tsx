@@ -25,6 +25,7 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { FaSpinner } from "react-icons/fa";
 import { RegisterPageProps } from "./page";
+import { NextResponse } from "next/server";
 
 const BuyerRegisterForm = (props: RegisterPageProps) => {
   const session = useSession();
@@ -56,8 +57,9 @@ const BuyerRegisterForm = (props: RegisterPageProps) => {
     axios
       .post("/api/register", data)
       .then(() => signIn("credentials", data))
-      .catch(() => {
-        toast.error("Something went wrong");
+      .catch((e: any) => {
+        toast.error(e.request.response);
+        console.log(e.request.response);
       })
       .finally(() => setIsLoading(false));
   }
@@ -92,7 +94,7 @@ const BuyerRegisterForm = (props: RegisterPageProps) => {
               variant: "link",
               className: "gap-1.5",
             })}
-            href="/sign-in"
+            href="/login"
           >
             Already have an account? Sign-in
             <ArrowRight className="h-4 w-4" />
