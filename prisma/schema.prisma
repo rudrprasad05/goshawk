@@ -195,5 +195,6 @@ model RepairOrder {
   type        String
   description String
   model       String
+  imageUrl    String
   createdAt   DateTime @default(now())
 }
