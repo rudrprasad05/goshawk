@@ -33,6 +33,8 @@ export async function PATCH(request: Request, { params }: any) {
       subcategory,
     } = body;
 
+    console.log(body);
+
     const product = await prisma.products.update({
       where: {
         id,
@@ -40,11 +42,11 @@ export async function PATCH(request: Request, { params }: any) {
       data: {
         name,
         price,
-        // tagId: tag,
+        parentCategoryId: category,
         description,
         imageUrl,
         isVisible: isVisible,
-        categoryId: subcategory,
+        categoryId: subcategory || null,
       },
     });
     return NextResponse.json(product);

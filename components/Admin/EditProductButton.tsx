@@ -51,17 +51,14 @@ type CategoryTypeLocal = CategoryType & {
 
 export type ProductTypeLocal = ProductType & {
   seller: SellerType;
-  category: SubcategoryType & {
-    parentCategory: CategoryType;
-  };
+  category: SubcategoryType;
+  parentCategory: CategoryType;
 };
 
 const EditProductButton = ({
-  user,
   product,
   parentCategories,
 }: {
-  user: UserType;
   product: ProductTypeLocal;
   parentCategories: CategoryTypeLocal[];
 }) => {
@@ -78,15 +75,10 @@ const EditProductButton = ({
       name: (product.name as string) || "",
       description: (product.description as string) || "",
       price: (product.price as string) || "",
-      sellerId: user.seller.id,
-      subcategory: (product.categoryId as string) || "",
-      category: product.category.parentCategoryId || "",
+      subcategory: (product.categoryId as string) || null,
+      category: product.parentCategoryId || null,
     },
   });
-
-  useEffect(() => {
-    setcatState(form.control._defaultValues.category);
-  }, [catState]);
 
   const category = form.watch("category");
   const subcategory = form.watch("subcategory");
@@ -124,9 +116,9 @@ const EditProductButton = ({
     } else {
       data.imageUrl = product.imageUrl;
     }
+    data.category = catState;
+    // data.sellerId = user.seller.id;
 
-    data.sellerId = user.seller.id;
-    console.log(data);
     axios
       .patch(`/api/product/${product.id}`, data)
       .then((res) => {
@@ -227,14 +219,14 @@ const EditProductButton = ({
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <FormLabel>Tags</FormLabel>
+                    <FormLabel>Parent Category</FormLabel>
                     <Select
                       onValueChange={(e) => {
                         field.onChange;
                         setcatState(e);
                         console.log(e);
                       }}
-                      defaultValue={product.category.parentCategoryId as string}
+                      defaultValue={product.parentCategoryId as string}
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -261,7 +253,7 @@ const EditProductButton = ({
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <FormLabel>Tags</FormLabel>
+                    <FormLabel>Sub Category</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={product.categoryId as string}

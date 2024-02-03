@@ -20,12 +20,13 @@ import {
   GetAllParentCategories,
   GetAllParentWithChildCategories,
 } from "@/actions/category";
+import SalesAmountDisplay from "../SalesAmountDisplay";
+import { GetOrdersForSingleProduct } from "@/actions/orders";
 
 export type ProductTypeLocal = ProductType & {
   seller: SellerType;
-  category: SubcategoryType & {
-    parentCategory: CategoryType;
-  };
+  category: SubcategoryType;
+  parentCategory: CategoryType;
 };
 
 const DetailsPage = async ({ product }: { product: ProductTypeLocal }) => {
@@ -72,9 +73,9 @@ const ProductView = ({ product }: { product: ProductTypeLocal }) => {
 
           <h2 className="text-5xl font-bold capitalize">{product.name}</h2>
           <p className="mt-8 text-muted-foreground flex gap-2">
-            {product.category.parentCategory.name}
+            {product.parentCategory?.name}
             <ChevronRight />
-            {product.category.name}
+            {product.category?.name}
           </p>
           <p className="mb-8 text-muted-foreground">{product.description}</p>
           <p className="text-2xl font-bold">${product.price}</p>
@@ -92,12 +93,14 @@ const EditGrid = async ({
   product: ProductTypeLocal;
 }) => {
   const cat = await GetAllParentWithChildCategories();
+  const orders = await GetOrdersForSingleProduct(product.id);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <EditProductButton parentCategories={cat} product={product} user={user} />
+      <EditProductButton parentCategories={cat} product={product} />
       <DeleteProductButton product={product} user={user} />
       <HideProductButton product={product} user={user} />
+      <SalesAmountDisplay orders={orders} />
     </div>
   );
 };

@@ -101,3 +101,15 @@ export const GetOneMerchantList = async (id: string) => {
   });
   return orderRes;
 };
+
+export const GetOrdersForSingleProduct = async (id: string) => {
+  const orderRes = await prisma.orderList.findMany({
+    where: {
+      productId: id,
+    },
+    include: {
+      merchantOrders: true,
+    },
+  });
+  return orderRes;
+};

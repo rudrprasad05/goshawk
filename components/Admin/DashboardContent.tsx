@@ -1,16 +1,14 @@
 "use server";
 
 import { CategoryType, UserType } from "@/types";
-import { Presentation, Shield } from "lucide-react";
-import React from "react";
+import { Shield } from "lucide-react";
+import Link from "next/link";
 import { HiSpeakerphone } from "react-icons/hi";
+import AwaitVerification from "./AwaitVerification";
 import Header from "./Header";
 import NewProductButton from "./NewProductButton";
 import OrderCount from "./OrderCount";
 import ProductCount from "./ProductCount";
-import AwaitVerification from "./AwaitVerification";
-import { MdHeadset } from "react-icons/md";
-import Link from "next/link";
 
 const DashboardContent = ({
   user,

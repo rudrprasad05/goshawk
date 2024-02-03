@@ -81,6 +81,8 @@ model Products {
   sellerId    String       @db.ObjectId
   category    Subcategory? @relation(fields: [categoryId], references: [id])
   categoryId  String?      @db.ObjectId
+  parentCategory    Category? @relation(fields: [parentCategoryId], references: [id])
+  parentCategoryId  String?      @db.ObjectId
   orders      OrderList[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
@@ -154,6 +156,7 @@ model Category {
   id            String        @id @default(auto()) @map("_id") @db.ObjectId
   name          String
   subcategories Subcategory[]
+  products         Products[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 }

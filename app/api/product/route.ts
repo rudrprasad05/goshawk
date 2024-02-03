@@ -1,12 +1,12 @@
 import prisma from "@/lib/prismadb";
-import { NextResponse } from "next/server";
-import { ProductType } from "@/types";
 import { NewProductType } from "@/schemas/product";
+import { ProductType } from "@/types";
+import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, description, price, imageUrl, sellerId, category } = body;
+    const { name, description, price, imageUrl, sellerId, subcategory, category } = body;
 
     const product = await prisma.products.create({
       data: {
@@ -15,7 +15,8 @@ export async function POST(request: Request) {
         price,
         imageUrl,
         sellerId,
-        categoryId: category,
+        parentCategoryId: category,
+        categoryId: subcategory,
       },
     });
 

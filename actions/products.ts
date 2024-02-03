@@ -176,11 +176,8 @@ export const GetProductDetails = async (id: string) => {
     },
     include: {
       seller: true,
-      category: {
-        include: {
-          parentCategory: true,
-        },
-      },
+      category: true,
+      parentCategory: true,
     },
   });
   return product;
