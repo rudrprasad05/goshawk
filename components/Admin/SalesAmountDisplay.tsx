@@ -16,7 +16,6 @@ const SalesAmountDisplay = ({
 }: {
   orders: OrderListType[] & { merchantOrders: MerchantOrderType };
 }) => {
-  console.log(orders);
   return (
     <Dialog>
       <DialogTrigger asChild>
