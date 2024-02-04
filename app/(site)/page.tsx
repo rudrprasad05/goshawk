@@ -36,7 +36,7 @@ export default async function Home() {
 
 const CategorySideNavCont = ({ cats }: { cats: any[] }) => {
   return (
-    <Card className="sticky top-24 overflow-auto bg-black">
+    <Card className="overflow-auto bg-black">
       <CardHeader>
         <CardTitle>Browse by Category</CardTitle>
       </CardHeader>

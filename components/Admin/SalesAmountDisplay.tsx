@@ -11,11 +11,9 @@ import { DialogHeader } from "../ui/dialog";
 import { MerchantOrderType, OrderListType } from "@/types";
 import Link from "next/link";
 
-const SalesAmountDisplay = ({
-  orders,
-}: {
-  orders: OrderListType[] & { merchantOrders: MerchantOrderType };
-}) => {
+type OrderLocal = OrderListType[] & { merchantOrders: MerchantOrderType };
+
+const SalesAmountDisplay = ({ orders }: { orders: OrderLocal }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
