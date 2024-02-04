@@ -37,9 +37,6 @@ export default async function Home() {
 const CategorySideNavCont = ({ cats }: { cats: any[] }) => {
   return (
     <Card className="overflow-auto bg-black">
-      <CardHeader>
-        <CardTitle>Browse by Category</CardTitle>
-      </CardHeader>
       <CardContent>
         {cats.map((cat) => (
           <CategorySideNav key={cat.id} category={cat} />
