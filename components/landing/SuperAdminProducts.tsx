@@ -1,8 +1,6 @@
 import { ProductType } from "@/types";
-import React from "react";
 
 import LandingPageHorizontal from "../ads/LandingPageHorizontal";
-import LandingPageVertical from "../ads/LandingPageVertical";
 import { ProductCard } from "./ProductCard";
 
 const SuperAdminProducts = ({ products }: { products: ProductType[] }) => {

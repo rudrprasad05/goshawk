@@ -3,6 +3,7 @@
 import prisma from "@/lib/prismadb";
 import getSession from "./getSession";
 import { revalidatePath } from "next/cache";
+import { tree } from "next/dist/build/templates/app-page";
 
 export const GetAdBasedOnLocation = async (location: string) => {
   const ad = await prisma.billboard.findUnique({
@@ -64,6 +65,17 @@ export const DeleteAd = async (id: string) => {
   return await prisma.ad.delete({
     where: {
       id: id,
+    },
+  });
+};
+
+export const VerifyAd = async (id: string) => {
+  return await prisma.ad.update({
+    where: {
+      id: id,
+    },
+    data: {
+      isVerified: true,
     },
   });
 };

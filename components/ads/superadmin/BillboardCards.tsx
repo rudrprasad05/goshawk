@@ -9,7 +9,7 @@ const BillboardCards = ({ billboards }: { billboards: BillboardType[] }) => {
       {billboards.map((card) => (
         <Card
           key={card.id}
-          className="bg-border duration-100 border rounded-md shadow-sm h-48 relative p-5 border-primary/20 hover:border-primary hover:cursor-pointer"
+          className="duration-100 border rounded-md shadow-sm h-48 relative p-5 border-primary/20 hover:border-primary hover:cursor-pointer"
         >
           <CardHeader>
             <CardTitle>

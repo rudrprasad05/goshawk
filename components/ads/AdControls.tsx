@@ -1,6 +1,6 @@
 "use client";
 
-import { Delete } from "lucide-react";
+import { Delete, Pen } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,7 +17,7 @@ import { AdType } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 // import { useState } from "@/types";
-import { DeleteAd } from "@/actions/ad";
+import { DeleteAd, VerifyAd } from "@/actions/ad";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -32,7 +32,7 @@ const AdControls = ({ ad }: { ad: AdType }) => {
   );
 };
 
-const DeleteAdButton = ({ ad }: { ad: AdType }) => {
+export const DeleteAdButton = ({ ad }: { ad: AdType }) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
@@ -51,21 +51,6 @@ const DeleteAdButton = ({ ad }: { ad: AdType }) => {
       setOpen(false);
       router.refresh();
     });
-
-    // axios
-    //   .post(`/api/product`, data)
-    //   .then((res) => {
-    //     if (res.status == 200) {
-    //       toast.success("Product Created Successfully");
-    //       setOpen(false);
-    //       form.reset();
-    //       router.refresh();
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     toast.error("An Error Occured");
-    //     console.log("PRODUCT NEW - NewTagButton.tsx", error);
-    //   });
   }
 
   return (
@@ -87,6 +72,46 @@ const DeleteAdButton = ({ ad }: { ad: AdType }) => {
           </Button>
           <Button variant={"destructive"} onClick={() => handleDelete()}>
             Delete
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export const VerifyAdButton = ({ ad }: { ad: AdType }) => {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+
+  async function handleDelete() {
+    await VerifyAd(ad.id).then(() => {
+      toast.success("Advertisment Verified succefully");
+      setOpen(false);
+      router.refresh();
+    });
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant={"default"}>
+          <Pen />
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Verify Ad</DialogTitle>
+          <DialogDescription>
+            Undergoing this action will make it visible to all users
+          </DialogDescription>
+        </DialogHeader>
+
+        <DialogFooter>
+          <Button variant={"secondary"} onClick={() => setOpen(false)}>
+            Close
+          </Button>
+          <Button variant={"default"} onClick={() => handleDelete()}>
+            Verify
           </Button>
         </DialogFooter>
       </DialogContent>
