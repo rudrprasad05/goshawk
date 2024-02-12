@@ -7,8 +7,8 @@ export default withAuth(
     const { pathname, origin } = req.nextUrl;
     if (
       req.nextUrl.pathname.includes("/seller") &&
-      req.nextauth.token?.role !== "seller" &&
-      req.nextauth.token?.role !== "admin"
+      req.nextauth.token?.role !== "SELLER" &&
+      req.nextauth.token?.role !== "ADMIN"
     ) {
       return NextResponse.redirect(new URL(`${origin}/`));
     }

@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 const RedirectPage = () => {
   const router = useRouter();
   useEffect(() => {
-    router.back();
+    router.push("/");
   }, []);
   return <div>Invalid Url...Redirecting</div>;
 };

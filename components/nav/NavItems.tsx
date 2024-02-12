@@ -7,9 +7,9 @@ import NavItem from "./NavItem";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { buttonVariants } from "../ui/button";
+import { UserType } from "@/types";
 
-const NavItems = () => {
-  const session = useSession();
+const NavItems = ({ user }: { user?: UserType }) => {
   const [activeIndex, setActiveIndex] = useState<null | number>(null);
 
   useEffect(() => {
@@ -33,9 +33,7 @@ const NavItems = () => {
   useOnClickOutside(navRef, () => setActiveIndex(null));
 
   const checkRole = () => {
-    return (
-      session.data?.user.role == "seller" || session.data?.user.role == "admin"
-    );
+    return user?.role == "SELLER" || user?.role == "ADMIN";
   };
 
   return (
@@ -44,7 +42,7 @@ const NavItems = () => {
       <div className="flex items-center">
         {checkRole() && (
           <Link
-            href={"/seller/dashboard"}
+            href={`/seller/${user?.seller.id}/dashboard`}
             className={`${buttonVariants({ variant: "ghost" })}text-sm`}
           >
             Dashboard
@@ -53,7 +51,7 @@ const NavItems = () => {
       </div>
 
       {/* adminm panel */}
-      {session.data?.user.role == "admin" && (
+      {user?.role == "ADMIN" && (
         <div className="flex items-center">
           <Link
             href={"/admin/dashboard"}

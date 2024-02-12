@@ -1,6 +1,6 @@
 import prisma from "@/lib/prismadb";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { User } from "@prisma/client";
+import { User, Role } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -61,8 +61,6 @@ export const options: AuthOptions = {
       // token.id = user.id
       // return session
       if (user) {
-        if ((user as User).role == null) (user as User).role == "buyer";
-
         return {
           ...token,
           id: user.id,

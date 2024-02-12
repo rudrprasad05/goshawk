@@ -42,7 +42,7 @@ const UserBox = ({ data }: { data: UserListProps }) => {
       <Card
         onClick={handleClick}
         className={cn(
-          "text-sm hover:bg-border py-2 px-3 flex items-center gap-3 rounded-md "
+          "h-min text-sm hover:bg-border py-2 px-3 flex items-center gap-3 rounded-md "
         )}
       >
         <div className="rounded-full">

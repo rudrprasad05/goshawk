@@ -2,11 +2,13 @@ import {
   GetAllChildrenCategories,
   GetAllParentCategories,
 } from "@/actions/category";
-import React from "react";
-import ParentCategoryCard from "./ParentCategoryCard";
 import { useParams } from "next/navigation";
+import React from "react";
+
+import ParentCategoryCard from "./ParentCategoryCard";
 
 const ChildCategories = async ({ parent }: { parent: string }) => {
+  if (parent == "undefined" || parent == null) return null;
   const data = await GetAllChildrenCategories(parent);
 
   if (data.length == 0)

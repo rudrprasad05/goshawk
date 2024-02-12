@@ -16,6 +16,12 @@ enum Role {
   SELLER
 }
 
+enum Plan {
+  FREE
+  GOLD
+  DIAMOND
+  PLATINUM
+}
 
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
@@ -45,12 +51,12 @@ model User {
   phone           String?
   email           String         @unique
   emailVerified   DateTime?
-  role            Role         @default(USER)
   image           String?
   hashedPassword  String?
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
   conversationIds String[]       @db.ObjectId
+  role            Role           @default(USER)
   conversations   Conversation[] @relation(fields: [conversationIds], references: [id])
   accounts        Account[]
   orders          Order[]
@@ -72,27 +78,40 @@ model Seller {
   ads            Ad[]
   products       Products[]
   merchantOrder  MerchantOrder[]
+  Funnels        Website?
+  subscription   Subscription?
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
 }
 
+model Subscription {
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  plan                 Plan     @default(FREE)
+  active               Boolean  @default(false)
+  currentPeriodEndDate DateTime
+  sellerId             String   @unique @db.ObjectId
+  seller               Seller   @relation(fields: [sellerId], references: [id])
+}
+
 model Products {
-  id          String       @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  price       String
-  imageUrl    String
-  description String
-  isVisible   Boolean      @default(true)
-  isVerified  Boolean      @default(false)
-  seller      Seller       @relation(fields: [sellerId], references: [id])
-  sellerId    String       @db.ObjectId
-  category    Subcategory? @relation(fields: [categoryId], references: [id])
-  categoryId  String?      @db.ObjectId
-  parentCategory    Category? @relation(fields: [parentCategoryId], references: [id])
-  parentCategoryId  String?      @db.ObjectId
-  orders      OrderList[]
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  id               String       @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  price            String
+  imageUrl         String
+  description      String
+  isVisible        Boolean      @default(true)
+  isVerified       Boolean      @default(false)
+  seller           Seller       @relation(fields: [sellerId], references: [id])
+  sellerId         String       @db.ObjectId
+  category         Subcategory? @relation(fields: [categoryId], references: [id])
+  categoryId       String?      @db.ObjectId
+  parentCategory   Category?    @relation(fields: [parentCategoryId], references: [id])
+  parentCategoryId String?      @db.ObjectId
+  orders           OrderList[]
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
 }
 
 model Order {
@@ -163,7 +182,7 @@ model Category {
   id            String        @id @default(auto()) @map("_id") @db.ObjectId
   name          String
   subcategories Subcategory[]
-  products         Products[]
+  products      Products[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 }
@@ -207,4 +226,45 @@ model RepairOrder {
   model       String
   imageUrl    String
   createdAt   DateTime @default(now())
+}
+
+model Website {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  description   String?
+  published     Boolean     @default(false)
+  subDomainName String?     @unique
+  favicon       String?
+  sellerId      String      @unique @db.ObjectId
+  seller        Seller      @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  webpages      WebPages[]
+  liveProducts  String?     @default("[]")
+  ClassName     ClassName[]
+}
+
+model ClassName {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  color      String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  websiteId  String   @db.ObjectId
+  customData String?
+  website    Website  @relation(fields: [websiteId], references: [id], onDelete: Cascade)
+}
+
+model WebPages {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  pathName     String   @default("")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  visits       Int      @default(0)
+  content      String?
+  order        Int
+  previewImage String?
+  websiteId    String   @db.ObjectId
+  website      Website  @relation(fields: [websiteId], references: [id], onDelete: Cascade)
 }

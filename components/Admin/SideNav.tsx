@@ -20,25 +20,38 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Card } from "../ui/card";
 import { Separator } from "../ui/separator";
+import { UserType } from "@/types";
 
 type Items = {
   name: string;
   icon: LucideIcon;
   link: string;
 };
-const SideNav = ({ user }: { user: any }) => {
+const SideNav = ({ user }: { user: UserType }) => {
   const items: Items[] = [
-    { name: "Dashboard", icon: LayoutDashboard, link: "/seller/dashboard" },
-    { name: "Product", icon: Package, link: "/seller/products" },
-    { name: "Orders", icon: Blocks, link: "/seller/orders" },
+    {
+      name: "Dashboard",
+      icon: LayoutDashboard,
+      link: `/seller/${user.seller.id}/dashboard`,
+    },
+    {
+      name: "Product",
+      icon: Package,
+      link: `/seller/${user.seller.id}/products`,
+    },
+    { name: "Orders", icon: Blocks, link: `/seller//${user.seller.id}/orders` },
     {
       name: "Shop",
       icon: Store,
-      link: `/shop/${user.seller.companyName}`,
+      link: `/seller/${user.seller.id}/shop`,
     },
 
-    { name: "Ads", icon: Megaphone, link: "/seller/ads" },
-    { name: "Chat", icon: MessageSquareMore, link: "/seller/chat" },
+    { name: "Ads", icon: Megaphone, link: `/seller/${user.seller.id}/ads` },
+    {
+      name: "Chat",
+      icon: MessageSquareMore,
+      link: `/seller/${user.seller.id}/chat`,
+    },
   ];
 
   const [openNav, setOpenNav] = useState(false);

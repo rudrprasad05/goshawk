@@ -8,6 +8,7 @@ import MaxWidthWrapper from "../MaxWidthWrapper";
 import { buttonVariants } from "../ui/button";
 import NavBarLogin from "./NavBarLogin";
 import NavItems from "./NavItems";
+import Image from "next/image";
 
 const Navbar = async () => {
   const user = await NavbarUser();
@@ -22,12 +23,18 @@ const Navbar = async () => {
 
               <div className="ml-4 flex lg:ml-0">
                 <Link href="/">
-                  <Icons.logo className="h-10 w-10" />
+                  {/* <Icons.logo className="h-10 w-10" /> */}
+                  <Image
+                    src={"/logo-temp.png"}
+                    alt="lgo"
+                    height={25}
+                    width={25}
+                  />
                 </Link>
               </div>
 
               <div className="hidden z-50 lg:ml-8 lg:block lg:self-stretch">
-                <NavItems />
+                <NavItems user={user} />
               </div>
 
               <div className="ml-auto flex items-center">

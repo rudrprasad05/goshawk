@@ -17,10 +17,13 @@ const UserList = ({ items }: { items: UserListProps[] }) => {
 
 const HandleAdmin = ({ items }: { items: UserListProps[] }) => {
   const session = useSession();
-  const isAdmin = session.data?.user.role?.toLowerCase() == "admin";
+  const isAdmin = session.data?.user.role?.toUpperCase() == "ADMIN";
   const admin: UserListProps = items.filter(
-    (i) => (i?.user?.role as string).toLowerCase() == "admin"
+    (i) => (i?.user?.role as string).toUpperCase() == "ADMIN"
   )[0];
+  const notAdmin: UserListProps[] = items.filter(
+    (i) => (i?.user?.role as string).toUpperCase() != "ADMIN"
+  );
   if (isAdmin)
     return (
       <div className="flex flex-col gap-4">

@@ -5,7 +5,7 @@ import RedirectToSellerAuth from "./RedirectToSellerAuth";
 
 const SideNavServerCont = async () => {
   const user = (await GetUseDataOnly()) || null;
-  if (user?.seller == null) return <RedirectToSellerAuth />;
+  // if (user?.seller == null) return <RedirectToSellerAuth />;
 
   return <SideNav user={user} />;
 };

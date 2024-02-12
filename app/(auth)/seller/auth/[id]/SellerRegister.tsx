@@ -20,7 +20,17 @@ import { Step2 } from "./SellerForm";
 
 const plans = [
   {
-    name: "Personal",
+    name: "FREE",
+    price: "$0",
+    icon: User,
+    attr: [
+      "Unlimited ad-free movies",
+      "Watch on 1 phone or tablet at a time",
+      "Watch in Full HD",
+    ],
+  },
+  {
+    name: "Gold",
     price: "$20",
     icon: User,
     attr: [
@@ -30,8 +40,19 @@ const plans = [
     ],
   },
   {
-    name: "Company",
+    name: "Diamond",
     price: "$20",
+    icon: Building2,
+    attr: [
+      "Unlimited ad-free movies",
+      "Watch on 4 supported devices at a time",
+      "Watch in Ultra HD",
+      "Download on 6 supported devices at a time",
+    ],
+  },
+  {
+    name: "Platinum",
+    price: "$50",
     icon: Building2,
     attr: [
       "Unlimited ad-free movies",
@@ -42,7 +63,7 @@ const plans = [
   },
 ];
 
-type SelectedPlanType = "Personal" | "Company" | null;
+type SelectedPlanType = "Free" | "Gold" | "Diamond" | "Platinum" | null;
 
 const SellerRegister = ({ userId }: { userId: string }) => {
   const session = useSession();
@@ -50,7 +71,7 @@ const SellerRegister = ({ userId }: { userId: string }) => {
   let additionalData: SellerRegisterType;
 
   return (
-    <div className="px-20 py-10">
+    <div className=" py-10">
       <Header />
       <Step1 onclick={setSelectedPlan} state={selectedPlan} />
       {selectedPlan != null && (
@@ -94,7 +115,7 @@ const Step1 = ({ state, onclick }: { state: any; onclick: any }) => {
       <h1 className=" text-center text-xl font-semibold tracking-tight">
         Select the plan that&#39;s right for you
       </h1>
-      <div className="pt-8 grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div className="pt-8 grid grid-cols-1 md:grid-cols-4 gap-3">
         {plans.map((plan) => (
           <Card
             key={plan.name}

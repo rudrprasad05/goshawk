@@ -23,8 +23,8 @@ const LandingPageHorizontal = async ({
       <Image
         src={src?.imageUrl || ""}
         alt={src?.id || "image"}
-        height={180}
-        width={720}
+        height={360}
+        width={1440}
         className="object-contain aspect-[4/1] w-full h-full"
       />
     </Card>

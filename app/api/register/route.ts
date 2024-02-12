@@ -3,6 +3,7 @@ import { RegisterFormType } from "@/schemas/auth";
 import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
 import { string } from "zod";
+import { Role } from "@prisma/client";
 
 export async function POST(request: Request) {
   const body: RegisterFormType = await request.json();
@@ -28,7 +29,7 @@ export async function POST(request: Request) {
       email,
       hashedPassword,
       name,
-      role,
+      role: role as Role,
     },
   });
 

@@ -83,7 +83,8 @@ export const Step2 = ({
     data.plan = additionalData.plan;
     data.userId = user;
     data.image = `https://mctechfiji.s3.amazonaws.com/alibaba/${file?.name}`;
-    axios
+    console.log(data);
+    const res = await axios
       .post("/api/register/seller", data)
       .then((res) => {
         console.log(res.data);
@@ -92,7 +93,7 @@ export const Step2 = ({
         console.log(e);
       })
       .finally(() => {
-        router.push("/seller/dashboard");
+        router.push(`/seller/${res.id}/dashboard`);
       });
   };
   return (

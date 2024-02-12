@@ -55,6 +55,7 @@ export const GetOnlyCurrentUser = async () => {
 };
 
 export const getCurrentUser = async () => {
+  console.log("first");
   try {
     const session = await getSession();
 

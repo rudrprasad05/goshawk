@@ -2,6 +2,7 @@ import prisma from "@/lib/prismadb";
 import { RegisterFormType, SellerRegisterType } from "@/schemas/auth";
 import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
+import { Plan } from "@prisma/client";
 
 export async function POST(request: Request) {
   try {
@@ -9,9 +10,7 @@ export async function POST(request: Request) {
     const { companyName, userId, address, city, country, phone, plan, image } =
       body;
 
-    if (!userId) {
-      return new NextResponse("Missing Info", { status: 400 });
-    }
+    console.log(body);
 
     const user = await prisma.user.update({
       where: {
@@ -28,13 +27,24 @@ export async function POST(request: Request) {
 
     const seller = await prisma.seller.create({
       data: {
-        plan,
         companyName: companyName as string,
-        userId: userId,
+        userId: userId as string,
+        isPaid: true,
+        isVerified: true,
       },
     });
 
-    return NextResponse.json(user);
+    const sub = await prisma.subscription.create({
+      //@ts-ignore
+      data: {
+        plan: plan as Plan,
+        active: true,
+        currentPeriodEndDate: new Date(1000),
+        sellerId: seller.id,
+      },
+    });
+
+    return NextResponse.json(seller);
   } catch (error: any) {
     console.log(error, "REGISTRATION ERROR");
     return new NextResponse("internal error", { status: 500 });

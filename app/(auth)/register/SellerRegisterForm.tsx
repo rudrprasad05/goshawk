@@ -46,13 +46,13 @@ const SellerRegisterForm = (props: RegisterPageProps) => {
       email: "",
       password: "",
       name: "",
-      role: "seller",
+      role: "SELLER",
     },
   });
 
   function onSubmit(data: RegisterFormType) {
     setIsLoading(true);
-    data.role = "seller";
+    data.role = "SELLER";
     axios
       .post("/api/register", data)
       .then(() => {
