@@ -9,7 +9,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-// import { saveActivityLogsNotification, upsertFunnelPage } from "@/actions/queries";ß
+import {
+  // saveActivityLogsNotification,
+  upsertFunnelPage,
+} from "@/actions/queries";
 import { DeviceTypes, useEditor } from "@/providers/editor/editor-provider";
 import { WebPages } from "@prisma/client";
 import clsx from "clsx";
@@ -53,15 +56,15 @@ const FunnelEditorNavigation = ({
   ) => {
     if (event.target.value === funnelPageDetails.name) return;
     if (event.target.value) {
-      // await upsertFunnelPage(
-      //   subaccountId,
-      //   {
-      //     id: funnelPageDetails.id,
-      //     name: event.target.value,
-      //     order: funnelPageDetails.order,
-      //   },
-      //   funnelId
-      // );
+      await upsertFunnelPage(
+        subaccountId,
+        {
+          id: funnelPageDetails.id,
+          name: event.target.value,
+          order: funnelPageDetails.order,
+        },
+        funnelId
+      );
 
       toast("Success", {
         description: "Saved Funnel Page title",
@@ -90,15 +93,18 @@ const FunnelEditorNavigation = ({
 
   const handleOnSave = async () => {
     const content = JSON.stringify(state.editor.elements);
+    console.log("fire");
     try {
-      // const response = await upsertFunnelPage(
-      //   subaccountId,
-      //   {
-      //     ...funnelPageDetails,
-      //     content,
-      //   },
-      //   funnelId
-      // );
+      console.log("fire");
+
+      const response = await upsertFunnelPage(
+        subaccountId,
+        {
+          ...funnelPageDetails,
+          content,
+        },
+        funnelId
+      ).then(() => console.log("fire"));
       // await saveActivityLogsNotification({
       //   agencyId: undefined,
       //   description: `Updated a funnel page | ${response?.name}`,

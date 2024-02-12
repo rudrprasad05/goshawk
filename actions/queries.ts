@@ -9,6 +9,7 @@ import bcrypt from "bcrypt";
 import { Role } from "@prisma/client";
 import { NewWebsiteType } from "@/app/(seller)/seller/[sellerId]/shop/_components/NewWebsiteButton";
 import { NewWebsitePageType } from "@/app/(seller)/seller/[sellerId]/shop/[websiteId]/_components/NewWebPageButton";
+import { Prisma, User } from "@prisma/client";
 
 export const getFunnels = async (subacountId: string) => {
   const funnels = await prisma.website.findMany({
@@ -74,5 +75,77 @@ export const getFunnelPageDetails = async (funnelPageId: string) => {
     },
   });
 
+  return response;
+};
+
+export const upsertFunnelPage = async (
+  subaccountId: string,
+  funnelPage: any,
+  websiteId: string
+) => {
+  console.log(subaccountId, funnelPage, websiteId);
+
+  if (!subaccountId || !websiteId) return;
+  console.log("fire");
+
+  console.log(funnelPage);
+
+  const {
+    id,
+    name,
+    pathName,
+    updatedAt,
+    visits,
+    content,
+    order,
+    previewImage,
+  } = funnelPage;
+
+  const response = await prisma.webPages.upsert({
+    where: { id: funnelPage.id || "" },
+    update: {
+      name,
+      pathName,
+      updatedAt,
+      visits,
+      order,
+      previewImage,
+      content: funnelPage.content,
+      websiteId,
+    },
+    create: {
+      name,
+      pathName,
+      updatedAt,
+      visits,
+      order,
+      previewImage,
+      content: funnelPage.content,
+      websiteId,
+    },
+  });
+
+  // ? funnelPage.content
+  // : JSON.stringify([
+  //     {
+  //       content: [],
+  //       id: "__body",
+  //       name: "Body",
+  //       styles: { backgroundColor: "white" },
+  //       type: "__body",
+  //     },
+  //   ]),
+
+  revalidatePath(`/subaccount/${subaccountId}/funnels/${websiteId}`, "page");
+  return response;
+};
+
+export const getDomainContent = async (subDomainName: string) => {
+  const response = await prisma.website.findUnique({
+    where: {
+      subDomainName,
+    },
+    include: { webpages: true },
+  });
   return response;
 };

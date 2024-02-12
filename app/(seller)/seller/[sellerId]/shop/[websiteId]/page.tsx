@@ -14,7 +14,9 @@ const page = async ({ params }: { params: { websiteId: string } }) => {
       <Main />
       <div className="px-6 py-6 flex justify-between">
         <p className="text-xl">Your WebPages</p>
-        <NewWebPageButton website={website} />
+        {website?.webpages.length == 0 && (
+          <NewWebPageButton website={website} />
+        )}
       </div>
       <DisplayWebpages websites={website} />
     </div>

@@ -8,7 +8,7 @@ import prisma from "@/lib/prismadb";
 
 type Props = {
   params: {
-    subaccountId: string;
+    sellerId: string;
     websiteId: string;
     webpageId: string;
   };
@@ -22,27 +22,27 @@ const Page = async ({ params }: Props) => {
   });
   if (!funnelPageDetails) {
     return redirect(
-      `/subaccount/${params.subaccountId}/funnels/${params.websiteId}`
+      `/subaccount/${params.sellerId}/funnels/${params.websiteId}`
     );
   }
 
   return (
     <div className="fixed top-0 bottom-0 left-0 right-0 z-[20] bg-background overflow-hidden">
       <EditorProvider
-        subaccountId={params.subaccountId}
+        subaccountId={params.sellerId}
         funnelId={params.websiteId}
         pageDetails={funnelPageDetails}
       >
         <FunnelEditorNavigation
           funnelId={params.websiteId}
           funnelPageDetails={funnelPageDetails}
-          subaccountId={params.subaccountId}
+          subaccountId={params.sellerId}
         />
         <div className="h-full flex justify-center">
           <FunnelEditor funnelPageId={params.webpageId} />
         </div>
 
-        <FunnelEditorSidebar subaccountId={params.subaccountId} />
+        <FunnelEditorSidebar subaccountId={params.sellerId} />
       </EditorProvider>
     </div>
   );
