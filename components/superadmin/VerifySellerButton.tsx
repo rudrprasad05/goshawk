@@ -14,7 +14,7 @@ import { SellerType, UserType } from "@/types";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 const VerifySellerButton = ({ user }: { user: SellerType }) => {
   const router = useRouter();

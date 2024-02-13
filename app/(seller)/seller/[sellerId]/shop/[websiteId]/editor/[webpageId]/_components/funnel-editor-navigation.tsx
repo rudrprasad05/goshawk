@@ -93,10 +93,7 @@ const FunnelEditorNavigation = ({
 
   const handleOnSave = async () => {
     const content = JSON.stringify(state.editor.elements);
-    console.log("fire");
     try {
-      console.log("fire");
-
       const response = await upsertFunnelPage(
         subaccountId,
         {
@@ -104,7 +101,7 @@ const FunnelEditorNavigation = ({
           content,
         },
         funnelId
-      ).then(() => console.log("fire"));
+      ).then(() => {});
       // await saveActivityLogsNotification({
       //   agencyId: undefined,
       //   description: `Updated a funnel page | ${response?.name}`,

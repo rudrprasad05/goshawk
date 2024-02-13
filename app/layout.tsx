@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/theme/ThemeProvider";
 import { Toaster } from "react-hot-toast";
 import AuthContext from "@/context/AuthContext";
 import { CartContextProvider } from "@/context/CartContext";
+import { Toaster as SonnarToaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,8 @@ export default function RootLayout({
           <CartContextProvider>
             <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
               <Toaster />
+              <SonnarToaster />
+
               <main className="min-h-screen">{children}</main>
             </ThemeProvider>
           </CartContextProvider>

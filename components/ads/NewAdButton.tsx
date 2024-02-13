@@ -29,7 +29,8 @@ import { useRouter } from "next/navigation";
 // import { useState } from "@/types";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
+
 import { FaSpinner } from "react-icons/fa";
 import { MdOutlineCheck } from "react-icons/md";
 import {
@@ -84,7 +85,7 @@ const NewAdButton = ({
           router.refresh();
         })
         .catch((e) => {
-          toast.error("Error. Contact Site Admin");
+          toast("Something went wrong", { description: "Contact site admin" });
         });
       // handle the error
     } catch (e: any) {
@@ -109,7 +110,7 @@ const NewAdButton = ({
         }
       })
       .catch((error) => {
-        toast.error("An Error Occured");
+        toast("Something went wrong", { description: "Contact site admin" });
         console.log("PRODUCT NEW - NewTagButton.tsx", error);
       });
   }

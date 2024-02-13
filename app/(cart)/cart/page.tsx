@@ -29,7 +29,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
+
 import { FaSpinner } from "react-icons/fa";
 import { FiEyeOff, FiEye } from "react-icons/fi";
 import { z } from "zod";
@@ -91,7 +92,7 @@ const Page = () => {
       })
       .catch((error: any) => {
         console.log("error");
-        toast.error("Something went wrong");
+        toast("Something went wrong", { description: "Contact site admin" });
       })
       .finally(() => {
         clearCart();

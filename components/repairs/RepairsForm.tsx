@@ -24,7 +24,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
+
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -94,7 +95,7 @@ const RepairsForm = () => {
         }
       })
       .catch((error) => {
-        toast.error("An Error Occured");
+        toast("Something went wrong", { description: "Contact site admin" });
         console.log("PRODUCT NEW - NewTagButton.tsx", error);
       });
   }
@@ -120,7 +121,7 @@ const RepairsForm = () => {
           setIsImageInCloud(true);
         })
         .catch((e) => {
-          toast.error("Error. Contact Site Admin");
+          toast("Something went wrong", { description: "Contact site admin" });
         });
       // handle the error
     } catch (e: any) {

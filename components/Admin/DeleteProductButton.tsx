@@ -14,7 +14,7 @@ import axios from "axios";
 import { Loader2, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 // interface props {
 //   tags: TagType[];

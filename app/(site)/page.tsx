@@ -4,12 +4,14 @@ import {
   GetLandingCaroProducts,
   GetSuperAdminProducts,
 } from "@/actions/products";
+import LandingPageHorizontal from "@/components/ads/LandingPageHorizontal";
 import AdCaroSection from "@/components/landing/AdCaroSection";
 import CategorySideNav from "@/components/landing/CategorySideNav";
 import LandingHeader from "@/components/landing/LandingHeader";
 import Perks from "@/components/landing/Perks";
 import SuperAdminProducts from "@/components/landing/SuperAdminProducts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
 
 export default async function Home() {
   const AdminProducts = await GetSuperAdminProducts();
@@ -30,6 +32,11 @@ export default async function Home() {
       </div>
 
       <Perks />
+      <div className="px-20">
+        <Link href={"/gifts"}>
+          <LandingPageHorizontal location="a3" />
+        </Link>
+      </div>
     </>
   );
 }

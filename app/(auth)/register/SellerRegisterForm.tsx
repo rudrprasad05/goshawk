@@ -17,7 +17,8 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
+
 import { FiEye, FiEyeOff } from "react-icons/fi";
 // import AuthSocialButton from "../login/AuthSocialButton";
 import { Icons } from "@/components/Icons";
@@ -59,7 +60,7 @@ const SellerRegisterForm = (props: RegisterPageProps) => {
         signIn("credentials", { ...data, redirect: false });
       })
       .catch(() => {
-        toast.error("Something went wrong");
+        toast("Something went wrong", { description: "Contact site admin" });
       })
       .finally(() => {
         setIsLoading(false);
@@ -73,10 +74,10 @@ const SellerRegisterForm = (props: RegisterPageProps) => {
     signIn(action, { redirect: false })
       .then((callback) => {
         if (callback?.error) {
-          toast.error("Invalid Credentials");
+          toast("Invalid", { description: "Contact site admin" });
         }
 
-        toast.success("Login Successful");
+        toast("Invald", { description: "wrong username or password" });
       })
       .finally(() => {
         setIsLoading(false);

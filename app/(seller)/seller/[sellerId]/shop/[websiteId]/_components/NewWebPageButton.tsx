@@ -27,7 +27,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
+
 import { z } from "zod";
 import { User, Website, WebPages } from "@prisma/client";
 
@@ -80,7 +81,7 @@ export const NewWebPageButton = ({ website }: { website: Local }) => {
           toast.success("Image Uploaded to Cloud");
         })
         .catch((e) => {
-          toast.error("Error. Contact Site Admin");
+          toast("Something went wrong", { description: "Contact site admin" });
         });
       // handle the error
     } catch (e: any) {

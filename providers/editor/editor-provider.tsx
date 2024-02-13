@@ -3,6 +3,7 @@ import { EditorAction } from "./editor-actions";
 import { Dispatch, createContext, useContext, useReducer } from "react";
 import { WebPages } from "@prisma/client";
 import { EditorBtns } from "@/lib/constants";
+import { ProductType } from "@/types";
 
 export type DeviceTypes = "Desktop" | "Mobile" | "Tablet";
 
@@ -13,7 +14,12 @@ export type EditorElement = {
   type: EditorBtns;
   content:
     | EditorElement[]
-    | { href?: string; innerText?: string; src?: string };
+    | {
+        href?: string;
+        innerText?: string;
+        src?: string;
+        productId?: string;
+      };
 };
 
 export type Editor = {

@@ -5,7 +5,8 @@ import { ShoppingCart } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
+
 import { number } from "zod";
 
 export type CartContextType = {
@@ -92,7 +93,9 @@ export function CartContextProvider({
 
   const addCart = (product: ProductType) => {
     if (user.status == "unauthenticated") {
-      toast.error("Login first");
+      toast("Login first", {
+        description: "Route protected. Need to be authorised",
+      });
       router.push("/login");
 
       return null;
@@ -105,7 +108,7 @@ export function CartContextProvider({
 
   const removeCart = (product: ProductType, all: any) => {
     if (user.status == "unauthenticated") {
-      toast.error("Login first");
+      toast("Login first", { description: "Route is protected" });
       router.push("/login");
 
       return null;

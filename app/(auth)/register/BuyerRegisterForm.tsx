@@ -17,7 +17,8 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
+
 import { FiEye, FiEyeOff } from "react-icons/fi";
 // import AuthSocialButton from "../login/AuthSocialButton";
 import { Icons } from "@/components/Icons";
@@ -58,7 +59,9 @@ const BuyerRegisterForm = (props: RegisterPageProps) => {
       .post("/api/register", data)
       .then(() => signIn("credentials", data))
       .catch((e: any) => {
-        toast.error(e.request.response);
+        toast("error", {
+          description: e,
+        });
         console.log(e.request.response);
       })
       .finally(() => setIsLoading(false));
@@ -70,10 +73,14 @@ const BuyerRegisterForm = (props: RegisterPageProps) => {
     signIn(action, { redirect: false })
       .then((callback) => {
         if (callback?.error) {
-          toast.error("Invalid Credentials");
+          toast("Invalid", {
+            description: "wrong username or password",
+          });
         }
 
-        toast.success("Login Successful");
+        toast("Success", {
+          description: "logged in",
+        });
       })
       .finally(() => {
         setIsLoading(false);

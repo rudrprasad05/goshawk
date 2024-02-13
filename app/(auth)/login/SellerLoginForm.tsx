@@ -5,7 +5,8 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 // import AuthSocialButton from "./AuthSocialButton";
 import { BsFacebook, BsGithub, BsGoogle } from "react-icons/bs";
 import axios from "axios";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
+
 import { signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -58,9 +59,16 @@ const SellerLoginForm = (props: LoginPageProps) => {
     })
       .then((callback) => {
         if (callback?.error) {
-          toast.error("Invalid Credentials");
+          toast("Invalid", {
+            description: "Check credentials",
+          });
         } else if (callback?.ok) {
-          toast.success("Signed In Successfully");
+          toast("Success", {
+            description: "You have logged in",
+          });
+          toast("", {
+            description: "'",
+          });
         }
       })
       .finally(() => {
@@ -73,10 +81,14 @@ const SellerLoginForm = (props: LoginPageProps) => {
     signIn(action, { redirect: false })
       .then((callback) => {
         if (callback?.error) {
-          toast.error("Invalid Credentials");
+          toast("Invalid credentials", {
+            description: "'",
+          });
         }
 
-        toast.success("Login Successful");
+        toast("Success", {
+          description: "Logged in",
+        });
       })
       .finally(() => {
         setIsLoading(false);

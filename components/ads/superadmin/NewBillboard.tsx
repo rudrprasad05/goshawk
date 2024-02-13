@@ -33,7 +33,8 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
+
 import { FaSpinner } from "react-icons/fa";
 import { MdOutlineCheck } from "react-icons/md";
 import { z } from "zod";
@@ -78,7 +79,7 @@ const NewBillboard = () => {
         }
       })
       .catch((error) => {
-        toast.error("An Error Occured");
+        toast("Something went wrong", { description: "Contact site admin" });
         console.log("PRODUCT NEW - NewTagButton.tsx", error);
       });
   }

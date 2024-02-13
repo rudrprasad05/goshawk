@@ -24,7 +24,7 @@ export const useAuth = () => {
       router.push("/login");
       router.refresh();
     } catch (err) {
-      toast.error("Couldn't sign out, please try again.");
+      toast("Something went wrong", { description: "Contact site admin" });
     }
   };
 

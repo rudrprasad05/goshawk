@@ -4,7 +4,8 @@ import { SellerType } from "@/types";
 import React from "react";
 import { Button } from "../ui/button";
 import axios from "axios";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
+
 import { useRouter } from "next/navigation";
 
 const AdminControlDelete = ({ seller }: { seller: SellerType }) => {

@@ -8,7 +8,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
+
 import Header from "../Admin/Header";
 import { Card, CardContent, CardHeader } from "../ui/card";
 

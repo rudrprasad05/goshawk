@@ -27,7 +27,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
+
 import { z } from "zod";
 export const NewWebsiteSchema = z.object({
   name: z.string(),
@@ -78,7 +79,7 @@ export const NewWebsiteButton = ({ seller }: { seller: SellerType }) => {
           toast.success("Image Uploaded to Cloud");
         })
         .catch((e) => {
-          toast.error("Error. Contact Site Admin");
+          toast("Something went wrong", { description: "Contact site admin" });
         });
       // handle the error
     } catch (e: any) {

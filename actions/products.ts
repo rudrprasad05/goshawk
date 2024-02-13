@@ -203,3 +203,16 @@ export const GetSuperAdminProducts = async () => {
 
   return results;
 };
+
+export const GetProductWithSeller = async (id: string) => {
+  const results = await prisma.products.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      seller: true,
+    },
+  });
+
+  return results;
+};

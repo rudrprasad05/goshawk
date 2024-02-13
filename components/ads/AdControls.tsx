@@ -20,7 +20,8 @@ import { useRouter } from "next/navigation";
 import { DeleteAd, VerifyAd } from "@/actions/ad";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
+
 import EditAdButton from "./EditAdButton";
 
 const AdControls = ({ ad }: { ad: AdType }) => {

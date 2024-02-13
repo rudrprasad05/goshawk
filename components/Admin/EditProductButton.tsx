@@ -41,7 +41,8 @@ import { useRouter } from "next/navigation";
 // import { useState } from "@/types";
 import { useEffect, useState } from "react";
 import { FieldValue, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
+
 import { FaSpinner } from "react-icons/fa";
 import { MdOutlineCheck } from "react-icons/md";
 
@@ -101,7 +102,7 @@ const EditProductButton = ({
           toast.success("Image Uploaded to Cloud");
         })
         .catch((e) => {
-          toast.error("Error. Contact Site Admin");
+          toast("Something went wrong", { description: "Contact site admin" });
         });
       // handle the error
     } catch (e: any) {
@@ -129,7 +130,7 @@ const EditProductButton = ({
         }
       })
       .catch((error) => {
-        toast.error("An Error Occured");
+        toast("Something went wrong", { description: "Contact site admin" });
         console.log("PRODUCT NEW - NewTagButton.tsx", error);
       });
   }

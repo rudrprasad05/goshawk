@@ -1,7 +1,8 @@
 "use client";
 import { CartContext } from "@/context/CartContext";
 import React, { useContext, useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
+
 import { MdAddShoppingCart, MdRemoveShoppingCart } from "react-icons/md";
 import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
