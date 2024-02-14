@@ -149,3 +149,18 @@ export const getDomainContent = async (subDomainName: string) => {
   });
   return response;
 };
+
+export const SubmitGiftOrder = async (order: any) => {
+  const {
+    chocolates,
+    fullCake,
+    sliceCake,
+    letter,
+    flowers,
+    giftcard,
+    coffin,
+    delivery,
+  } = order;
+
+  return await prisma.giftOrder.create({ data: order });
+};
