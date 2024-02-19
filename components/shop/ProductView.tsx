@@ -96,6 +96,7 @@ export const ProductView = ({
           <div className="w-min flex gap-3 mx-auto">
             {[...Array(count)].map((_i, index) => (
               <div
+                key={index}
                 onClick={() => api.scrollTo(index)}
                 className="w-[50px] aspect-square cursor-pointer"
               >
