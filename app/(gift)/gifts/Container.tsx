@@ -45,13 +45,6 @@ const Container = ({ props }: { props: Params }) => {
   const router = useRouter();
   const session = useSession();
 
-  if (session.status != "authenticated") {
-    toast("Login first", {
-      description: "To purchase a gift, login or create an account",
-    });
-    return redirect("/login");
-  }
-
   const [fullCake, setFullCake] = useState<string[]>([]);
   const [sliceCake, setSliceCake] = useState<string[]>([]);
   const [letter, setLetter] = useState<string[]>([]);
@@ -97,6 +90,13 @@ const Container = ({ props }: { props: Params }) => {
     const res = await SubmitGiftOrder(data);
     console.log(res);
   };
+
+  if (session.status != "authenticated") {
+    toast("Login first", {
+      description: "To purchase a gift, login or create an account",
+    });
+    return redirect("/login");
+  }
 
   return (
     <div>
