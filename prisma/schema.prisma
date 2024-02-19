@@ -63,7 +63,7 @@ model User {
   messages        Message[]
   repairs         RepairOrder[]
   seller          Seller?
-  giftsOrders GiftOrder[]
+  giftsOrders     GiftOrder[]
 }
 
 model Seller {
@@ -99,8 +99,8 @@ model Subscription {
 model Products {
   id               String       @id @default(auto()) @map("_id") @db.ObjectId
   name             String
-  price            String
-  imageUrl         String
+  price            Float
+  imageUrl         String[]
   description      String
   isVisible        Boolean      @default(true)
   isVerified       Boolean      @default(false)
@@ -270,26 +270,20 @@ model WebPages {
   website      Website  @relation(fields: [websiteId], references: [id], onDelete: Cascade)
 }
 
-
-model GiftOrder{
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  type String
-  chocolates Int @default(0)
-  fullCake Int @default(0)
-  sliceCake Int @default(0)
-  letter Int @default(0)
-  flowers Int @default(0)
-  giftcard Int @default(0)
-
-  price Int
-
-  delivery Boolean @default(false)
-  coffin Boolean @default(false)
-
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  user       User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String          @db.ObjectId
-
+model GiftOrder {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  type       String
+  chocolates Int      @default(0)
+  fullCake   Int      @default(0)
+  sliceCake  Int      @default(0)
+  letter     Int      @default(0)
+  flowers    Int      @default(0)
+  giftcard   Int      @default(0)
+  price      Int
+  delivery   Boolean  @default(false)
+  coffin     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String   @db.ObjectId
 }

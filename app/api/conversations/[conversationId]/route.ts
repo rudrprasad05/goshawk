@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prismadb";
 import { GetOnlyCurrentUser } from "@/actions/user";
+import { pusherServer } from "@/lib/pusher";
 // import { pusherClient, pusherServer } from "@/app/libs/pusher";
 
 interface props {
@@ -38,11 +39,15 @@ export async function DELETE(request: Request, { params }: { params: props }) {
       },
     });
 
-    // existingConversation.users.forEach((user) => {
-    //     if(user.email){
-    //         pusherServer.trigger(user.email, "conversation:remove", existingConversation)
-    //     }
-    // })
+    existingConversation.users.forEach((user) => {
+      if (user.email) {
+        pusherServer.trigger(
+          user.email,
+          "conversation:remove",
+          existingConversation
+        );
+      }
+    });
 
     return NextResponse.json(deletedConversation);
   } catch (error: any) {

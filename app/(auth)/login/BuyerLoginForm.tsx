@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 // import AuthSocialButton from "./AuthSocialButton";
-import { BsFacebook, BsGithub, BsGoogle } from "react-icons/bs";
-import axios from "axios";
 import { toast } from "sonner";
 
-import { signIn, useSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { Icons } from "@/components/Icons";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -17,17 +15,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
-import { Button, buttonVariants } from "@/components/ui/button";
 import { SignInForm, SignInFormType } from "@/schemas/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowRight } from "lucide-react";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FaSpinner } from "react-icons/fa";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { Icons } from "@/components/Icons";
-import { ArrowRight } from "lucide-react";
 import { LoginPageProps } from "./page";
-import { z } from "zod";
 
 const BuyerLoginForm = (props: LoginPageProps) => {
   const searchParamsType = String(props?.searchParams?.type);

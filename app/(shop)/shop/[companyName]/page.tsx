@@ -1,37 +1,19 @@
-import EditorProvider from "@/providers/editor/editor-provider";
-import { notFound } from "next/navigation";
-import React from "react";
-import prisma from "@/lib/prismadb";
 import { getDomainContent } from "@/actions/queries";
-import FunnelEditor from "@/app/(seller)/seller/[sellerId]/shop/[websiteId]/editor/[webpageId]/_components/funnel-editor";
+import { GetSellerByName } from "@/actions/seller";
+import prisma from "@/lib/prismadb";
+import { notFound } from "next/navigation";
+import Main from "./_components/main";
 
 const Page = async ({ params }: { params: { companyName: string } }) => {
-  const domainData = await getDomainContent(params.companyName);
-  if (!domainData) return notFound();
+  const companyData = await GetSellerByName(params.companyName);
+  console.log(companyData);
 
-  const pageData = domainData.webpages.find((page) => !page.pathName);
-
-  if (!pageData) return notFound();
-
-  await prisma.webPages.update({
-    where: {
-      id: pageData.id,
-    },
-    data: {
-      visits: {
-        increment: 1,
-      },
-    },
-  });
+  if (!companyData) return notFound();
 
   return (
-    <EditorProvider
-      subaccountId={domainData.subAccountId}
-      pageDetails={pageData}
-      funnelId={domainData.id}
-    >
-      <FunnelEditor funnelPageId={pageData.id} liveMode={true} />
-    </EditorProvider>
+    <div className="px-20 py-6">
+      <Main seller={companyData} />
+    </div>
   );
 };
 

@@ -39,11 +39,11 @@ const SideNav = ({ user }: { user: UserType }) => {
       icon: Package,
       link: `/seller/${user.seller.id}/products`,
     },
-    { name: "Orders", icon: Blocks, link: `/seller//${user.seller.id}/orders` },
+    { name: "Orders", icon: Blocks, link: `/seller/${user.seller.id}/orders` },
     {
       name: "Shop",
       icon: Store,
-      link: `/seller/${user.seller.id}/shop`,
+      link: `/shop`,
     },
 
     { name: "Ads", icon: Megaphone, link: `/seller/${user.seller.id}/ads` },

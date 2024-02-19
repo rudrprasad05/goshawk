@@ -4,6 +4,7 @@ import {
   GetLandingCaroProducts,
   GetSuperAdminProducts,
 } from "@/actions/products";
+import { GetMostRecentProduct } from "@/actions/queries";
 import LandingPageHorizontal from "@/components/ads/LandingPageHorizontal";
 import AdCaroSection from "@/components/landing/AdCaroSection";
 import CategorySideNav from "@/components/landing/CategorySideNav";
@@ -21,8 +22,8 @@ export default async function Home() {
   return (
     <>
       <LandingHeader />
-      <div className="grid gap-6 grid-cols-4 px-20 relative">
-        <div className="py-6 col-span-1 relative">
+      <div className="grid gap-6 grid-cols-3 lg:grid-cols-4 px-20 relative">
+        <div className="hidden md:hidden lg:block py-6 col-span-1 relative">
           <CategorySideNavCont cats={cats} />
         </div>
         <div className="col-span-3">

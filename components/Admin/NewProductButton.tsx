@@ -31,21 +31,29 @@ import {
 } from "@/components/ui/select";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-// import { useState } from "@/types";
 import { useState } from "react";
 import { FieldValue, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { FaSpinner } from "react-icons/fa";
 import { MdHeadset, MdOutlineCheck } from "react-icons/md";
-import { Loader2, Upload } from "lucide-react";
+import { Loader2, Upload, X } from "lucide-react";
 import Image from "next/image";
-
-// interface props {
-//   tags: TagType[];
-// }
-
-// TODO make sure the image name is unique by appending date to the end if not previous image will be deleted
+import { cn } from "@/lib/utils";
+import {
+  DndContext,
+  DragOverlay,
+  closestCenter,
+  closestCorners,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  arrayMove,
+  horizontalListSortingStrategy,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import DraggableImage from "./DraggableImage";
 
 type CategoryTypeLocal = CategoryType & {
   subcategories: SubcategoryType[];
@@ -63,8 +71,9 @@ const NewProductButton = ({
   const [file, setFile] = useState<File>();
   const [catState, setcatState] = useState<FieldValue<String>>();
   const [imageUpload, setImageUpload] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState<string[]>([]);
   const [isImageInCloud, setIsImageInCloud] = useState(false);
+  const [activeId, setActiveId] = useState(null);
 
   const form = useForm<NewProductType>({
     resolver: zodResolver(NewProductForm),
@@ -81,12 +90,13 @@ const NewProductButton = ({
   const subcategory = form.watch("subcategory");
 
   const handleImageUpload = async (file: File) => {
+    const salt = Date.now();
     setImageUpload(true);
     if (!file) return;
 
     try {
-      const data = new FormData();
-      data.set("file", file);
+      let data = new FormData();
+      data.append("file", file, "image" + salt.toString());
 
       const res = await fetch("/api/s3-upload", {
         method: "POST",
@@ -94,9 +104,12 @@ const NewProductButton = ({
       })
         .then(() => {
           setImageUpload(false);
-          setImageUrl(
-            `https://mctechfiji.s3.amazonaws.com/alibaba/${file?.name}`
-          );
+          setImageUrl((prev) => [
+            ...prev,
+            `https://mctechfiji.s3.amazonaws.com/alibaba/${
+              "image" + salt.toString()
+            }`,
+          ]);
           setIsImageInCloud(true);
           toast.success("Image Uploaded to Cloud");
         })
@@ -124,7 +137,7 @@ const NewProductButton = ({
           toast.success("Product Created Successfully");
           setOpen(false);
           form.reset();
-          setImageUrl("");
+          setImageUrl([]);
           setIsImageInCloud(false);
           router.refresh();
         }
@@ -133,6 +146,27 @@ const NewProductButton = ({
         toast("Something went wrong", { description: "Contact site admin" });
         console.log("PRODUCT NEW - NewTagButton.tsx", error);
       });
+  }
+  const getTaskPos = (id) => imageUrl.findIndex((task) => task === id);
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    console.log(active, over);
+
+    if (active.id === over.id) return;
+
+    setImageUrl((tasks) => {
+      const originalPos = getTaskPos(active.id);
+      const newPos = getTaskPos(over.id);
+
+      return arrayMove(tasks, originalPos, newPos);
+    });
+
+    setActiveId(null);
+  };
+
+  function handleDragStart(event) {
+    setActiveId(event.active.id);
   }
 
   return (
@@ -280,7 +314,13 @@ const NewProductButton = ({
             </div>
 
             <div className="flex gap-3 my-6 items-center">
-              <label htmlFor="file" className="cursor-pointer">
+              <label
+                htmlFor="file"
+                className={cn(
+                  "cursor-pointer",
+                  imageUpload && "opacity-50 cursor-not-allowed"
+                )}
+              >
                 <div className="items-center rounded-md p-2 bg-secondary text-secondary-foreground hover:bg-secondary/80 flex gap-3">
                   <Upload />
                   <h2 className="text-sm">Upload Image</h2>
@@ -289,6 +329,7 @@ const NewProductButton = ({
                   id="file"
                   type="file"
                   name="file"
+                  disabled={imageUpload}
                   hidden
                   onChange={(e) => {
                     handleImageUpload(e.target.files?.[0] as File);
@@ -303,8 +344,34 @@ const NewProductButton = ({
               )}
 
               {isImageInCloud && (
-                <div>
-                  <Image src={imageUrl} alt="image" width={50} height={50} />
+                <div className="flex justify-between grow items-center">
+                  <DndContext
+                    // sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragEnd={handleDragEnd}
+                    onDragStart={handleDragStart}
+                  >
+                    <div className="flex gap-2 items-center">
+                      <SortableContext
+                        items={imageUrl.map((item) => item)}
+                        strategy={horizontalListSortingStrategy}
+                      >
+                        {imageUrl?.map((img, i) => (
+                          <DraggableImage key={i} img={img} id={img} />
+                        ))}
+                      </SortableContext>
+                      {/* <DragOverlay>
+                        {activeId ? (
+                          <div className="w-12 h-12 bg-slate-400 rounded-md">
+                            img
+                          </div>
+                        ) : null}
+                      </DragOverlay> */}
+                    </div>
+                  </DndContext>
+                  <p className="italic h-min text-sm text-muted-foreground">
+                    Drag to sort around
+                  </p>
                 </div>
               )}
             </div>

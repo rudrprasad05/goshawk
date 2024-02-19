@@ -8,8 +8,15 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { buttonVariants } from "../ui/button";
 import { UserType } from "@/types";
+import { cn } from "@/lib/utils";
 
-const NavItems = ({ user }: { user?: UserType }) => {
+const NavItems = ({
+  user,
+  classname,
+}: {
+  user?: UserType;
+  classname?: string;
+}) => {
   const [activeIndex, setActiveIndex] = useState<null | number>(null);
 
   useEffect(() => {
@@ -37,7 +44,7 @@ const NavItems = ({ user }: { user?: UserType }) => {
   };
 
   return (
-    <div className="flex gap-4 h-full" ref={navRef}>
+    <div className={cn("flex gap-4 h-full", classname)} ref={navRef}>
       {/* dashboard */}
       <div className="flex items-center">
         {checkRole() && (

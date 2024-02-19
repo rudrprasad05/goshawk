@@ -7,8 +7,8 @@ import { RegisterFormType } from "@/schemas/auth";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { Role } from "@prisma/client";
-import { NewWebsiteType } from "@/app/(seller)/seller/[sellerId]/shop/_components/NewWebsiteButton";
-import { NewWebsitePageType } from "@/app/(seller)/seller/[sellerId]/shop/[websiteId]/_components/NewWebPageButton";
+import { NewWebsiteType } from "@/app/(seller)/seller/[sellerId]/_shop/_components/NewWebsiteButton";
+import { NewWebsitePageType } from "@/app/(seller)/seller/[sellerId]/_shop/[websiteId]/_components/NewWebPageButton";
 import { Prisma, User } from "@prisma/client";
 
 export const getFunnels = async (subacountId: string) => {
@@ -104,14 +104,7 @@ export const upsertFunnelPage = async (
   const response = await prisma.webPages.upsert({
     where: { id: funnelPage.id || "" },
     update: {
-      name,
-      pathName,
-      updatedAt,
-      visits,
-      order,
-      previewImage,
-      content: funnelPage.content,
-      websiteId,
+       
     },
     create: {
       name,
@@ -163,4 +156,8 @@ export const SubmitGiftOrder = async (order: any) => {
   } = order;
 
   return await prisma.giftOrder.create({ data: order });
+};
+
+export const GetMostRecentProduct = async () => {
+  return await prisma.products.findFirst({});
 };

@@ -9,6 +9,7 @@ import { buttonVariants } from "../ui/button";
 import NavBarLogin from "./NavBarLogin";
 import NavItems from "./NavItems";
 import Image from "next/image";
+import MobileNav from "./MobileNav";
 
 const Navbar = async () => {
   const user = await NavbarUser();
@@ -18,9 +19,26 @@ const Navbar = async () => {
       <header className="relative bg-card">
         <MaxWidthWrapper>
           <div className="border-b">
-            <div className="flex h-16 items-center">
-              {/* <MobileNav /> */}
+            <div className="h-16 lg:hidden flex justify-between items-center px-12">
+              <div className="flex lg:ml-0">
+                <Link href="/">
+                  {/* <Icons.logo className="h-10 w-10" /> */}
+                  <Image
+                    src={"/logo-temp.png"}
+                    alt="lgo"
+                    height={40}
+                    width={40}
+                  />
+                </Link>
+              </div>
+              <div className="flex gap-3">
+                <Cart />
+                <MobileNav user={user} />
+              </div>
+            </div>
 
+            <div></div>
+            <div className="h-16 items-center lg:flex hidden">
               <div className="ml-4 flex lg:ml-0">
                 <Link href="/">
                   {/* <Icons.logo className="h-10 w-10" /> */}

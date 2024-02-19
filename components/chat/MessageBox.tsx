@@ -17,7 +17,6 @@ interface props {
 }
 const MessageBox: React.FC<props> = ({ data, isLast }) => {
   const session = useSession();
-  console.log(data);
   const [imageModelOpen, setImageModelOpen] = useState(false);
   const isOwn = session?.data?.user?.id === data?.senderId;
   //   const seenList = (data.seen || [])
@@ -55,9 +54,6 @@ const MessageBox: React.FC<props> = ({ data, isLast }) => {
         >
           <div>{data.body}</div>
         </Card>
-        {/* {isLast && isOwn && seenList.length > 0 && (
-          <div className="text-xs text-gray-500">{`Seen by ${seenList}`}</div>
-        )} */}
       </div>
     </div>
   );

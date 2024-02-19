@@ -3,7 +3,6 @@ import SideNav from "@/components/Admin/SideNav";
 import SideNavServerCont from "@/components/Admin/SideNavServerCont";
 import Navbar from "@/components/nav/NavBar";
 
-
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
@@ -24,7 +23,7 @@ export default async function RootLayout({
   return (
     <div className="flex">
       <SideNavServerCont />
-      <div className="grow p-6">{children}</div>
+      <div className="grow">{children}</div>
     </div>
   );
 }

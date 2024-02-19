@@ -10,12 +10,13 @@ export type PageProps = {
 
 const page = async (props: PageProps) => {
   const user = await getCurrentUser();
+
   if (!user) return null;
   return (
-    <>
+    <div className="p-6">
       <QuickActions user={user} />
       <Feed user={user} props={props} />
-    </>
+    </div>
   );
 };
 

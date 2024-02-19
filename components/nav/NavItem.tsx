@@ -26,7 +26,7 @@ const NavItem = ({
   isOpen,
 }: NavItemProps) => {
   return (
-    <div className="flex hshshs">
+    <div className="flex">
       <div className="relative flex items-center">
         <Button
           className="gap-1.5"

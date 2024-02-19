@@ -36,7 +36,7 @@ import {
 } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { Pencil } from "lucide-react";
+import { Loader2, Pencil, Upload, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 // import { useState } from "@/types";
 import { useEffect, useState } from "react";
@@ -45,6 +45,7 @@ import { toast } from "sonner";
 
 import { FaSpinner } from "react-icons/fa";
 import { MdOutlineCheck } from "react-icons/md";
+import Image from "next/image";
 
 type CategoryTypeLocal = CategoryType & {
   subcategories: SubcategoryType[];
@@ -66,9 +67,14 @@ const EditProductButton = ({
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState<File>();
-  const [catState, setcatState] = useState<FieldValue<String>>();
+  const [catState, setcatState] = useState<FieldValue<String>>(
+    product.parentCategoryId
+  );
   const [loadingImage, setloadingImage] = useState<boolean>(false);
   const [formReadyToUpload, setFormReadyToUpload] = useState<boolean>(false);
+  const [imageUpload, setImageUpload] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string[]>(product.imageUrl);
+  const [isImageInCloud, setIsImageInCloud] = useState(false);
 
   const form = useForm<NewProductType>({
     resolver: zodResolver(NewProductForm),
@@ -84,21 +90,28 @@ const EditProductButton = ({
   const category = form.watch("category");
   const subcategory = form.watch("subcategory");
 
-  const handleImageUpload = async () => {
-    setloadingImage(true);
-    if (!file) return;
+  const handleImageUpload = async (file: File) => {
+    const salt = Date.now();
+    console.log(salt.toString() + file.name);
+    setImageUpload(true);
 
     try {
-      const data = new FormData();
-      data.set("file", file);
+      let data = new FormData();
+      data.append("file", file, "image" + salt.toString());
 
       const res = await fetch("/api/s3-upload", {
         method: "POST",
         body: data,
       })
         .then(() => {
-          setloadingImage(false);
-          setFormReadyToUpload(true);
+          setImageUpload(false);
+          setImageUrl((prev) => [
+            ...prev,
+            `https://mctechfiji.s3.amazonaws.com/alibaba/${
+              "image" + salt.toString()
+            }`,
+          ]);
+          setIsImageInCloud(true);
           toast.success("Image Uploaded to Cloud");
         })
         .catch((e) => {
@@ -112,13 +125,8 @@ const EditProductButton = ({
   };
 
   function onSubmit(data: NewProductType) {
-    if (formReadyToUpload) {
-      data.imageUrl = `https://mctechfiji.s3.amazonaws.com/alibaba/${file?.name}`;
-    } else {
-      data.imageUrl = product.imageUrl;
-    }
+    data.imageUrl = imageUrl;
     data.category = catState;
-    // data.sellerId = user.seller.id;
 
     axios
       .patch(`/api/product/${product.id}`, data)
@@ -158,12 +166,12 @@ const EditProductButton = ({
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-8 w-11/12"
           >
-            <div className="flex justify-between">
+            <div className="flex gap-3">
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
-                  <FormItem className="">
+                  <FormItem className="grow">
                     <FormLabel>Product Name</FormLabel>
                     <FormControl>
                       <Input
@@ -180,7 +188,7 @@ const EditProductButton = ({
                 control={form.control}
                 name="price"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="w-24">
                     <FormLabel>Price</FormLabel>
                     <FormControl>
                       <Input
@@ -214,96 +222,123 @@ const EditProductButton = ({
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>Parent Category</FormLabel>
-                    <Select
-                      onValueChange={(e) => {
-                        field.onChange;
-                        setcatState(e);
-                        console.log(e);
-                      }}
-                      defaultValue={product.parentCategoryId as string}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a tag" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {parentCategories?.map((i) => (
-                          <SelectItem key={i.id} value={i?.id}>
-                            {i.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
-            />
-
-            <FormField
-              control={form.control}
-              name="subcategory"
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>Sub Category</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={product.categoryId as string}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a tag" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {parentCategories
-                          ?.filter((i) => i.id == catState)
-                          .map((j) =>
-                            j.subcategories.map((k) => (
-                              <SelectItem key={k.id} value={k?.id}>
-                                {k.name}
-                              </SelectItem>
-                            ))
-                          )}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
-            />
-
-            <div className="flex gap-10">
-              <input
-                type="file"
-                name="file"
-                onChange={(e) => setFile(e.target.files?.[0])}
+            <div className="flex gap-3">
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => {
+                  return (
+                    <FormItem className="grow">
+                      <FormLabel>Parent Category</FormLabel>
+                      <Select
+                        onValueChange={(e) => {
+                          field.onChange;
+                          setcatState(e);
+                          console.log(e);
+                        }}
+                        defaultValue={product.parentCategoryId as string}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a tag" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {parentCategories?.map((i) => (
+                            <SelectItem key={i.id} value={i?.id}>
+                              {i.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
-              <Button
-                className="flex items-center"
-                type="button"
-                onClick={() => handleImageUpload()}
-              >
-                {loadingImage && <FaSpinner className={"animate-spin mr-3"} />}
-                {!formReadyToUpload && "Upload"}
-                {formReadyToUpload && (
-                  <>
-                    <MdOutlineCheck className={"mr-3"} />
-                    Uploaded
-                  </>
-                )}
-              </Button>
+              <FormField
+                control={form.control}
+                name="subcategory"
+                render={({ field }) => {
+                  return (
+                    <FormItem className="grow">
+                      <FormLabel>Sub Category</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={product.categoryId as string}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a tag" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {parentCategories
+                            ?.filter((i) => i.id == catState)
+                            .map((j) =>
+                              j.subcategories.map((k) => (
+                                <SelectItem key={k.id} value={k?.id}>
+                                  {k.name}
+                                </SelectItem>
+                              ))
+                            )}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
             </div>
-            {/* disabled={!formReadyToUpload} */}
+
+            <div className="flex gap-3 my-6 items-center">
+              <label htmlFor="file" className="cursor-pointer">
+                <div className="items-center rounded-md p-2 bg-secondary text-secondary-foreground hover:bg-secondary/80 flex gap-3">
+                  <Upload />
+                  <h2 className="text-sm">Upload Image</h2>
+                </div>
+                <input
+                  id="file"
+                  type="file"
+                  name="file"
+                  hidden
+                  onChange={(e) => {
+                    handleImageUpload(e.target.files?.[0] as File);
+                  }}
+                />
+              </label>
+
+              {imageUpload && (
+                <div>
+                  <Loader2 className="animate-spin" />
+                </div>
+              )}
+
+              <div className="flex gap-2">
+                {imageUrl &&
+                  imageUrl.map((img) => (
+                    <div key={img} className="relative aspect-square h-[50px]">
+                      <Image
+                        className="rounded-md h-full object-cover"
+                        src={img}
+                        alt="image"
+                        width={50}
+                        height={50}
+                      />
+                      <button
+                        onClick={() =>
+                          setImageUrl((prev) => {
+                            return prev.filter((i) => i != img);
+                          })
+                        }
+                        className="p-[4px] absolute top-[-10px] right-[-10px] bg-rose-500 rounded-full"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                  ))}
+              </div>
+            </div>
             <Button type="submit">Submit</Button>
           </form>
         </Form>

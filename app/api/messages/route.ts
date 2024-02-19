@@ -1,7 +1,8 @@
 import { GetOnlyCurrentUser } from "@/actions/user";
-import { NextResponse } from "next/server";
 // import { pusherServer } from "@/app/libs/pusher"
 import prisma from "@/lib/prismadb";
+import { pusherServer } from "@/lib/pusher";
+import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
@@ -33,6 +34,8 @@ export async function POST(request: Request) {
         sender: true,
       },
     });
+
+    pusherServer.trigger(conversationId, "incoming-message", newMessage);
 
     const updatedConversation = await prisma.conversation.update({
       where: {

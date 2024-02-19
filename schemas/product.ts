@@ -11,10 +11,7 @@ export const NewProductForm = z.object({
     .max(250, { message: "Should have less than 250 characters" }),
   price: z.string(),
   // tag: z.string(),
-  imageUrl: z
-    .string()
-    .min(1, { message: "Press Upload before submitting the form" })
-    .optional(),
+  imageUrl: z.string().array().optional(),
   sellerId: z.string().optional(),
   category: z.any().optional(),
   subcategory: z.any().optional(),

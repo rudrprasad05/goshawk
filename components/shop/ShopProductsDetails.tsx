@@ -1,3 +1,4 @@
+import { GetRelatedProducts } from "@/actions/products";
 import { getCurrentUser } from "@/actions/user";
 import { ProductType } from "@/types";
 import { Layers3, PanelsTopLeft } from "lucide-react";
@@ -8,7 +9,6 @@ import EditProductButton from "../Admin/EditProductButton";
 import Header from "../Admin/Header";
 import { HideProductButton } from "../Admin/HideProductButton";
 import { ProductView } from "./ProductView";
-import { GetRelatedProducts } from "@/actions/products";
 
 export const ShopProductsDetails = async ({
   product,
@@ -23,7 +23,10 @@ export const ShopProductsDetails = async ({
       return (
         <>
           <ProductView related={related} product={product} user={user} />
-          <EditGrid user={user} product={product} />
+          <div className="px-20">
+            <EditGrid user={user} product={product} />
+          </div>
+          
         </>
       );
 

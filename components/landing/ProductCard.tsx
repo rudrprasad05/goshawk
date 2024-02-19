@@ -53,7 +53,7 @@ export const ProductCard: React.FC<props> = ({ product }) => {
       <CardHeader>
         <div className="w-full h-[220px]">
           <Image
-            src={product.imageUrl}
+            src={product.imageUrl[0]}
             alt={product.name}
             width={220}
             height={220}
@@ -67,10 +67,6 @@ export const ProductCard: React.FC<props> = ({ product }) => {
       </CardHeader>
       <CardDescription className="">
         <CardContent className="flex flex-col justify-between">
-          {/* <div className="line-clamp-2 text-ellipsis">
-            {product.description}
-          </div> */}
-
           <div className="flex items-center py-2">
             <CardTitle className="grow">${product.price}</CardTitle>
             <Link
@@ -112,32 +108,6 @@ export const ProductCard: React.FC<props> = ({ product }) => {
               </span>
             </Button>
           )}
-          {/* {cartProducts && addToCart && (
-            <Button
-              onClick={() => {
-                setaddToCart(false);
-                addCart(product);
-              }}
-            >
-              <span>
-                <MdAddShoppingCart className="w-6 h-6 stroke-primary" />
-              </span>
-            </Button>
-          )} */}
-
-          {/* {cartProducts && !addToCart && (
-            <Button
-              variant={"destructive"}
-              onClick={() => {
-                setaddToCart(true);
-                removeCart(product, true);
-              }}
-            >
-              <span>
-                <MdRemoveShoppingCart className="w-6 h-6 stroke-primary" />
-              </span>
-            </Button>
-          )} */}
         </div>
       </CardFooter>
     </Card>

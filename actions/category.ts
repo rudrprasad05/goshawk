@@ -35,3 +35,14 @@ export const GetAllChildrenCategories = async (parent: string) => {
     },
   });
 };
+
+export const GetPetsWithSubCategories = async () => {
+  return prisma.category.findUnique({
+    where: {
+      id: "65c9dc6d73edd2508ac7d108",
+    },
+    include: {
+      subcategories: true,
+    },
+  });
+};

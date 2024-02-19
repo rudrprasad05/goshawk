@@ -1,16 +1,9 @@
 "use client";
-
-import { ProductType, UserType } from "@/types";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import Header from "../Header";
+import { ChevronRight, Layers3 } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { CartContext } from "@/context/CartContext";
-import { useRouter } from "next/navigation";
-import ProductQuantityButton from "../Admin/products/ProductQuantityButton";
-import { Button } from "../ui/button";
-import { ShoppingCart } from "lucide-react";
-import AdCaro from "../ads/AdCaro";
-
 import {
   Carousel,
   CarouselContent,
@@ -19,19 +12,11 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import { ProductTypeLocal } from "./DetailsPage";
 import { cn } from "@/lib/utils";
 
-export const ProductView = ({
-  product,
-  related,
-}: {
-  product: ProductType;
-  related: ProductType[];
-}) => {
-  const { cartProducts, addCart, removeCart } = useContext(CartContext);
-  const [domLoaded, setDomLoaded] = useState(false);
-  const [addToCart, setaddToCart] = useState(true);
-  const router = useRouter();
+export const ProductView = ({ product }: { product: ProductTypeLocal }) => {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
@@ -48,24 +33,11 @@ export const ProductView = ({
       setCurrent(api.selectedScrollSnap() + 1);
     });
   }, [api, current, count]);
-
-  useEffect(() => {
-    cartProducts.map((cartproduct: ProductType) => {
-      if (
-        cartProducts.filter((e: ProductType) => e.id === product.id).length > 0
-      ) {
-        setaddToCart(false);
-      } else if (
-        cartProducts.filter((e: ProductType) => e.id != product.id).length > 0
-      ) {
-        setaddToCart(true);
-      }
-    });
-    setDomLoaded(true);
-  }, [cartProducts, product.id]);
-
   return (
     <div>
+      <Header name={product.name}>
+        <Layers3 />
+      </Header>
       <div className="px-20 py-10 flex gap-20 items-center">
         <div>
           <Carousel
@@ -116,54 +88,28 @@ export const ProductView = ({
             ))}
           </div>
         </div>
+
         <div className="grow">
           <div className="flex gap-5">
             <h1 className="mb-5 text-lg text-primary">
               {product.seller.companyName}
             </h1>
+            <div>
+              <Badge variant={"secondary"}>
+                {product.isVisible ? "Visible" : "Hidden"}
+              </Badge>
+            </div>
           </div>
 
           <h2 className="text-5xl font-bold capitalize">{product.name}</h2>
-          <p className="my-8 text-muted-foreground">{product.description}</p>
+          <p className="mt-8 text-muted-foreground flex gap-2">
+            {product.parentCategory?.name}
+            <ChevronRight />
+            {product.category?.name}
+          </p>
+          <p className="mb-8 text-muted-foreground">{product.description}</p>
           <p className="text-2xl font-bold">${product.price}</p>
-          <div className="flex items-center gap-5 py-3">
-            <div>
-              <ProductQuantityButton
-                product={product}
-                setButton={setaddToCart}
-              />
-            </div>
-            <div>
-              {addToCart ? (
-                <Button
-                  onClick={() => {
-                    setaddToCart(false);
-                    addCart(product);
-                  }}
-                >
-                  <span>
-                    <ShoppingCart className="w-6 h-6 " />
-                  </span>
-                </Button>
-              ) : (
-                <Button
-                  variant={"destructive"}
-                  onClick={() => {
-                    setaddToCart(true);
-                    removeCart(product, true);
-                  }}
-                >
-                  <span>
-                    <ShoppingCart className="w-6 h-6 " />
-                  </span>
-                </Button>
-              )}
-            </div>
-          </div>
         </div>
-      </div>
-      <div className="px-20">
-        <AdCaro products={related} />
       </div>
     </div>
   );

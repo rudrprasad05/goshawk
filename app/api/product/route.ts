@@ -6,13 +6,25 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, description, price, imageUrl, sellerId, subcategory, category } = body;
+    const {
+      name,
+      description,
+      price,
+      imageUrl,
+      sellerId,
+      subcategory,
+      category,
+    } = body;
+
+    console.log(body);
+    parseFloat(price);
+    console.log(price, typeof price);
 
     const product = await prisma.products.create({
       data: {
         name,
         description,
-        price,
+        price: parseFloat(price),
         imageUrl,
         sellerId,
         parentCategoryId: category,

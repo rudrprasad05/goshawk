@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 
 interface props {
-  product: any;
+  product: ProductType;
 }
 
 export const SiteProductCard: React.FC<props> = ({ product }) => {
@@ -50,15 +50,16 @@ export const SiteProductCard: React.FC<props> = ({ product }) => {
   return (
     <Card className=" flex flex-col justify-between">
       <CardHeader>
-        <div className="w-full h-40">
+        {/* <div className="w-full h-40">
           <Image
-            src={product.imageUrl}
+            src={product.imageUrl[0]}
             alt={product.name}
             width={200}
             height={200}
             className="object-cover w-full h-full"
           />
-        </div>
+        </div> */}
+
         <div className="flex gap-5 pt-5">
           <CardTitle className="grow p-0">{product.name}</CardTitle>
           {/* <Badge className="h-min">{product.tag.name}</Badge> */}
@@ -73,7 +74,7 @@ export const SiteProductCard: React.FC<props> = ({ product }) => {
           <div className="flex items-center py-2">
             <CardTitle className="grow">${product.price}</CardTitle>
             <Link
-              href={`/seller/products/details/${product.id}`}
+              href={`/seller/${product.sellerId}/products/details/${product.id}`}
               className={`text-primary underline-offset-4 hover:underline px-0`}
             >
               Details

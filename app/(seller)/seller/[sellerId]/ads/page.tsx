@@ -5,7 +5,11 @@ import React from "react";
 const page = async () => {
   const ads = await GetAdForEachMerchant();
   const billboards = await GetAllBillboardsNewAd();
-  return <AdLandingPage billboards={billboards} data={ads} />;
+  return (
+    <div className="p-6">
+      <AdLandingPage billboards={billboards} data={ads} />
+    </div>
+  );
 };
 
 export default page;

@@ -14,9 +14,9 @@ const page = async () => {
   const user = await getCurrentUser();
   const categories = await GetAllParentWithChildCategories();
   return (
-    <>
+    <div className="p-6">
       <DashboardContent parentCategories={categories} user={user} />
-    </>
+    </div>
   );
 };
 

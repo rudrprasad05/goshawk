@@ -1,6 +1,6 @@
+import { motion } from "framer-motion";
 import Image from "next/image";
 import React from "react";
-import { motion } from "framer-motion";
 
 const AnimationPlayer = ({ global }: { global: string[] }) => {
   const giveRandom = () => {
@@ -15,6 +15,7 @@ const AnimationPlayer = ({ global }: { global: string[] }) => {
       <div className="absolute z-10 top-1/4 left-1/2 -translate-x-[100px] w-[400px] h-[150px]">
         {global.map((item, i) => (
           <motion.div
+          key={i}
             animate={{ y: 10, opacity: 1, scale: 1 }}
             style={{
               opacity: 0,
