@@ -39,10 +39,23 @@ export const GetAllChildrenCategories = async (parent: string) => {
 export const GetPetsWithSubCategories = async () => {
   return prisma.category.findUnique({
     where: {
-      id: "65c9dc6d73edd2508ac7d108",
+      id: "65e10863e8225dd5057a15e4",
     },
     include: {
       subcategories: true,
     },
   });
+};
+
+export const DeleteParentCategory = async (id: string) => {
+  const a = await prisma.subcategory.deleteMany({
+    where: { parentCategoryId: id },
+  });
+  const res = await prisma.category.delete({
+    where: {
+      id,
+    },
+  });
+
+  return res;
 };

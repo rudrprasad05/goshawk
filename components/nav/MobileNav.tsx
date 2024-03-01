@@ -17,7 +17,7 @@ import { useOnClickOutside } from "@/hooks/use-on-click-outside";
 import { cn } from "@/lib/utils";
 import { CategoryType, SubcategoryType, UserType } from "@/types";
 import { ChevronsUpDown, Menu } from "lucide-react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -29,7 +29,9 @@ import {
   CollapsibleTrigger,
 } from "../ui/collapsible";
 
-const MobileNav = ({ user }: { user: UserType }) => {
+const MobileNav = () => {
+  const { data } = useSession();
+  const user = data?.user;
   const [activeIndex, setActiveIndex] = useState<null | number>(null);
   const [categories, setCategories] = useState<CategoryType[]>([]);
   const [pets, setPets] = useState<any>([]);
@@ -72,7 +74,7 @@ const MobileNav = ({ user }: { user: UserType }) => {
       <SheetContent>
         <SheetHeader>
           <SheetTitle>
-            Welcome back {user ? user?.name.split(" ")[0] : "User"}
+            Welcome back {user ? user?.name?.split(" ")[0] : "User"}
           </SheetTitle>
           <SheetDescription className="relative h-full"></SheetDescription>
         </SheetHeader>
@@ -82,7 +84,7 @@ const MobileNav = ({ user }: { user: UserType }) => {
             <div className="flex items-center">
               {checkRole() && (
                 <Link
-                  href={`/seller/${user?.seller.id}/dashboard`}
+                  href={`/seller`}
                   className={`${buttonVariants({ variant: "ghost" })}text-sm`}
                 >
                   Dashboard

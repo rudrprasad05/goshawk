@@ -9,9 +9,11 @@ import AvatarComponent from "./AvatarComponent";
 import { UserType } from "@/types";
 import { Loader2, LogIn } from "lucide-react";
 
-const NavBarLogin = ({ user }: { user?: UserType }) => {
+const NavBarLogin = () => {
   const [domLoaded, setdomLoaded] = useState(false);
   const [navKey, setNavKey] = useState(0);
+  const session = useSession();
+  const user = session.data?.user;
   useEffect(() => {
     setdomLoaded(true);
     setNavKey((prev) => prev + 1);

@@ -10,13 +10,9 @@ import { buttonVariants } from "../ui/button";
 import { UserType } from "@/types";
 import { cn } from "@/lib/utils";
 
-const NavItems = ({
-  user,
-  classname,
-}: {
-  user?: UserType;
-  classname?: string;
-}) => {
+const NavItems = ({ classname }: { classname?: string }) => {
+  const { data } = useSession();
+  const user = data?.user;
   const [activeIndex, setActiveIndex] = useState<null | number>(null);
 
   useEffect(() => {
@@ -49,7 +45,7 @@ const NavItems = ({
       <div className="flex items-center">
         {checkRole() && (
           <Link
-            href={`/seller/${user?.seller.id}/dashboard`}
+            href={`/seller`}
             className={`${buttonVariants({ variant: "ghost" })}text-sm`}
           >
             Dashboard

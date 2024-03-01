@@ -1,3 +1,5 @@
+"use client";
+
 import { NavbarUser, getCurrentUser } from "@/actions/user";
 import { cookies } from "next/headers";
 import Link from "next/link";
@@ -10,9 +12,11 @@ import NavBarLogin from "./NavBarLogin";
 import NavItems from "./NavItems";
 import Image from "next/image";
 import MobileNav from "./MobileNav";
+import { useSession } from "next-auth/react";
 
-const Navbar = async () => {
-  const user = await NavbarUser();
+const Navbar = () => {
+  const session = useSession();
+  const user = session.data?.user;
 
   return (
     <div className="bg-card sticky z-50 top-0 inset-x-0 h-16">
@@ -33,7 +37,7 @@ const Navbar = async () => {
               </div>
               <div className="flex gap-3">
                 <Cart />
-                <MobileNav user={user} />
+                <MobileNav />
               </div>
             </div>
 
@@ -52,12 +56,12 @@ const Navbar = async () => {
               </div>
 
               <div className="hidden z-50 lg:ml-8 lg:block lg:self-stretch">
-                <NavItems user={user} />
+                <NavItems />
               </div>
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  <NavBarLogin user={user} />
+                  <NavBarLogin />
                   <div className="ml-4 flow-root lg:ml-6">
                     <Cart />
                   </div>
@@ -71,37 +75,37 @@ const Navbar = async () => {
   );
 };
 
-const SignIn = ({ user }: { user: any }) => {
-  if (user) return null;
-  return (
-    <Link
-      href="/login"
-      className={buttonVariants({
-        variant: "ghost",
-      })}
-    >
-      Login
-    </Link>
-  );
-};
+// const SignIn = ({ user }: { user: any }) => {
+//   if (user) return null;
+//   return (
+//     <Link
+//       href="/login"
+//       className={buttonVariants({
+//         variant: "ghost",
+//       })}
+//     >
+//       Login
+//     </Link>
+//   );
+// };
 
-const CreateAccount = ({ user }: { user: any }) => {
-  if (user) return "<UserAccountNav user={user} />";
-  return (
-    <Link
-      href="/register"
-      className={buttonVariants({
-        variant: "ghost",
-      })}
-    >
-      Create account
-    </Link>
-  );
-};
+// const CreateAccount = ({ user }: { user: any }) => {
+//   if (user) return "<UserAccountNav user={user} />";
+//   return (
+//     <Link
+//       href="/register"
+//       className={buttonVariants({
+//         variant: "ghost",
+//       })}
+//     >
+//       Create account
+//     </Link>
+//   );
+// };
 
-const Seperator = ({ user }: { user: any }) => {
-  if (user) return null;
-  return <span className="h-6 w-px bg-gray-200" aria-hidden="true" />;
-};
+// const Seperator = ({ user }: { user: any }) => {
+//   if (user) return null;
+//   return <span className="h-6 w-px bg-gray-200" aria-hidden="true" />;
+// };
 
 export default Navbar;
