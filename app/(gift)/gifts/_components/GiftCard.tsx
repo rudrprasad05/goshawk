@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import React from "react";
@@ -21,7 +21,9 @@ const GiftCard = ({
       <CardHeader>
         <CardTitle>{data.name}</CardTitle>
       </CardHeader>
-      <Link href={`?type=${data.link}`}>Select</Link>
+      <CardFooter className="text-sm text-muted-foreground">
+        <Link href={`?type=${data.link}`}>Select</Link>
+      </CardFooter>
     </Card>
   );
 };

@@ -15,7 +15,7 @@ const AnimationPlayer = ({ global }: { global: string[] }) => {
       <div className="absolute z-10 top-1/4 left-1/2 -translate-x-[100px] w-[400px] h-[150px]">
         {global.map((item, i) => (
           <motion.div
-          key={i}
+            key={i}
             animate={{ y: 10, opacity: 1, scale: 1 }}
             style={{
               opacity: 0,
@@ -28,8 +28,8 @@ const AnimationPlayer = ({ global }: { global: string[] }) => {
             <Image
               className="w-full relative z-10 h-full object-cover"
               alt="img"
-              height={150}
-              width={150}
+              height={100}
+              width={100}
               src={`/${item}.png`}
             />
           </motion.div>

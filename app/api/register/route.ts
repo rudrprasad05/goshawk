@@ -4,6 +4,9 @@ import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
 import { string } from "zod";
 import { Role } from "@prisma/client";
+import crypto from "crypto";
+import { sendEmail } from "@/actions/email";
+import { VerifyEmailTemplate } from "@/components/email/VerifyEmailTemplate";
 
 export async function POST(request: Request) {
   const body: RegisterFormType = await request.json();
@@ -24,7 +27,7 @@ export async function POST(request: Request) {
 
   const hashedPassword = await bcrypt.hash(password, 12);
 
-  const user = await prisma.user.create({
+  const createdUser = await prisma.user.create({
     data: {
       email,
       hashedPassword,
@@ -33,5 +36,26 @@ export async function POST(request: Request) {
     },
   });
 
-  return NextResponse.json(user);
+  const emailVerificationToken = crypto.randomBytes(32).toString("base64url");
+
+  await prisma.user.update({
+    where: {
+      id: createdUser.id,
+    },
+    data: {
+      emailVerificationToken: emailVerificationToken,
+    },
+  });
+
+  await sendEmail({
+    from: "Admin <onboarding@resend.dev>",
+    to: [email],
+    subject: "Verify your email address",
+    react: VerifyEmailTemplate({
+      email,
+      emailVerificationToken,
+    }) as React.ReactElement,
+  });
+
+  return NextResponse.json(createdUser);
 }

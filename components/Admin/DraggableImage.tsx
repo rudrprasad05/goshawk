@@ -6,7 +6,7 @@ import { motion, useDragControls } from "framer-motion";
 import Image from "next/image";
 import React, { useState } from "react";
 
-const DraggableImage = ({ img, id }) => {
+const DraggableImage = ({ img, id }: { img: string; id: string }) => {
   const {
     attributes,
     listeners,

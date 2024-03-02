@@ -42,7 +42,9 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import {
   DndContext,
+  DragEndEvent,
   DragOverlay,
+  DragStartEvent,
   closestCenter,
   closestCorners,
 } from "@dnd-kit/core";
@@ -73,7 +75,7 @@ const NewProductButton = ({
   const [imageUpload, setImageUpload] = useState(false);
   const [imageUrl, setImageUrl] = useState<string[]>([]);
   const [isImageInCloud, setIsImageInCloud] = useState(false);
-  const [activeId, setActiveId] = useState(null);
+  const [activeId, setActiveId] = useState<string | null>(null);
 
   const form = useForm<NewProductType>({
     resolver: zodResolver(NewProductForm),
@@ -147,17 +149,17 @@ const NewProductButton = ({
         console.log("PRODUCT NEW - NewTagButton.tsx", error);
       });
   }
-  const getTaskPos = (id) => imageUrl.findIndex((task) => task === id);
+  const getTaskPos = (id: any) => imageUrl.findIndex((task) => task === id);
 
-  const handleDragEnd = (event) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     console.log(active, over);
 
-    if (active.id === over.id) return;
+    if (active.id === over?.id) return;
 
     setImageUrl((tasks) => {
       const originalPos = getTaskPos(active.id);
-      const newPos = getTaskPos(over.id);
+      const newPos = getTaskPos(over?.id);
 
       return arrayMove(tasks, originalPos, newPos);
     });
@@ -165,8 +167,8 @@ const NewProductButton = ({
     setActiveId(null);
   };
 
-  function handleDragStart(event) {
-    setActiveId(event.active.id);
+  function handleDragStart(event: DragStartEvent) {
+    setActiveId(event.active.id as string);
   }
 
   return (

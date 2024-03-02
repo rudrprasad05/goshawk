@@ -87,7 +87,9 @@ const Container = ({ props }: { props: Params }) => {
       userId: session.data?.user.id,
     };
 
-    const res = await SubmitGiftOrder(data);
+    const res = await SubmitGiftOrder(data).then(() =>
+      toast.success("Order placed")
+    );
     console.log(res);
   };
 
@@ -321,9 +323,15 @@ const Container = ({ props }: { props: Params }) => {
         </div>
         <AnimationPlayer global={global} />
       </div>
-      <Button variant={"default"} onClick={() => sendOrder()}>
-        Send Order
-      </Button>
+      <div className="px-20">
+        <Button
+          variant={"default"}
+          disabled={global.length == 0}
+          onClick={() => sendOrder()}
+        >
+          Send Order
+        </Button>
+      </div>
     </div>
   );
 };

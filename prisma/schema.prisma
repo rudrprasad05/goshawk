@@ -50,6 +50,7 @@ model User {
   country         String?
   phone           String?
   email           String         @unique
+  emailVerificationToken String?   @unique
   emailVerified   DateTime?
   image           String?
   hashedPassword  String?
@@ -104,7 +105,7 @@ model Products {
   description      String
   isVisible        Boolean      @default(true)
   isVerified       Boolean      @default(false)
-  seller           Seller       @relation(fields: [sellerId], references: [id])
+  seller           Seller       @relation(fields: [sellerId], references: [id], onDelete: Cascade)
   sellerId         String       @db.ObjectId
   category         Subcategory? @relation(fields: [categoryId], references: [id])
   categoryId       String?      @db.ObjectId

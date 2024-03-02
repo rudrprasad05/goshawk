@@ -1,6 +1,7 @@
 import { getCurrentUser } from "@/actions/user";
 import SideNav from "@/components/Admin/SideNav";
 import SideNavServerCont from "@/components/Admin/SideNavServerCont";
+import VerifyEmailFirst from "@/components/global/VerifyEmailFirst";
 import Navbar from "@/components/nav/NavBar";
 
 import type { Metadata } from "next";
@@ -18,6 +19,7 @@ export default async function RootLayout({
 }) {
   const user = await getCurrentUser();
   if (!user) return redirect(`/`);
+  if (!user.emailVerified) return <VerifyEmailFirst />;
   if (user.seller == null) return redirect(`/seller/auth/${user.id}`);
 
   return (

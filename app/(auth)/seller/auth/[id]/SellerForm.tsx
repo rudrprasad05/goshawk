@@ -1,5 +1,6 @@
 "use client";
 
+import { CreateSellerAccount } from "@/actions/seller";
 import AvatarComponent from "@/components/nav/AvatarComponent";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,14 +12,16 @@ import {
   Form,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 import { SellerRegisterType, SellerRegisterFormSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { Loader2, Check } from "lucide-react";
+import { Loader2, Check, Upload } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
 
 export const Step2 = ({
   additionalData,
@@ -33,29 +36,41 @@ export const Step2 = ({
     useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [file, setFile] = useState<File>();
-  const [loadingImage, setloadingImage] = useState<boolean>(false);
-  const [formReadyToUpload, setFormReadyToUpload] = useState<boolean>(false);
-  const [imageLink, setimageLink] = useState("");
+  const [imageUpload, setImageUpload] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string[]>([]);
+  const [isImageInCloud, setIsImageInCloud] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
+
   const router = useRouter();
 
-  const handleImageUpload = async () => {
-    setloadingImage(true);
+  const handleImageUpload = async (file: File) => {
+    const salt = Date.now();
+    setImageUpload(true);
     if (!file) return;
 
     try {
-      const data = new FormData();
-      data.set("file", file);
+      let data = new FormData();
+      data.append("file", file, "image" + salt.toString());
 
       const res = await fetch("/api/s3-upload", {
         method: "POST",
         body: data,
       })
         .then(() => {
-          setloadingImage(false);
-          setFormReadyToUpload(true);
-          console.log(res);
+          setImageUpload(false);
+          setImageUrl((prev) => [
+            ...prev,
+            `https://mctechfiji.s3.amazonaws.com/alibaba/${
+              "image" + salt.toString()
+            }`,
+          ]);
+          setIsImageInCloud(true);
+          setReloadKey((prev) => prev + 1);
+          toast.success("Image Uploaded to Cloud");
         })
-        .catch((e) => {});
+        .catch((e) => {
+          toast("Something went wrong", { description: "Contact site admin" });
+        });
       // handle the error
     } catch (e: any) {
       // Handle errors here
@@ -79,21 +94,22 @@ export const Step2 = ({
 
   const onSubmit: SubmitHandler<SellerRegisterType> = async (data) => {
     setIsLoading(true);
-    await handleImageUpload();
-    data.plan = additionalData.plan;
+    // await handleImageUpload();
+    data.plan = additionalData.plan.toUpperCase();
     data.userId = user;
-    data.image = `https://mctechfiji.s3.amazonaws.com/alibaba/${file?.name}`;
+    data.image = imageUrl[imageUrl.length - 1];
     console.log(data);
-    const res = await axios
-      .post("/api/register/seller", data)
+    const res = await CreateSellerAccount(data)
       .then((res) => {
-        console.log(res.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      })
-      .finally(() => {
+        setIsLoading(false);
+        console.log(res);
+        toast.success("Seller account created");
         router.push(`/seller/${res.id}/dashboard`);
+      })
+      .catch((e: Error) => {
+        setIsLoading(false);
+        toast.error(e.message);
+        console.log(e);
       });
   };
   return (
@@ -194,30 +210,53 @@ export const Step2 = ({
             />
           </div>
 
-          <div className="">
+          <div className="flex gap-6">
             <div>
               <FormLabel>Logo</FormLabel>
-              <AvatarComponent fallback="AD" src={session.data?.user.image} />
+              {imageUrl.length > 0 && (
+                <AvatarComponent
+                  fallback="AD"
+                  src={imageUrl[imageUrl.length - 1]}
+                />
+              )}
+              {imageUrl.length == 0 && (
+                <AvatarComponent fallback="AD" src={""} />
+              )}
             </div>
 
-            <ImageArea onclick={setFile} />
-            {/* <Button
-                className="flex items-center"
-                type="button"
-                onClick={() => handleImageUpload()}
-              >
-                {loadingImage && <Loader2 className={"animate-spin mr-3"} />}
-                {!formReadyToUpload && "Upload"}
-                {formReadyToUpload && (
-                  <>
-                    <Check className={"mr-3"} />
-                    Uploaded
-                  </>
+            <div className="flex gap-3 my-6 items-center">
+              <label
+                htmlFor="file"
+                className={cn(
+                  "cursor-pointer",
+                  imageUpload && "opacity-50 cursor-not-allowed"
                 )}
-              </Button> */}
+              >
+                <div className="items-center rounded-md p-2 bg-secondary text-secondary-foreground hover:bg-secondary/80 flex gap-3">
+                  <Upload />
+                  <h2 className="text-sm">Upload Image</h2>
+                </div>
+                <input
+                  id="file"
+                  type="file"
+                  name="file"
+                  disabled={imageUpload}
+                  hidden
+                  onChange={(e) => {
+                    handleImageUpload(e.target.files?.[0] as File);
+                  }}
+                />
+              </label>
+
+              {imageUpload && (
+                <div>
+                  <Loader2 className="animate-spin" />
+                </div>
+              )}
+            </div>
           </div>
 
-          <Button className="w-full" type="submit">
+          <Button disabled={imageUpload} className="w-full" type="submit">
             {isLoading && <Loader2 className={"animate-spin mr-3"} />}
             Register
           </Button>

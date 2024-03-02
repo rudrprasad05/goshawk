@@ -35,11 +35,11 @@ const BuyerRegisterForm = (props: RegisterPageProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState<string>("");
 
-  useEffect(() => {
-    if (session?.status == "authenticated") {
-      router.push("/");
-    }
-  }, [session?.status, router]);
+  // useEffect(() => {
+  //   if (session?.status == "authenticated") {
+  //     router.push("/");
+  //   }
+  // }, [session?.status, router]);
 
   const form = useForm<RegisterFormType>({
     resolver: zodResolver(RegisterFormSchema),
@@ -57,7 +57,10 @@ const BuyerRegisterForm = (props: RegisterPageProps) => {
 
     axios
       .post("/api/register", data)
-      .then(() => signIn("credentials", data))
+      .then((res) => {
+        signIn("credentials", data);
+        router.push(`/seller/auth/verify/${res.data.id}`);
+      })
       .catch((e: any) => {
         toast("error", {
           description: e,

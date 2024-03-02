@@ -14,7 +14,7 @@ import { RegisterFormSchema, RegisterFormType } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -26,20 +26,30 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { FaSpinner } from "react-icons/fa";
 import { RegisterPageProps } from "./page";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 
 const SellerRegisterForm = (props: RegisterPageProps) => {
   const session = useSession();
+  const params = useParams();
+  const isEmailSent: boolean = params.sent as unknown as boolean;
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState<string>("");
   const [redirectToSetup, setredirectToSetup] = useState(false);
+  const [showConfirmDialogue, setShowConfirmDialogue] = useState(isEmailSent);
 
-  useEffect(() => {
+  const checkAuth = () => {
     if (redirectToSetup && session.data?.user.id != undefined) {
       router.push(`/seller/auth/${session.data?.user.id}`);
     }
-  }, [redirectToSetup, session.data?.user.id]);
+  };
 
   const form = useForm<RegisterFormType>({
     resolver: zodResolver(RegisterFormSchema),
@@ -56,15 +66,16 @@ const SellerRegisterForm = (props: RegisterPageProps) => {
     data.role = "SELLER";
     axios
       .post("/api/register", data)
-      .then(() => {
+      .then((res) => {
         signIn("credentials", { ...data, redirect: false });
+        router.push(`?type=seller&sent=true`);
       })
       .catch(() => {
         toast("Something went wrong", { description: "Contact site admin" });
       })
       .finally(() => {
         setIsLoading(false);
-        setredirectToSetup(true);
+        setShowConfirmDialogue(true);
       });
   }
 
@@ -76,13 +87,39 @@ const SellerRegisterForm = (props: RegisterPageProps) => {
         if (callback?.error) {
           toast("Invalid", { description: "Contact site admin" });
         }
-
         toast("Invald", { description: "wrong username or password" });
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
+
+  if (showConfirmDialogue) {
+    return (
+      <div className="w-full h-[80vh] grid place-items-center">
+        <Card className="w-[520px]">
+          <CardHeader>
+            <h1 className="text-2xl">Confirm your account</h1>
+          </CardHeader>
+          <CardContent>
+            <CardDescription>
+              Login in to your email and click the link to confirm your email
+              inorder to continue further. Dont see the link? Check your spam
+            </CardDescription>
+          </CardContent>
+          <CardFooter>
+            <Link
+              className={"text-primary underline-offset-4 hover:underline"}
+              target="_blank"
+              href={`//${form.getValues("email").split("@")[1]}`}
+            >
+              open {form.getValues("email").split("@")[1]}
+            </Link>
+          </CardFooter>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="container relative flex py-10 flex-col items-center justify-center lg:px-0">
