@@ -19,7 +19,7 @@ const CartItem = ({ product }: { product: ProductType }) => {
         <div className="flex items-center space-x-4">
           <div className="relative aspect-square h-16 w-16 min-w-fit overflow-hidden rounded">
             <Image
-              src={product.imageUrl}
+              src={product.imageUrl[0]}
               alt={product.name}
               fill
               className="absolute object-cover"

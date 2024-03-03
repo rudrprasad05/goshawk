@@ -17,18 +17,6 @@ export const GetLandingCaroProducts = async () => {
 
   const results = await prisma.products.findMany({
     take: 20,
-    where: {
-      NOT: [
-        {
-          seller: {
-            companyName: {
-              contains: "Goshawk",
-              mode: "insensitive",
-            },
-          },
-        },
-      ],
-    },
 
     include: {
       seller: true,

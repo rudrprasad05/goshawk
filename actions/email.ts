@@ -34,3 +34,17 @@ export const VerifyEmail = async (token: string) => {
 
   return res;
 };
+
+export const VerifyGoogleAccount = async (id: string) => {
+  const res = await prisma.user.update({
+    where: {
+      id: id,
+    },
+    data: {
+      emailVerified: new Date().toISOString(),
+    },
+  });
+  if (!res) return null;
+
+  return res;
+};

@@ -16,6 +16,7 @@ import { signOut } from "next-auth/react";
 import { CartContext } from "@/context/CartContext";
 import ThemeSwitcher from "@/theme/ThemeSwitcher";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 interface props {
   children?: React.ReactNode;
@@ -24,9 +25,11 @@ interface props {
 
 const EditProfileSheet: React.FC<props> = ({ children, user }) => {
   const { clearCart } = useContext(CartContext);
+  const router = useRouter();
   const handleClick = () => {
     clearCart();
-    signOut();
+    signOut({ redirect: false });
+    router.push("/");
   };
   return (
     <Sheet>

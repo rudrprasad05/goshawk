@@ -13,10 +13,13 @@ import Perks from "@/components/landing/Perks";
 import SuperAdminProducts from "@/components/landing/SuperAdminProducts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import prisma from "@/lib/prismadb";
+import OtherCaroSection from "@/components/landing/OtherCaroSection";
 
 export default async function Home() {
   const AdminProducts = await GetSuperAdminProducts();
   const products = await GetLandingCaroProducts();
+
   const cats = await GetAllParentWithChildCategories();
 
   return (
@@ -28,16 +31,19 @@ export default async function Home() {
         </div>
         <div className="col-span-3">
           <SuperAdminProducts products={AdminProducts} />
-          <AdCaroSection products={products} />
+          {/* <AdCaroSection products={products} /> */}
         </div>
       </div>
+      <div className="px-20">
+        <OtherCaroSection products={products} />
+      </div>
 
-      <Perks />
       <div className="px-20">
         <Link href={"/gifts"}>
           <LandingPageHorizontal location="a3" />
         </Link>
       </div>
+      <Perks />
     </>
   );
 }

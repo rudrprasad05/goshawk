@@ -28,6 +28,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "../ui/collapsible";
+import { ScrollArea } from "../ui/scroll-area";
+import ThemeSwitcher from "@/theme/ThemeSwitcher";
 
 const MobileNav = () => {
   const { data } = useSession();
@@ -71,15 +73,16 @@ const MobileNav = () => {
       <SheetTrigger>
         <Menu />
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="flex flex-col">
         <SheetHeader>
           <SheetTitle>
             Welcome back {user ? user?.name?.split(" ")[0] : "User"}
           </SheetTitle>
           <SheetDescription className="relative h-full"></SheetDescription>
         </SheetHeader>
-        <SheetDescription>
-          <div className={cn(" gap-4 h-full")} ref={navRef}>
+
+        <div className="relative overflow-auto flex w-full flex-col pr-6">
+          <ScrollArea>
             {/* dashboard */}
             <div className="flex items-center">
               {checkRole() && (
@@ -146,28 +149,16 @@ const MobileNav = () => {
 
             <CollapseCont arr={categories} name="Categories" />
             <CollapseCont arr={pets.subcategories} name="Pets" />
-          </div>
-        </SheetDescription>
-        <SheetFooter className="absolute bottom-0 left-0 p-8 w-full">
-          {user && (
-            <Button
-              onClick={() => {
-                signOut();
-              }}
-            >
-              Signout
-            </Button>
-          )}
-          {!user && (
-            <Button
-              onClick={() => {
-                router.push("/login");
-              }}
-            >
-              Signin
-            </Button>
-          )}
-        </SheetFooter>
+          </ScrollArea>
+        </div>
+        <div className="mt-auto space-y-4 pr-6">
+          <SheetFooter>
+            <div className="flex justify-between w-full">
+              <ThemeSwitcher />
+              <Button onClick={() => signOut()}>Signout</Button>
+            </div>
+          </SheetFooter>
+        </div>
       </SheetContent>
     </Sheet>
   );

@@ -37,7 +37,7 @@ const BuyerLoginForm = (props: LoginPageProps) => {
     if (session?.status == "authenticated") {
       router.push("/");
     }
-  }, [session?.status, router]);
+  }, [session, router]);
 
   const form = useForm<SignInFormType>({
     resolver: zodResolver(SignInForm),
@@ -48,12 +48,15 @@ const BuyerLoginForm = (props: LoginPageProps) => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    console.log("f");
     setIsLoading(true);
     signIn("credentials", {
       ...data,
       redirect: false,
     })
       .then((callback) => {
+        console.log("f");
+
         if (callback?.error) {
           toast("Deleted User", {
             description:
@@ -63,12 +66,15 @@ const BuyerLoginForm = (props: LoginPageProps) => {
           toast("Success", {
             description: "You hace logged in Successfully",
           });
-          router.push("/");
+          // router.push("/");
         }
       })
       .finally(() => {
         setIsLoading(false);
+        router.push("/");
+        console.log("first");
       });
+    console.log("first");
   };
 
   return (
@@ -86,7 +92,7 @@ const BuyerLoginForm = (props: LoginPageProps) => {
                 variant: "link",
                 className: "gap-1.5",
               })}
-              href="/register"
+              href="/register?type=buyer"
             >
               Don&apos;t have an account?
               <ArrowRight className="h-4 w-4" />

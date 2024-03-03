@@ -89,6 +89,10 @@ export const options: AuthOptions = {
         },
       };
     },
+
+    // async redirect({ url, baseUrl }) {
+    //   return "/verify/google";
+    // },
   },
 
   pages: {

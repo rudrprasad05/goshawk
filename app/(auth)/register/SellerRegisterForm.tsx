@@ -22,7 +22,7 @@ import { toast } from "sonner";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 // import AuthSocialButton from "../login/AuthSocialButton";
 import { Icons } from "@/components/Icons";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 import { FaSpinner } from "react-icons/fa";
 import { RegisterPageProps } from "./page";
@@ -33,6 +33,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import { BsGoogle } from "react-icons/bs";
 
 const SellerRegisterForm = (props: RegisterPageProps) => {
   const session = useSession();
@@ -122,8 +123,8 @@ const SellerRegisterForm = (props: RegisterPageProps) => {
   }
 
   return (
-    <div className="container relative flex py-10 flex-col items-center justify-center lg:px-0">
-      <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+    <div className="container gap-10 h-[90vh]  relative flex py-10 items-center justify-center lg:px-0">
+      <div className="grow px-12 flex flex-col justify-center space-y-6 ">
         <div className="flex flex-col items-center space-y-2 text-center">
           <Icons.logo className="h-20 w-20" />
           <h1 className="text-2xl font-semibold tracking-tight">
@@ -268,27 +269,42 @@ const SellerRegisterForm = (props: RegisterPageProps) => {
               </Button>
             </form>
           </Form>
-          <div className="relative">
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 flex items-center"
-            >
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                or
-              </span>
-            </div>
-          </div>
-
-          <Link
-            href={"/register?type=buyer"}
-            className={buttonVariants({ variant: "secondary" })}
-          >
-            Continue as Buyer
-          </Link>
         </div>
+      </div>
+      <div className="relative h-full flex items-center justify-center">
+        <div
+          aria-hidden="true"
+          className="absolute top-0 left-1/2 inset-0 flex items-center"
+        >
+          <span className="h-full w-[1px] bg-border" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-background p-2 text-muted-foreground">or</span>
+        </div>
+      </div>
+      <div className="w-64 flex items-center justify-center px-6 gap-6 flex-col h-full">
+        <Button
+          variant={"secondary"}
+          className="w-full flex gap-6 items-center justify-start"
+        >
+          <span>
+            <BsGoogle />
+          </span>
+          <span>Login with google</span>
+        </Button>
+        <Link
+          href={"/register?type=buyer"}
+          className={`w-full flex gap-6 items-center justify-start ${buttonVariants(
+            {
+              variant: "secondary",
+            }
+          )}`}
+        >
+          <span>
+            <ShoppingBag />
+          </span>
+          <span>Login as Buyer</span>
+        </Link>
       </div>
     </div>
   );

@@ -1,12 +1,12 @@
-import prisma from "@/lib/prismadb";
-import { RegisterFormType } from "@/schemas/auth";
-import bcrypt from "bcrypt";
-import { NextResponse } from "next/server";
-import { string } from "zod";
-import { Role } from "@prisma/client";
-import crypto from "crypto";
 import { sendEmail } from "@/actions/email";
 import { VerifyEmailTemplate } from "@/components/email/VerifyEmailTemplate";
+import prisma from "@/lib/prismadb";
+import { RegisterFormType } from "@/schemas/auth";
+import { Role } from "@prisma/client";
+import bcrypt from "bcrypt";
+import crypto from "crypto";
+import { NextResponse } from "next/server";
+import { string } from "zod";
 
 export async function POST(request: Request) {
   const body: RegisterFormType = await request.json();
@@ -26,26 +26,25 @@ export async function POST(request: Request) {
     return new NextResponse("Email already in use", { status: 401 });
 
   const hashedPassword = await bcrypt.hash(password, 12);
-
+  const emailVerificationToken = crypto.randomBytes(32).toString("base64url");
   const createdUser = await prisma.user.create({
     data: {
       email,
       hashedPassword,
       name,
       role: role as Role,
-    },
-  });
-
-  const emailVerificationToken = crypto.randomBytes(32).toString("base64url");
-
-  await prisma.user.update({
-    where: {
-      id: createdUser.id,
-    },
-    data: {
       emailVerificationToken: emailVerificationToken,
     },
   });
+
+  // await prisma.user.update({
+  //   where: {
+  //     id: createdUser.id,
+  //   },
+  //   data: {
+  //     emailVerificationToken: emailVerificationToken,
+  //   },
+  // });
 
   await sendEmail({
     from: "Admin <onboarding@resend.dev>",

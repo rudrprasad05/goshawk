@@ -104,7 +104,7 @@ export const Step2 = ({
         setIsLoading(false);
         console.log(res);
         toast.success("Seller account created");
-        router.push(`/seller/${res.id}/dashboard`);
+        router.push(`/seller`);
       })
       .catch((e: Error) => {
         setIsLoading(false);
