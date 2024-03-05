@@ -15,6 +15,7 @@ export const sendEmail = async (payload: any, options?: any) => {
 };
 
 export const VerifyEmail = async (token: string) => {
+  if (!token) return null;
   const find = await prisma.user.findFirst({
     where: {
       emailVerificationToken: token,
