@@ -40,18 +40,29 @@ const NavItems = ({ classname }: { classname?: string }) => {
   };
 
   return (
-    <div className={cn("flex gap-4 h-full", classname)} ref={navRef}>
-      {/* dashboard */}
+    <div
+      className={cn("grid grid-cols-4 gap-4 h-full", classname)}
+      ref={navRef}
+    >
       <div className="flex items-center">
-        {checkRole() && (
+        <Link
+          href={"/"}
+          className={`${buttonVariants({ variant: "ghost" })}text-sm`}
+        >
+          Home
+        </Link>
+      </div>
+      {/* dashboard */}
+      {checkRole() && (
+        <div className="flex items-center">
           <Link
             href={`/seller`}
             className={`${buttonVariants({ variant: "ghost" })}text-sm`}
           >
             Dashboard
           </Link>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* adminm panel */}
       {user?.role == "ADMIN" && (

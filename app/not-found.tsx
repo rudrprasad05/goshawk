@@ -1,11 +1,11 @@
 import Footer from "@/components/Footer";
-import Navbar from "@/components/nav/NavBar";
+import NavBar2 from "@/components/nav/NavBar2";
 import Link from "next/link";
 
 export default function NotFound() {
   return (
     <>
-      <Navbar />
+      <NavBar2 />
       <div className="w-full h-[80vh] grid place-items-center">
         <div>
           <h1 className="text-2xl text-primary">404 Not Found</h1>

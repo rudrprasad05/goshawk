@@ -136,6 +136,8 @@ export const CreateSellerAccount = async (data: SellerRegisterType) => {
       userId: userId as string,
       isPaid: true,
       isVerified: true,
+      image,
+      plan: plan,
     },
   });
 

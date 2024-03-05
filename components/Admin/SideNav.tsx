@@ -141,7 +141,7 @@ const SideNav = ({ user }: { user: UserType }) => {
                 "h-min w-min",
                 openNav && "flex gap-3 items-center"
               )}
-              href={"/seller/settings"}
+              href={`/seller/${user.seller.id}/settings`}
             >
               <div className="p-2">
                 <Cog className="stroke-primary h-6 w-6" />

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Navbar from "@/components/nav/NavBar";
+import NavBar2 from "@/components/nav/NavBar2";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <main className="min-h-screen bg-background">
       <div className="">
-        <Navbar />
+        <NavBar2 />
         {children}
         <Footer />
       </div>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Navbar from "@/components/nav/NavBar";
+import NavBar2 from "@/components/nav/NavBar2";
 import ThemeSwitcher from "@/theme/ThemeSwitcher";
 import Footer from "@/components/Footer";
 
@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <main className="min-h-screen bg-background">
       <div className="">
-        <Navbar />
+        <NavBar2 />
         {children}
         <Footer />
       </div>
