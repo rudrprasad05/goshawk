@@ -1,21 +1,9 @@
-import {
-  Ad,
-  Products,
-  Seller,
-  User,
-  OrderList,
-  Order,
-  MerchantOrder,
-  Billboard,
-  Category,
-  Subcategory,
-  Conversation,
-  Message,
-} from "@prisma/client";
+import { Ad, Billboard, Category, Conversation, MerchantOrder, Message, Order, OrderList, Products, Seller, Subcategory, User } from "@prisma/client";
 
 export type UserType = User & {
   seller: SellerType;
 };
+
 
 export type SellerType = Seller & {
   products: Products[];
