@@ -69,7 +69,7 @@ export const GetMerchantOrderForFeed = async ({
 
   const total = await prisma.products.count();
 
-  revalidatePath("/");
+  // revalidatePath("/");
 
   return {
     data: results,
@@ -78,6 +78,15 @@ export const GetMerchantOrderForFeed = async ({
       totalPages: Math.ceil(total / take),
     },
   };
+};
+
+export const GetOneOrderDetails = async (id: string) => {
+  const orderRes = await prisma.order.findUnique({
+    where: {
+      id,
+    },
+  });
+  return orderRes;
 };
 
 export const GetOneMerchantList = async (id: string) => {
@@ -109,6 +118,30 @@ export const GetOrdersForSingleProduct = async (id: string) => {
     },
     include: {
       merchantOrders: true,
+    },
+  });
+  return orderRes;
+};
+
+export const ChangeMpaisaId = async (id: string, mpaisa: number) => {
+  const orderRes = await prisma.order.update({
+    where: {
+      id: id,
+    },
+    data: {
+      mpaisaId: mpaisa as number,
+    },
+  });
+  return orderRes;
+};
+
+export const GetOrderByTId = async (id: number) => {
+  const orderRes = await prisma.order.update({
+    where: {
+      mpaisaId: id,
+    },
+    data: {
+      isPaid: true,
     },
   });
   return orderRes;

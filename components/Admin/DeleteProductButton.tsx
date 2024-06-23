@@ -16,10 +16,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
-// interface props {
-//   tags: TagType[];
-// }
-// TODO make sure the image name is unique by appending date to the end if not previous image will be deleted
 export const DeleteProductButton = ({
   user,
   product,

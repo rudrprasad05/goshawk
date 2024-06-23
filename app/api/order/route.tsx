@@ -26,9 +26,11 @@ export async function POST(request: Request) {
 
     if (!user) return new NextResponse("internal error", { status: 500 });
 
+    let date = new Date().getTime();
     const order = await prisma.order.create({
       data: {
         total,
+        mpaisaId: date as number,
         address: user.address as string,
         city: user.town as string,
         country: user.country as string,
@@ -59,7 +61,7 @@ export async function POST(request: Request) {
       orderListArr.push(tempMerchantOrder);
     }
 
-    return NextResponse.json("orderListArr");
+    return NextResponse.json(order);
   } catch (error: any) {
     console.log(error, "NEW BRANCH ERROR");
     return new NextResponse("internal error", { status: 500 });

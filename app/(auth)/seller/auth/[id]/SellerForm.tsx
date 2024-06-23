@@ -210,6 +210,7 @@ export const Step2 = ({
             />
           </div>
 
+          {/* avatar component */}
           <div className="flex gap-6">
             <div>
               <FormLabel>Logo</FormLabel>
@@ -224,6 +225,7 @@ export const Step2 = ({
               )}
             </div>
 
+            {/* logo image upload */}
             <div className="flex gap-3 my-6 items-center">
               <label
                 htmlFor="file"

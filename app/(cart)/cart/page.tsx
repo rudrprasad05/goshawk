@@ -34,6 +34,14 @@ import { toast } from "sonner";
 import { FaSpinner } from "react-icons/fa";
 import { FiEyeOff, FiEye } from "react-icons/fi";
 import { z } from "zod";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { MerchantOrderType } from "@/types";
 
 const PersonalDetailsSchema = z.object({
   town: z
@@ -57,7 +65,10 @@ const Page = () => {
     useContext(CartContext);
   const session = useSession();
   const [loading, setLoading] = useState(false);
+  const [checkoutOptionRoutePage, setCheckoutOptionRoutePage] =
+    useState("mpaisa");
   const router = useRouter();
+  const [order, setOrder] = useState("");
 
   const [isMounted, setIsMounted] = useState<boolean>(false);
   useEffect(() => {
@@ -79,25 +90,24 @@ const Page = () => {
         return acc;
       }, {})
     );
-
     setLoading(true);
     await axios
       .post("/api/order", {
         data: groupingViaCommonProperty,
         customer: session.data?.user.id,
       })
-      .then(() => {
+      // TODO fix mpaisa. the carrt one not working
+      .then((res) => {
+        router.push(`/cart/${checkoutOptionRoutePage}?id=${res.data.id}`);
         setLoading(false);
         toast.success("Order Sent Successfully");
+        clearCart();
       })
       .catch((error: any) => {
         console.log("error");
         toast("Something went wrong", { description: "Contact site admin" });
-      })
-      .finally(() => {
-        clearCart();
-        router.push("/");
       });
+    return;
   };
 
   const form = useForm<PersonalDetailsType>({
@@ -172,7 +182,7 @@ const Page = () => {
                         <div className="relative h-24 w-24">
                           <Image
                             fill
-                            src={image}
+                            src={image[0]}
                             alt="product image"
                             className="h-full w-full rounded-md object-cover object-center sm:h-48 sm:w-48"
                           />
@@ -339,6 +349,28 @@ const Page = () => {
                     ) : (
                       <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
                     )}
+                  </div>
+                </div>
+
+                <Separator />
+
+                <div className="flex items-center justify-between border-tpt-4">
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <span>Select Payment Method</span>
+                  </div>
+                  <div className="text-sm font-medium text-muted-foreground">
+                    <Select
+                      onValueChange={setCheckoutOptionRoutePage}
+                      defaultValue="mpaisa"
+                    >
+                      <SelectTrigger className="w-[120px]">
+                        <SelectValue placeholder="Select payment option" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="mpaisa">mpaisa</SelectItem>
+                        <SelectItem value="bsp">BSP</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
 

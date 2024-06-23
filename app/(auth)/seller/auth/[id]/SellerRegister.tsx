@@ -41,7 +41,7 @@ const plans = [
   },
   {
     name: "Diamond",
-    price: "$20",
+    price: "$25",
     icon: Building2,
     attr: [
       "Unlimited ad-free movies",
@@ -130,8 +130,8 @@ const Step1 = ({ state, onclick }: { state: any; onclick: any }) => {
               </div>
               <CardTitle className="text-center">{plan.name}</CardTitle>
             </CardHeader>
-            <CardContent className="text-sm grow">
-              <ul>
+            <CardContent className="text-sm grow flex flex-col">
+              <ul className="mb-4">
                 {plan.attr?.map((i) => (
                   <li className="flex gap-1" key={i.slice(0, 5)}>
                     <div>
@@ -141,6 +141,9 @@ const Step1 = ({ state, onclick }: { state: any; onclick: any }) => {
                   </li>
                 ))}
               </ul>
+              <p className="center mt-auto text-xl text-gray-400">
+                {plan.price} <span className="text-sm">&nbsp;/ per month</span>
+              </p>
             </CardContent>
             <CardFooter>
               <Button onClick={() => onclick(plan.name)} className="w-full">

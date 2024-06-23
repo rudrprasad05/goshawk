@@ -121,6 +121,7 @@ model Order {
   customer       User            @relation(fields: [customerId], references: [id], onDelete: Cascade)
   customerId     String          @db.ObjectId
   total          Int
+  mpaisaId       Int             @unique
   isDelivered    Boolean         @default(false)
   isPaid         Boolean         @default(false)
   address        String

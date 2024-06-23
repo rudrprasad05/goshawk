@@ -70,7 +70,6 @@ const Container = ({ props }: { props: Params }) => {
     setCoffin(false);
     setGlobal([]);
   };
-  // TODO change the price; depending on requirements.
 
   const sendOrder = async () => {
     const data = {
