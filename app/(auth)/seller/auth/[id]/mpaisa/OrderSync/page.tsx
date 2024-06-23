@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-const OrderSync = () => {
+const OrderConfig = () => {
   const sParams = useSearchParams();
   const router = useRouter();
   const tId = sParams.get("tID");
@@ -33,4 +33,4 @@ const OrderSync = () => {
   return <></>;
 };
 
-export default OrderSync;
+export default OrderConfig;

@@ -35,7 +35,7 @@ const MpaisaButton = () => {
     const changempaisaid = await ChangeMpaisaId(order?.id, mId);
     const res = await axios.get(
       `/api/mpaisa?
-      url=http://localhost:3000/cart/mpaisa/OrderSync
+      url=http://localhost:3000/cart/mpaisa/orderconfig
       &&tID=${mId.toString()}
       &&amt=${order?.total}
       &&cID=26484&&iDet=detail`

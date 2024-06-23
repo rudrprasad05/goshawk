@@ -98,7 +98,7 @@ const Page = () => {
       })
       // TODO fix mpaisa. the carrt one not working
       .then((res) => {
-        router.push(`/cart/${checkoutOptionRoutePage}?id=${res.data.id}`);
+        router.push(`/payment/${checkoutOptionRoutePage}?id=${res.data.id}`);
         setLoading(false);
         toast.success("Order Sent Successfully");
         clearCart();
