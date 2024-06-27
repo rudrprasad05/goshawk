@@ -21,10 +21,9 @@ const MpaisaButton = () => {
       setOrder(orderreq);
     };
     GetOrder();
-  });
+  }, [order]);
 
   const router = useRouter();
-  console.log("first");
   const handleClick = async () => {
     if (!order) return;
     if (order?.isPaid) {
@@ -34,13 +33,10 @@ const MpaisaButton = () => {
     let mId = date.getTime() as number;
     const changempaisaid = await ChangeMpaisaId(order.id, mId);
     console.log(process.env.URL, 1);
-    let strUrl = encodeURIComponent(process.env.URL?.toString() || "");
     const res = await axios.get(
-      `/api/mpaisa?url=${encodeURIComponent(
-        strUrl
-      )}/payment/mpaisa/orderconfig/${order.id}&&tID=${mId.toString()}&&amt=${
-        order?.total
-      }&&cID=26484&&iDet=detail`
+      `/api/mpaisa?url=${process.env.URL}/payment/mpaisa/orderconfig/${
+        order.id
+      }&&tID=${mId.toString()}&&amt=${order?.total}&&cID=26484&&iDet=detail`
     );
     console.log(res, order);
     router.push(res.data);
