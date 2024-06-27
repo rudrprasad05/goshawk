@@ -32,6 +32,7 @@ const MpaisaButton = () => {
     let date = new Date();
     let mId = date.getTime() as number;
     const changempaisaid = await ChangeMpaisaId(order?.id, mId);
+    console.log(process.env.URL);
     const res = await axios.get(
       `/api/mpaisa?url=${process.env.URL}/payment/mpaisa/orderconfig/${
         order.id
