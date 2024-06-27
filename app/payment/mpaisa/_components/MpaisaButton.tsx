@@ -12,12 +12,11 @@ import { OrderType } from "@/types";
 const MpaisaButton = () => {
   const params = useSearchParams();
   const id = params.get("id");
-
-  if (id == null || id == undefined) return;
   const [order, setOrder] = useState<OrderType | null>();
 
   useEffect(() => {
     const GetOrder = async () => {
+      if (id == null || id == undefined) return;
       const orderreq = await GetOneOrderDetails(id);
       setOrder(orderreq);
     };

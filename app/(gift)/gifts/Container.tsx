@@ -293,9 +293,10 @@ const Container = ({ props }: { props: Params }) => {
 
             <div>
               {!!delivery && (
-                <p className="flex gap-3 items-center">
+                <p className="flex grow gap-3 items-center">
                   <p>{`delivery: ${delivery ? "yes" : "no"}`}</p>
                   <Button
+                    className="ml-auto"
                     variant={"secondary"}
                     onClick={() => setDelivery(false)}
                   >
@@ -346,15 +347,15 @@ const Helper = ({
 }) => {
   const help = () => {
     func([]);
-    global((prev) => {
-      const temp = prev.filter((i) => i != prop[0]);
+    global((prev: any) => {
+      const temp = prev.filter((i: any) => i != prop[0]);
       return [...temp];
     });
   };
   return (
-    <div>
+    <div className="mx-2">
       {prop.length > 0 && (
-        <p className="flex justify-between items-center">
+        <p className="flex my-2 justify-between items-center">
           <p>{`${prop[0]}: ${prop.length}`}</p>
           <Button variant={"secondary"} onClick={() => help()}>
             clear

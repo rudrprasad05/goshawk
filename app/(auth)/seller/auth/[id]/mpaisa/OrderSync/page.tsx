@@ -1,6 +1,6 @@
 "use client";
 
-import { GetOrderByTId } from "@/actions/orders";
+import { GetOrderById } from "@/actions/orders";
 import { OrderType } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -12,11 +12,11 @@ const OrderConfig = () => {
   const tId = sParams.get("tID");
   const [order, setOrder] = useState<OrderType | null>(null);
 
-  if (!tId || tId == "") return `no id given`;
-
   useEffect(() => {
     const getData = async () => {
-      const res = await GetOrderByTId(parseInt(tId))
+      if (!tId || tId == "") return `no id given`;
+
+      const res = await GetOrderById(tId)
         .then((r) => {
           setOrder(r);
           router.push("/");

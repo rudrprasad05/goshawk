@@ -19,7 +19,7 @@ const GiftCard = ({
   return (
     <Card className={cn("", search == data.link && "border-primary")}>
       <CardHeader>
-        <CardTitle>{data.name}</CardTitle>
+        <CardTitle className="">{data.name}</CardTitle>
       </CardHeader>
       <CardFooter className="text-sm text-muted-foreground">
         <Link href={`?type=${data.link}`}>Select</Link>
