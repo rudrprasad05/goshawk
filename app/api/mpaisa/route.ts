@@ -10,14 +10,11 @@ type Data = {
 };
 
 export async function GET(req: Request) {
-  console.log(req.url);
   let search = req.url.split("?")[1];
-  console.log(search);
   try {
     const response = await axios.get(
       `https://pay.mpaisa.vodafone.com.fj/live/API/?${search}`
     );
-    console.log(response);
     let mainUrl = response.data.destinationurl;
     let requestID = response.data.requestID;
     let params = response.config.url?.split("?")[1];

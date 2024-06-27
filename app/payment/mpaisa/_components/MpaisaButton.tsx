@@ -24,6 +24,7 @@ const MpaisaButton = () => {
   });
 
   const router = useRouter();
+  console.log("first");
   const handleClick = async () => {
     if (!order) return;
     if (order?.isPaid) {
@@ -31,8 +32,8 @@ const MpaisaButton = () => {
     }
     let date = new Date();
     let mId = date.getTime() as number;
-    const changempaisaid = await ChangeMpaisaId(order?.id, mId);
-    console.log(process.env.URL);
+    const changempaisaid = await ChangeMpaisaId(order.id, mId);
+    console.log(process.env.URL, 1);
     const res = await axios.get(
       `/api/mpaisa?url=${process.env.URL}/payment/mpaisa/orderconfig/${
         order.id
@@ -47,7 +48,9 @@ const MpaisaButton = () => {
       onClick={() => handleClick()}
     >
       <div className="w-full h-full rounded-md">
-        <img
+        <Image
+          width={70}
+          height={50}
           className="object-cover h-full w-full"
           alt="pay"
           src={"/mpaisa-pay.png"}
