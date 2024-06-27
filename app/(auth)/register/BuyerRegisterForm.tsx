@@ -53,7 +53,7 @@ const BuyerRegisterForm = (props: RegisterPageProps) => {
 
   useEffect(() => {
     if (login) rerouter();
-  }, [params]);
+  }, [params, login, rerouter]);
 
   const form = useForm<RegisterFormType>({
     resolver: zodResolver(RegisterFormSchema),

@@ -49,9 +49,11 @@ const MpaisaButton = () => {
       onClick={() => handleClick()}
     >
       <div className="w-full h-full rounded-md">
-        <img
+        <Image
           className="object-cover h-full w-full"
           alt="pay"
+          width={50}
+          height={20}
           src={"/mpaisa-pay.png"}
         />
       </div>

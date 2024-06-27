@@ -1,7 +1,4 @@
-"use client";
-
 import Link from "next/link";
-
 import Image from "next/image";
 import Cart from "../Cart";
 import MaxWidthWrapper from "../MaxWidthWrapper";
@@ -10,6 +7,8 @@ import NavBarLogin from "./NavBarLogin";
 import NavItems from "./NavItems";
 import { Input } from "../ui/input";
 import SearchBar from "./SearchBar";
+import { Suspense } from "react";
+import { Loader2 } from "lucide-react";
 
 const NavBar2 = () => {
   return (
@@ -50,13 +49,21 @@ const NavBar2 = () => {
               <div className="w-full px-12 flex flex-col gap-6">
                 <SearchBar />
                 <div className="hidden z-50  lg:block lg:self-stretch">
-                  <NavItems />
+                  <Suspense
+                    fallback={<Loader2 className={"animate-spin mr-3"} />}
+                  >
+                    <NavItems />
+                  </Suspense>
                 </div>
               </div>
               {/* Login */}
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  <NavBarLogin />
+                  <Suspense
+                    fallback={<Loader2 className={"animate-spin mr-3"} />}
+                  >
+                    <NavBarLogin />
+                  </Suspense>
                   <div className="ml-4 flow-root lg:ml-6">
                     <Cart />
                   </div>

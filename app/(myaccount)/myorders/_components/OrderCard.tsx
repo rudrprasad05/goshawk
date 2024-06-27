@@ -31,7 +31,7 @@ import React, { useEffect, useState } from "react";
 interface props {
   order: OrderWithMerchantOrderListAndProductsType;
 }
-// TODO make order page
+
 const OrderCard: React.FC<props> = (props: props) => {
   const orders = props.order;
 

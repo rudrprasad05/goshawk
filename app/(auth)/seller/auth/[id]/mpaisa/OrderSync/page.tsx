@@ -28,7 +28,7 @@ const OrderConfig = () => {
         });
     };
     getData();
-  }, [order]);
+  }, [order, router, tId]);
 
   return <></>;
 };
