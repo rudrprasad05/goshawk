@@ -55,7 +55,7 @@ const BuyerLoginForm = (props: LoginPageProps) => {
       redirect: false,
     })
       .then((callback) => {
-        console.log("f");
+        console.log(callback?.status);
 
         if (callback?.error) {
           toast("Deleted User", {
