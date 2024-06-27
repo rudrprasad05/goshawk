@@ -43,6 +43,7 @@ const BuyerLoginForm = (props: LoginPageProps) => {
     resolver: zodResolver(SignInForm),
     defaultValues: {
       email: "",
+
       password: "",
     },
   });
