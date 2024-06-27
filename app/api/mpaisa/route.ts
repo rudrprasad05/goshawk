@@ -16,10 +16,6 @@ export async function GET(req: Request) {
   try {
     const response = await axios.get(
       `https://pay.mpaisa.vodafone.com.fj/live/API/?${search}`
-      // `https://pay.mpaisa.vodafone.com.fj/live/API/?url=https://www.mctechfiji.com/checkout&&tID=101&&amt=5.00&&cID=26200&&iDet=detail`
-      //`https://pay.mpaisa.vodafone.com.fj/live/API/?url=https://www.mctechfiji.com/checkout&&tID=103&&amt=2.00&&cID=26200&&iDet=detail`
-      //https://pay.mpaisa.vodafone.com.fj/live/?url=http://localhost:3000/cart&&tID=113&&amt=1.00&&cID=26484&&iDet=detail&&rID=400944
-      // `https://pay.mpaisa.vodafone.com.fj/live/API/?url=http://localhost:3000/cart&&tID=31701480633817810513527387846&&amt=1.00&&cID=26484&&iDet=detail`
     );
     console.log(response);
     let mainUrl = response.data.destinationurl;

@@ -13,7 +13,7 @@ export const VerifyEmailTemplate: React.FC<
       Verify email for <b>{email}</b>
     </h1>
     <p>To verify your email, click on this link:</p>
-    <a href={`http://localhost:3000/verify?token=${emailVerificationToken}`}>
+    <a href={`${process.env.URL}/verify?token=${emailVerificationToken}`}>
       Click here to verify your email
     </a>
   </div>
