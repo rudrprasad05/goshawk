@@ -1,20 +1,16 @@
 import { GetAllParentWithChildCategories } from "@/actions/category";
-import {
-  GetAllProductsPagination,
-  GetLandingCaroProducts,
-  GetSuperAdminProducts,
-} from "@/actions/products";
+import { GetAllProductsPagination, GetLandingCaroProducts, GetSuperAdminProducts } from "@/actions/products";
 import { GetMostRecentProduct } from "@/actions/queries";
 import LandingPageHorizontal from "@/components/ads/LandingPageHorizontal";
 import AdCaroSection from "@/components/landing/AdCaroSection";
 import CategorySideNav from "@/components/landing/CategorySideNav";
 import LandingHeader from "@/components/landing/LandingHeader";
+import OtherCaroSection from "@/components/landing/OtherCaroSection";
 import Perks from "@/components/landing/Perks";
 import SuperAdminProducts from "@/components/landing/SuperAdminProducts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Link from "next/link";
 import prisma from "@/lib/prismadb";
-import OtherCaroSection from "@/components/landing/OtherCaroSection";
+import Link from "next/link";
 
 export default async function Home() {
   const AdminProducts = await GetSuperAdminProducts();
@@ -50,7 +46,7 @@ export default async function Home() {
 
 const CategorySideNavCont = ({ cats }: { cats: any[] }) => {
   return (
-    <Card className="overflow-auto bg-black pt-6">
+    <Card className="overflow-auto pt-6">
       <CardContent>
         {cats.map((cat) => (
           <CategorySideNav key={cat.id} category={cat} />

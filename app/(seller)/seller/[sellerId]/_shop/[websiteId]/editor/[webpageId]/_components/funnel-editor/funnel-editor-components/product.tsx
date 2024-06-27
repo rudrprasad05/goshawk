@@ -105,7 +105,7 @@ const ProductComponent = (props: Props) => {
           </Badge>
         )}
 
-      <Card className="h-full bg-black flex flex-col justify-between">
+      <Card className="h-full flex flex-col justify-between">
         <CardHeader>
           <div className="w-full h-[220px]">
             <Image
@@ -117,7 +117,7 @@ const ProductComponent = (props: Props) => {
             />
           </div>
           <div className="flex gap-5 pt-5">
-            <CardTitle className="grow p-0">{product?.name}</CardTitle>
+            <CardTitle className="line-clamp-1 p-0">{product?.name}</CardTitle>
             <Badge className="h-min">{product?.seller.companyName}</Badge>
           </div>
         </CardHeader>

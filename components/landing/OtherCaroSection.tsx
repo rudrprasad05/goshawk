@@ -43,12 +43,12 @@ export default function OtherCaroSection({
     >
       <CarouselContent className="">
         {products.map((product, index) => (
-          <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/4">
+          <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/3">
             <ProductCard product={product} />
           </CarouselItem>
         ))}
         {products.map((product, index) => (
-          <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/4">
+          <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/3">
             <ProductCard product={product} />
           </CarouselItem>
         ))}

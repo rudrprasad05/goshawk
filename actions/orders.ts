@@ -12,6 +12,30 @@ export const OrderCountApi = async () => {
   });
 };
 
+export const GetOrderWithProductsForOneCustomer = async (cusId: string) => {
+  const res = await prisma.order.findMany({
+    where: {
+      customerId: cusId,
+    },
+    include: {
+      merchantOrders: {
+        include: {
+          orderLists: {
+            include: {
+              product: true,
+            },
+          },
+          seller: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return res;
+};
+
 export const ChangeDeliveryStatusApi = async (val: boolean, id: string) => {
   return await prisma.merchantOrder.update({
     where: {
@@ -135,10 +159,10 @@ export const ChangeMpaisaId = async (id: string, mpaisa: number) => {
   return orderRes;
 };
 
-export const GetOrderByTId = async (id: number) => {
+export const GetOrderById = async (id: string) => {
   const orderRes = await prisma.order.update({
     where: {
-      mpaisaId: id,
+      id: id,
     },
     data: {
       isPaid: true,

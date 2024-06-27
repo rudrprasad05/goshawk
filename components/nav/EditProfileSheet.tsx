@@ -17,6 +17,7 @@ import { CartContext } from "@/context/CartContext";
 import ThemeSwitcher from "@/theme/ThemeSwitcher";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface props {
   children?: React.ReactNode;
@@ -39,8 +40,10 @@ const EditProfileSheet: React.FC<props> = ({ children, user }) => {
           <SheetTitle>
             Welcome back {user && user.name.split(" ")[0]}
           </SheetTitle>
-          <SheetDescription className="relative h-full"></SheetDescription>
         </SheetHeader>
+        <SheetDescription>
+          <Link href={"/myorders"}>My orders</Link>
+        </SheetDescription>
         <SheetFooter className="absolute bottom-0 left-0 p-8 w-full">
           <div className="flex justify-between w-full">
             <ThemeSwitcher />

@@ -1,3 +1,4 @@
+import { GetOrderWithProductsForOneCustomer } from "@/actions/orders";
 import {
   Ad,
   Billboard,
@@ -11,6 +12,7 @@ import {
   Seller,
   Subcategory,
   User,
+  Prisma,
 } from "@prisma/client";
 
 export type UserType = User & {
@@ -65,3 +67,13 @@ export type BillboardType = Billboard & {
     seller: Seller;
   };
 };
+
+// export type OrderWithMerchantOrderListAndProductsType = Order & {
+//   merchantOrders: MerchantOrder[] & {
+//     orderLists: OrderList[] & {
+//       product: Products;
+//     };
+//   };
+// };
+export type OrderWithMerchantOrderListAndProductsType =
+  Prisma.PromiseReturnType<typeof GetOrderWithProductsForOneCustomer>;

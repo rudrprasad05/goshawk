@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 import AuthContext from "@/context/AuthContext";
 import { CartContextProvider } from "@/context/CartContext";
 import { Toaster as SonnarToaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,8 +28,9 @@ export default function RootLayout({
             <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
               <Toaster />
               <SonnarToaster />
-
-              <main className="min-h-screen">{children}</main>
+              <TooltipProvider>
+                <main className="min-h-screen">{children}</main>
+              </TooltipProvider>
             </ThemeProvider>
           </CartContextProvider>
         </AuthContext>

@@ -64,11 +64,15 @@ const Page = () => {
   const { cartProducts, getTotal, removeCart, clearCart } =
     useContext(CartContext);
   const session = useSession();
+  const user = session.data?.user;
   const [loading, setLoading] = useState(false);
   const [checkoutOptionRoutePage, setCheckoutOptionRoutePage] =
     useState("mpaisa");
   const router = useRouter();
   const [order, setOrder] = useState("");
+  const [showUserDetails, setShowUserDetails] = useState(
+    user?.address == null || user.country == null || user.town == null
+  );
 
   const [isMounted, setIsMounted] = useState<boolean>(false);
   useEffect(() => {
@@ -76,11 +80,7 @@ const Page = () => {
   }, []);
 
   const cartTotal = getTotal();
-
   const fee = 1;
-
-  const user = session.data?.user;
-  console.log(user);
 
   const handleClick = async () => {
     let groupingViaCommonProperty = Object.values(
@@ -96,7 +96,6 @@ const Page = () => {
         data: groupingViaCommonProperty,
         customer: session.data?.user.id,
       })
-      // TODO fix mpaisa. the carrt one not working
       .then((res) => {
         router.push(`/payment/${checkoutOptionRoutePage}?id=${res.data.id}`);
         setLoading(false);
@@ -123,6 +122,7 @@ const Page = () => {
     console.log(data);
     axios.patch(`/api/user/${user?.id}`, data).then(() => {
       toast.success("Personal Details Updated");
+      setShowUserDetails(false);
     });
   };
 
@@ -142,107 +142,11 @@ const Page = () => {
           >
             <h2 className="sr-only">Items in your shopping cart</h2>
 
-            {isMounted && cartProducts.length === 0 ? (
-              <div className="flex h-full flex-col items-center justify-center space-y-1">
-                <div
-                  aria-hidden="true"
-                  className="relative mb-4 h-40 w-40 text-muted-foreground"
-                >
-                  <Image
-                    src="/hippo-empty-cart.png"
-                    fill
-                    loading="eager"
-                    alt="empty shopping cart hippo"
-                  />
-                </div>
-                <h3 className="font-semibold text-2xl">Your cart is empty</h3>
-                <p className="text-muted-foreground text-center">
-                  Whoops! Nothing to show here yet.
-                </p>
-              </div>
-            ) : null}
-
-            <ul
-              className={cn({
-                "divide-y border-b border-t":
-                  isMounted && cartProducts.length > 0,
-              })}
-            >
-              {isMounted &&
-                cartProducts.map((product, index) => {
-                  //   const label = PRODUCT_CATEGORIES.find(
-                  //     (c) => c.value === product.seller.companyName
-                  //   )?.label;
-
-                  const image = product.imageUrl;
-
-                  return (
-                    <li key={product.id + index} className="flex py-6 sm:py-10">
-                      <div className="flex-shrink-0">
-                        <div className="relative h-24 w-24">
-                          <Image
-                            fill
-                            src={image[0]}
-                            alt="product image"
-                            className="h-full w-full rounded-md object-cover object-center sm:h-48 sm:w-48"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="ml-4 flex flex-1 flex-col justify-between sm:ml-6">
-                        <div className="relative pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
-                          <div>
-                            <div className="flex justify-between">
-                              <h3 className="text-sm">
-                                <Link
-                                  href={`/product/${product.id}`}
-                                  className="font-medium text-secondary-foreground"
-                                >
-                                  {product.name}
-                                </Link>
-                              </h3>
-                            </div>
-
-                            <div className="mt-1 flex text-sm">
-                              <p className="text-muted-foreground">
-                                {product.sellerId}
-                              </p>
-                            </div>
-
-                            <p className="mt-1 text-sm font-medium text-muted-foreground">
-                              {formatPrice(product.price)}
-                            </p>
-                          </div>
-
-                          <div className="mt-4 sm:mt-0 sm:pr-9 w-20">
-                            <div className="absolute right-0 top-0">
-                              <Button
-                                aria-label="remove product"
-                                onClick={() => removeCart(product, false)}
-                                variant="ghost"
-                              >
-                                <X className="h-5 w-5" aria-hidden="true" />
-                              </Button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <p className="mt-4 flex space-x-2 text-sm text-gray-700">
-                          <Check className="h-5 w-5 flex-shrink-0 text-green-500" />
-
-                          <span>Eligible for instant delivery</span>
-                        </p>
-                      </div>
-                    </li>
-                  );
-                })}
-            </ul>
+            <ProductSection />
           </div>
 
-          <div className="mt-16 rounded-lg sticky top-24 lg:col-span-5 lg:mt-0">
-            {(user?.address == null ||
-              user.country == null ||
-              user.town == null) && (
+          <div className="mt-16 rounded-lg sticky top-24 flex flex-col gap-8 lg:col-span-5 lg:mt-0">
+            {showUserDetails && (
               <Card className="">
                 <CardHeader>
                   <h2 className="text-lg font-medium">Personal Details</h2>
@@ -309,10 +213,10 @@ const Page = () => {
                       />
 
                       <Button className="w-full" type="submit">
-                        {/* {isLoading && ( */}
-                        <FaSpinner className={"animate-spin mr-3"} />
-                        {/* )} */}
-                        Login
+                        {loading && (
+                          <FaSpinner className={"animate-spin mr-3"} />
+                        )}
+                        Submit
                       </Button>
                     </form>
                   </Form>
@@ -387,23 +291,125 @@ const Page = () => {
               </CardContent>
 
               <CardFooter className="mt-6">
-                <Button
-                  // disabled={cartProducts.length === 0 || loading}
-                  className="w-full"
-                  size="lg"
-                  onClick={() => handleClick()}
-                >
-                  {loading && (
-                    <Loader2 className="w-4 h-4 animate-spin mr-1.5" />
+                <div className="flex flex-col gap-2 w-full">
+                  {showUserDetails && (
+                    <p className="text-rose-500 text-sm">
+                      Enter user details before checkout
+                    </p>
                   )}
-                  Checkout
-                </Button>
+                  <Button
+                    // disabled={cartProducts.length === 0 || loading}
+                    className="w-full"
+                    size="lg"
+                    disabled={showUserDetails}
+                    onClick={() => handleClick()}
+                  >
+                    {loading && (
+                      <Loader2 className="w-4 h-4 animate-spin mr-1.5" />
+                    )}
+                    Checkout
+                  </Button>
+                </div>
               </CardFooter>
             </Card>
           </div>
         </div>
       </div>
     </div>
+  );
+};
+
+const ProductSection = () => {
+  const { cartProducts, getTotal, removeCart, clearCart } =
+    useContext(CartContext);
+
+  if (cartProducts.length === 0)
+    return (
+      <div className="flex h-full flex-col items-center justify-center space-y-1">
+        <div
+          aria-hidden="true"
+          className="relative mb-4 h-40 w-40 text-muted-foreground"
+        >
+          <Image
+            src="/hippo-empty-cart.png"
+            fill
+            loading="eager"
+            alt="empty shopping cart hippo"
+          />
+        </div>
+        <h3 className="font-semibold text-2xl">Your cart is empty</h3>
+        <p className="text-muted-foreground text-center">
+          Whoops! Nothing to show here yet.
+        </p>
+      </div>
+    );
+  return (
+    <ul
+      className={cn({
+        "divide-y border-b border-t": cartProducts.length > 0,
+      })}
+    >
+      {cartProducts.map((product, index) => {
+        const image = product.imageUrl;
+        return (
+          <li key={product.id + index} className="flex py-6 sm:py-10">
+            <div className="flex-shrink-0">
+              <div className="relative h-24 w-24">
+                <Image
+                  fill
+                  src={image[0]}
+                  alt="product image"
+                  className="h-full w-full rounded-md object-cover object-center sm:h-48 sm:w-48"
+                />
+              </div>
+            </div>
+
+            <div className="ml-4 flex flex-1 flex-col justify-between sm:ml-6">
+              <div className="relative pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
+                <div>
+                  <div className="flex justify-between">
+                    <h3 className="text-sm">
+                      <Link
+                        href={`/product/${product.id}`}
+                        className="font-medium text-secondary-foreground"
+                      >
+                        {product.name}
+                      </Link>
+                    </h3>
+                  </div>
+
+                  <div className="mt-1 flex text-sm">
+                    <p className="text-muted-foreground">{product.sellerId}</p>
+                  </div>
+
+                  <p className="mt-1 text-sm font-medium text-muted-foreground">
+                    {formatPrice(product.price)}
+                  </p>
+                </div>
+
+                <div className="mt-4 sm:mt-0 sm:pr-9 w-20">
+                  <div className="absolute right-0 top-0">
+                    <Button
+                      aria-label="remove product"
+                      onClick={() => removeCart(product, false)}
+                      variant="ghost"
+                    >
+                      <X className="h-5 w-5" aria-hidden="true" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              <p className="mt-4 flex space-x-2 text-sm text-gray-700">
+                <Check className="h-5 w-5 flex-shrink-0 text-green-500" />
+
+                <span>Eligible for instant delivery</span>
+              </p>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
   );
 };
 

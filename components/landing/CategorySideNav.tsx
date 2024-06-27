@@ -19,44 +19,60 @@ type CategoryTypeLocal = CategoryType & {
 const CategorySideNav = ({ category }: { category: CategoryTypeLocal }) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
-  if (category.subcategories.length > 0)
-    return (
-      <Collapsible open={isOpen} onOpenChange={setIsOpen} className="space-y-2">
-        <div className="flex items-center justify-between space-x-4 px-4 text-md">
-          <h4 className="grow text-sm ">{category.name}</h4>
-          <CollapsibleTrigger asChild>
-            <Button variant="ghost" size="sm" className="w-9 p-0">
-              <ChevronsUpDown className="h-4 w-4" />
-              <span className="sr-only">Toggle</span>
-            </Button>
-          </CollapsibleTrigger>
-        </div>
-
-        <CollapsibleContent className="space-y-2">
-          {category.subcategories.map((i) => (
-            <div
-              key={i.id}
-              className="flex items-center pl-6 text-sm text-muted-foreground"
-            >
-              <Link href={`/shop/products?search=${i.name}`}>{i.name}</Link>
-            </div>
-          ))}
-        </CollapsibleContent>
-      </Collapsible>
-    );
+  // if (category.subcategories.length > 0)
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen} className="space-y-2">
-      <div className="flex items-center justify-between space-x-4 px-4 text-md ">
-        <h4 className="grow text-sm text-nowrap">{category.name}</h4>
+      <div className="flex items-center justify-between space-x-4 px-4 text-md">
+        <Link
+          className="hover:underline"
+          href={`/shop/products?search=${category.name}`}
+        >
+          <h4 className="grow text-sm ">{category.name}</h4>
+        </Link>
         <CollapsibleTrigger asChild>
-          <Button variant="ghost" size="sm" className="opacity-0 w-9 p-0">
+          <Button variant="ghost" size="sm" className="w-9 p-0">
             <ChevronsUpDown className="h-4 w-4" />
             <span className="sr-only">Toggle</span>
           </Button>
         </CollapsibleTrigger>
       </div>
+
+      <CollapsibleContent className="space-y-2">
+        {category.subcategories.length > 0 &&
+          category.subcategories.map((i) => (
+            <div
+              key={i.id}
+              className="flex items-center pl-6 text-sm text-muted-foreground"
+            >
+              <Link
+                className="hover:underline"
+                href={`/shop/products?search=${i.name}`}
+              >
+                {i.name}
+              </Link>
+            </div>
+          ))}
+      </CollapsibleContent>
     </Collapsible>
   );
+  // return (
+  //   <Collapsible open={isOpen} onOpenChange={setIsOpen} className="space-y-2">
+  //     <div className="flex items-center justify-between space-x-2 px-2 text-md ">
+  //       <Link
+  //         className="hover:underline"
+  //         href={`/shop/products?search=${category.name}`}
+  //       >
+  //         <h4 className="grow text-sm ">{category.name}</h4>
+  //       </Link>
+  //       <CollapsibleTrigger asChild>
+  //         <Button variant="ghost" size="sm" className="opacity-0 w-9 p-0">
+  //           <ChevronsUpDown className="h-4 w-4" />
+  //           <span className="sr-only">Toggle</span>
+  //         </Button>
+  //       </CollapsibleTrigger>
+  //     </div>
+  //   </Collapsible>
+  // );
 };
 
 export default CategorySideNav;

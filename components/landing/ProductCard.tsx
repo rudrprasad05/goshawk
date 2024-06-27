@@ -49,7 +49,7 @@ export const ProductCard: React.FC<props> = ({ product }) => {
   if (!domLoaded) return null;
 
   return (
-    <Card className="h-full bg-black flex flex-col justify-between">
+    <Card className="h-full  flex flex-col justify-between">
       <CardHeader>
         <div className="w-full h-[220px]">
           <Image
@@ -61,7 +61,9 @@ export const ProductCard: React.FC<props> = ({ product }) => {
           />
         </div>
         <div className="flex gap-5 pt-5">
-          <CardTitle className="grow p-0">{product.name}</CardTitle>
+          <CardTitle className="grow truncate line-clamp-2 p-0">
+            {product.name}
+          </CardTitle>
           <Badge className="h-min">{product.seller.companyName}</Badge>
         </div>
       </CardHeader>
