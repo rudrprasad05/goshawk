@@ -36,9 +36,11 @@ const MpaisaButton = () => {
     console.log(process.env.URL, 1);
     let strUrl = encodeURIComponent(process.env.URL?.toString() || "");
     const res = await axios.get(
-      `/api/mpaisa?url=${strUrl}/payment/mpaisa/orderconfig/${
-        order.id
-      }&&tID=${mId.toString()}&&amt=${order?.total}&&cID=26484&&iDet=detail`
+      `/api/mpaisa?url=${encodeURIComponent(
+        strUrl
+      )}/payment/mpaisa/orderconfig/${order.id}&&tID=${mId.toString()}&&amt=${
+        order?.total
+      }&&cID=26484&&iDet=detail`
     );
     console.log(res, order);
     router.push(res.data);
