@@ -10,7 +10,7 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
-  title: "Alibaba Clone",
+  title: "Goshawk Fiji",
   description: "Designed, developed and Powered by Procyon",
 };
 

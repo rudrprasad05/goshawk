@@ -7,7 +7,7 @@ import NavBar2 from "@/components/nav/NavBar2";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Alibaba Clone",
+  title: "Goshawk Fiji",
   description: "Designed, developed and Powered by Procyon",
 };
 

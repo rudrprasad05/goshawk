@@ -3,7 +3,7 @@ import NavBar2 from "@/components/nav/NavBar2";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Alibaba Clone",
+  title: "Goshawk Fiji",
   description: "Designed, developed and Powered by Procyon",
 };
 
