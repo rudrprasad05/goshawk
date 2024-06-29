@@ -64,6 +64,7 @@ const BuyerLoginForm = (props: LoginPageProps) => {
               "The user has been deleted from this agency they no longer have access to the agency",
           });
         } else if (callback?.ok) {
+          router.push("/");
           toast("Success", {
             description: "You hace logged in Successfully",
           });
@@ -72,10 +73,7 @@ const BuyerLoginForm = (props: LoginPageProps) => {
       })
       .finally(() => {
         setIsLoading(false);
-        router.push("/");
-        console.log("first");
       });
-    console.log("first");
   };
 
   return (

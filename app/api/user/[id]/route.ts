@@ -8,7 +8,7 @@ export async function PATCH(request: Request, { params }: any) {
     const { id } = params;
     const body = await request.json();
 
-    const { town, country, address } = body;
+    const { town, country, address, phone } = body;
 
     const product = await prisma.user.update({
       where: {
@@ -18,6 +18,7 @@ export async function PATCH(request: Request, { params }: any) {
         town,
         country,
         address,
+        phone,
       },
     });
     return NextResponse.json(product);

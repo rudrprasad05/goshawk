@@ -47,7 +47,7 @@ export async function POST(request: Request) {
   // });
 
   await sendEmail({
-    from: "Admin <onboarding@resend.dev>",
+    from: "no-reply <no-reply@goshawkfiji.com>",
     to: [email],
     subject: "Verify your email address",
     react: VerifyEmailTemplate({

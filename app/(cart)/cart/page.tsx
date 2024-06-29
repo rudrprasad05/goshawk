@@ -41,7 +41,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { MerchantOrderType } from "@/types";
+import { MerchantOrderType, UserDataOnlyType, UserType } from "@/types";
+import { GetOnlyCurrentUser } from "@/actions/user";
 
 const PersonalDetailsSchema = z.object({
   town: z
@@ -49,6 +50,10 @@ const PersonalDetailsSchema = z.object({
     .min(2, { message: "Should have more than 2 characters" })
     .max(50, { message: "Should have less than 50 characters" }),
   country: z
+    .string()
+    .min(2, { message: "Should have more than 2 characters" })
+    .max(50, { message: "Should have less than 50 characters" }),
+  phone: z
     .string()
     .min(2, { message: "Should have more than 2 characters" })
     .max(50, { message: "Should have less than 50 characters" }),
@@ -70,17 +75,22 @@ const Page = () => {
     useState("mpaisa");
   const router = useRouter();
   const [order, setOrder] = useState("");
+  const [userDbData, setUserDbData] = useState<UserDataOnlyType | null>();
   const [showUserDetails, setShowUserDetails] = useState(
     user?.address == null || user.country == null || user.town == null
   );
-
   const [isMounted, setIsMounted] = useState<boolean>(false);
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
   const cartTotal = getTotal();
   const fee = 1;
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const res = await GetOnlyCurrentUser();
+      setUserDbData(res);
+    };
+    getUserData();
+    setIsMounted(true);
+  }, [isMounted, userDbData]);
 
   const handleClick = async () => {
     let groupingViaCommonProperty = Object.values(
@@ -91,6 +101,7 @@ const Page = () => {
       }, {})
     );
     setLoading(true);
+    console.log(groupingViaCommonProperty, session.data?.user.id);
     await axios
       .post("/api/order", {
         data: groupingViaCommonProperty,
@@ -100,7 +111,6 @@ const Page = () => {
         router.push(`/payment/${checkoutOptionRoutePage}?id=${res.data.id}`);
         setLoading(false);
         toast.success("Order Sent Successfully");
-        clearCart();
       })
       .catch((error: any) => {
         console.log("error");
@@ -115,11 +125,11 @@ const Page = () => {
       town: "",
       country: "",
       address: "",
+      phone: "",
     },
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
     axios.patch(`/api/user/${user?.id}`, data).then(() => {
       toast.success("Personal Details Updated");
       setShowUserDetails(false);
@@ -212,6 +222,24 @@ const Page = () => {
                         )}
                       />
 
+                      <FormField
+                        control={form.control}
+                        name="phone"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Phone</FormLabel>
+                            <FormControl>
+                              <Input
+                                autoComplete="off"
+                                placeholder="enter phone"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
                       <Button className="w-full" type="submit">
                         {loading && (
                           <FaSpinner className={"animate-spin mr-3"} />
@@ -296,6 +324,9 @@ const Page = () => {
                     <p className="text-rose-500 text-sm">
                       Enter user details before checkout
                     </p>
+                  )}
+                  {userDbData?.emailVerified && (
+                    <p className="text-rose-500 text-sm">Verify Email first</p>
                   )}
                   <Button
                     // disabled={cartProducts.length === 0 || loading}

@@ -65,9 +65,10 @@ export const ProductView = ({
   }, [cartProducts, product.id]);
 
   return (
-    <div>
-      <div className="px-20 py-10 flex gap-20 items-center">
+    <>
+      <div className="w-[70vw] h-[600px] mx-auto py-10 flex gap-20 items-start">
         <div>
+          {/* caro for product img gallery */}
           <Carousel
             setApi={setApi}
             className="w-[500px] mx-auto py-6"
@@ -93,6 +94,7 @@ export const ProductView = ({
             <CarouselNext />
           </Carousel>
 
+          {/* shows image preview, clickable */}
           <div className="w-min flex gap-3 mx-auto">
             {[...Array(count)].map((_i, index) => (
               <div
@@ -117,7 +119,8 @@ export const ProductView = ({
             ))}
           </div>
         </div>
-        <div className="grow">
+
+        <div className="grow flex flex-col py-6 h-full">
           <div className="flex gap-5">
             <h1 className="mb-5 text-lg text-primary">
               {product.seller.companyName}
@@ -126,8 +129,8 @@ export const ProductView = ({
 
           <h2 className="text-5xl font-bold capitalize">{product.name}</h2>
           <p className="my-8 text-muted-foreground">{product.description}</p>
-          <p className="text-2xl font-bold">${product.price}</p>
-          <div className="flex items-center gap-5 py-3">
+          <p className="text-2xl font-bold ">${product.price}</p>
+          <div className="flex items-center gap-5 mt-auto">
             <div>
               <ProductQuantityButton
                 product={product}
@@ -166,6 +169,6 @@ export const ProductView = ({
       <div className="px-20">
         <AdCaro products={related} />
       </div>
-    </div>
+    </>
   );
 };

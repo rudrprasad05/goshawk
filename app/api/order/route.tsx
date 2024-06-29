@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     let total = 0;
     let orderListArr = [];
     let res = data.map((i: ProductType[]) =>
-      i.map((j: ProductType) => (total += parseInt(j.price)))
+      i.map((j: ProductType) => (total += j.price))
     );
 
     const user = await prisma.user.findUnique({
@@ -22,9 +22,7 @@ export async function POST(request: Request) {
       },
     });
 
-    console.log(user);
-
-    if (!user) return new NextResponse("internal error", { status: 500 });
+    if (!user) return new NextResponse("no user found, error", { status: 500 });
 
     let date = new Date().getTime();
     const order = await prisma.order.create({
@@ -35,9 +33,10 @@ export async function POST(request: Request) {
         city: user.town as string,
         country: user.country as string,
         contact: user.phone as string,
-        customerId: customer,
+        customerId: user.id,
       },
     });
+    console.log(order);
 
     for (let i = 0; i < data.length; i++) {
       let tempMerchantOrder = await prisma.merchantOrder.create({
@@ -57,13 +56,14 @@ export async function POST(request: Request) {
             price: parseInt(data[i][j].price),
           },
         });
+        console.log(tempOrderList);
       }
       orderListArr.push(tempMerchantOrder);
     }
 
     return NextResponse.json(order);
   } catch (error: any) {
-    console.log(error, "NEW BRANCH ERROR");
+    console.log(error, "ORDER CREATION ERROR");
     return new NextResponse("internal error", { status: 500 });
   }
 }
