@@ -30,7 +30,9 @@ export const OrderFeedCard: React.FC<props> = ({ order }) => {
       </CardHeader>
       <CardDescription className="">
         <CardContent className="flex flex-col justify-between">
-          <p className="text-sm text-muted-foreground">Order Id: {order.id}</p>
+          <div className="text-sm text-muted-foreground">
+            Order Id: {order.id}
+          </div>
           <div className="flex items-center py-2">
             <CardTitle className="grow">Total: ${order.order.total}</CardTitle>
             <Link

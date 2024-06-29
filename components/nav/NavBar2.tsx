@@ -17,7 +17,7 @@ const NavBar2 = () => {
         <MaxWidthWrapper>
           <div className="border-b">
             {/* mobile */}
-            <div className=" lg:hidden flex justify-between items-center px-12">
+            <div className=" lg:hidden flex justify-between items-center py-8 px-12">
               <div className="flex lg:ml-0">
                 <Link href="/">
                   <Image

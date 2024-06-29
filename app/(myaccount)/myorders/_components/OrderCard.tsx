@@ -22,11 +22,19 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@radix-ui/react-accordion";
+
 import clsx from "clsx";
 import { ChevronDownIcon, DollarSign, Truck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import {
+  SelectItem,
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+} from "@/components/ui/select";
 
 interface props {
   order: OrderWithMerchantOrderListAndProductsType;
@@ -36,7 +44,8 @@ const OrderCard: React.FC<props> = (props: props) => {
   const orders = props.order;
 
   const [isMounted, setIsMounted] = useState(false);
-
+  const [checkoutOptionRoutePage, setCheckoutOptionRoutePage] =
+    useState("mpaisa");
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -106,6 +115,42 @@ const OrderCard: React.FC<props> = (props: props) => {
             </Card>
           </AccordionTrigger>
           <AccordionContent>
+            {!order.isPaid && (
+              <Card
+                key={order.id}
+                className="flex w-[90%] ml-auto my-2 flex-row items-center"
+              >
+                <CardHeader className="flex items-center">
+                  <CardTitle className="text-left text-lg flex gap-4 items-center">
+                    Select Payment Method
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-0 text-sm font-medium text-muted-foreground">
+                  <Select
+                    onValueChange={setCheckoutOptionRoutePage}
+                    defaultValue="mpaisa"
+                  >
+                    <SelectTrigger className="w-[120px]">
+                      <SelectValue placeholder="Select payment option" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="mpaisa">mpaisa</SelectItem>
+                      <SelectItem value="bsp">BSP</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </CardContent>
+                <CardFooter className="p-0 pr-8 items-center flex ml-auto gap-4">
+                  <Link
+                    className={
+                      "text-primary text-sm underline-offset-4 hover:underline"
+                    }
+                    href={`/payment/${checkoutOptionRoutePage}?id=${order.id}`}
+                  >
+                    Pay Now
+                  </Link>
+                </CardFooter>
+              </Card>
+            )}
             {order.merchantOrders.map((mo) =>
               mo.orderLists.map((ol) => (
                 <Card key={ol.id} className="flex w-[90%] ml-auto my-2">
