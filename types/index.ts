@@ -1,5 +1,6 @@
 import { GetOrderWithProductsForOneCustomer } from "@/actions/orders";
 import { GetProductDetails } from "@/actions/products";
+import { GetSellerWithSubBySellerId } from "@/actions/seller";
 import {
   Ad,
   Billboard,
@@ -84,3 +85,7 @@ export type ProductDetialsPage = Prisma.PromiseReturnType<
 >;
 
 export type UserDataOnlyType = User;
+
+export type GetSellerWithSubBySellerIdType = Prisma.PromiseReturnType<
+  typeof GetSellerWithSubBySellerId
+>;

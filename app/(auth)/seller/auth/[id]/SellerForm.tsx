@@ -104,7 +104,7 @@ export const Step2 = ({
         setIsLoading(false);
         console.log(res);
         toast.success("Seller account created");
-        router.push(`${data.userId}/mpaisa`);
+        router.push(`${res.id}/mpaisa`);
       })
       .catch((e: Error) => {
         setIsLoading(false);

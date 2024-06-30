@@ -6,41 +6,34 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import Image from "next/image";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { ChangeMpaisaId, GetOneOrderDetails } from "@/actions/orders";
-import { OrderType } from "@/types";
 
-const MpaisaButton = () => {
-  const params = useSearchParams();
-  const id = params.get("id");
+import { GetSellerWithSubBySellerIdType } from "@/types";
+import { GetSellerWithSubBySellerId } from "@/actions/seller";
+import { ChangeMpaisaId } from "@/actions/orders";
 
-  const [order, setOrder] = useState<OrderType | null>();
-
-  useEffect(() => {
-    const GetOrder = async () => {
-      if (id == null || id == undefined) return;
-      const orderreq = await GetOneOrderDetails(id);
-      setOrder(orderreq);
-    };
-    GetOrder();
-  });
+const MpaisaButton = ({ data }: { data: GetSellerWithSubBySellerIdType }) => {
+  const params = useParams();
+  const id = params.id as string;
 
   const router = useRouter();
   const handleClick = async () => {
-    if (!order) return;
-    if (order?.isPaid) {
+    if (!data) return;
+
+    if (data?.isPaid) {
       return;
     }
+
     let date = new Date();
     let mId = date.getTime() as number;
-    const changempaisaid = await ChangeMpaisaId(order?.id, mId);
+    // const changempaisaid = await ChangeMpaisaId(seller?.id, mId);
     const res = await axios.get(
       `/api/mpaisa?
-      url=${process.env.URL}/cart/mpaisa/orderconfig
+      url=${process.env.URL}/seller/${data.id}/mpaisa/orderconfig
       &&tID=${mId.toString()}
-      &&amt=${order?.total}
+      &&amt=${data}
       &&cID=26484&&iDet=detail`
     );
-    console.log(res, order);
+    console.log(res, data);
     router.push(res.data);
   };
   return (
@@ -52,8 +45,8 @@ const MpaisaButton = () => {
         <Image
           className="object-cover h-full w-full"
           alt="pay"
-          width={50}
-          height={20}
+          width={150}
+          height={70}
           src={"/mpaisa-pay.png"}
         />
       </div>

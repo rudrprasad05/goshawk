@@ -148,7 +148,7 @@ const MobileNav = () => {
             </div>
 
             <CollapseCont arr={categories} name="Categories" />
-            <CollapseCont arr={pets.subcategories} name="Pets" />
+            {/* <CollapseCont arr={pets.subcategories} name="Pets" /> */}
           </ScrollArea>
         </div>
         <div className="mt-auto space-y-4 pr-6">

@@ -5,6 +5,7 @@ import getSession from "./getSession";
 import { revalidatePath } from "next/cache";
 import { SellerRegisterType } from "@/schemas/auth";
 import { Plan } from "@prisma/client";
+import { getCurrentUser } from "./user";
 
 export const GetSellerByName = async (companyName: string) => {
   try {
@@ -107,7 +108,13 @@ export const CreateSellerAccount = async (data: SellerRegisterType) => {
   const { companyName, userId, address, city, country, phone, plan, image } =
     data;
 
-  console.log(data);
+  const findSellerName = await prisma.seller.findFirst({
+    where: {
+      companyName: companyName,
+    },
+  });
+
+  if (findSellerName) throw new Error("Shop Name is already in use");
 
   const user = await prisma.user.update({
     where: {
@@ -121,14 +128,6 @@ export const CreateSellerAccount = async (data: SellerRegisterType) => {
       image,
     },
   });
-
-  const findSellerName = await prisma.seller.findFirst({
-    where: {
-      companyName: companyName,
-    },
-  });
-
-  if (findSellerName) throw new Error("Shop Name is already in use");
 
   const seller = await prisma.seller.create({
     data: {
@@ -145,11 +144,25 @@ export const CreateSellerAccount = async (data: SellerRegisterType) => {
     //@ts-ignore
     data: {
       plan: plan as Plan,
-      active: true,
+      active: false,
       currentPeriodEndDate: new Date(1000),
       sellerId: seller.id,
     },
   });
 
   return seller;
+};
+
+export const GetSellerWithSubBySellerId = async () => {
+  const cUser = await getCurrentUser();
+  if (!cUser) throw new Error("Authentication Error seller.ts");
+  const res = await prisma.seller.findUnique({
+    where: {
+      userId: cUser.id,
+    },
+    include: {
+      subscription: true,
+    },
+  });
+  return res;
 };
