@@ -43,28 +43,29 @@ model Account {
 }
 
 model User {
-  id              String         @id @default(auto()) @map("_id") @db.ObjectId
-  name            String
-  address         String?
-  town            String?
-  country         String?
-  phone           String?
-  email           String         @unique
-  emailVerificationToken String?   @unique
-  emailVerified   DateTime?
-  image           String?
-  hashedPassword  String?
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
-  conversationIds String[]       @db.ObjectId
-  role            Role           @default(USER)
-  conversations   Conversation[] @relation(fields: [conversationIds], references: [id])
-  accounts        Account[]
-  orders          Order[]
-  messages        Message[]
-  repairs         RepairOrder[]
-  seller          Seller?
-  giftsOrders     GiftOrder[]
+  id                     String         @id @default(auto()) @map("_id") @db.ObjectId
+  name                   String
+  address                String?
+  town                   String?
+  country                String?
+  phone                  String?
+  email                  String         @unique
+  emailVerificationToken String?        @unique
+  emailVerified          DateTime?
+  image                  String?
+  hashedPassword         String?
+  createdAt              DateTime       @default(now())
+  updatedAt              DateTime       @updatedAt
+  conversationIds        String[]       @db.ObjectId
+  role                   Role           @default(USER)
+  conversations          Conversation[] @relation(fields: [conversationIds], references: [id])
+  accounts               Account[]
+  orders                 Order[]
+  messages               Message[]
+  repairs                RepairOrder[]
+  seller                 Seller?
+  wishlist  Wishlist?
+  giftsOrders            GiftOrder[]
 }
 
 model Seller {
@@ -98,22 +99,23 @@ model Subscription {
 }
 
 model Products {
-  id               String       @id @default(auto()) @map("_id") @db.ObjectId
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
   name             String
   price            Float
   imageUrl         String[]
   description      String
-  isVisible        Boolean      @default(true)
-  isVerified       Boolean      @default(false)
-  seller           Seller       @relation(fields: [sellerId], references: [id], onDelete: Cascade)
-  sellerId         String       @db.ObjectId
-  category         Subcategory? @relation(fields: [categoryId], references: [id])
-  categoryId       String?      @db.ObjectId
-  parentCategory   Category?    @relation(fields: [parentCategoryId], references: [id])
-  parentCategoryId String?      @db.ObjectId
+  isVisible        Boolean        @default(true)
+  isVerified       Boolean        @default(false)
+  seller           Seller         @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  sellerId         String         @db.ObjectId
+  category         Subcategory?   @relation(fields: [categoryId], references: [id])
+  categoryId       String?        @db.ObjectId
+  parentCategory   Category?      @relation(fields: [parentCategoryId], references: [id])
+  parentCategoryId String?        @db.ObjectId
   orders           OrderList[]
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt
+  wishlistItem         WishlistItem[]
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 }
 
 model Order {
@@ -288,4 +290,23 @@ model GiftOrder {
   updatedAt  DateTime @updatedAt
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String   @db.ObjectId
+}
+
+model Wishlist {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  wishlistItems WishlistItem[]
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String   @db.ObjectId @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model WishlistItem {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  wishlistId String   @db.ObjectId
+  wishlist   Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
+  productId  String   @db.ObjectId
+  product    Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

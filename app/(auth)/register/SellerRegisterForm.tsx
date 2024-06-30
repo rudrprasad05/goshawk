@@ -57,6 +57,7 @@ const SellerRegisterForm = (props: RegisterPageProps) => {
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
       name: "",
       role: "SELLER",
     },
@@ -228,40 +229,40 @@ const SellerRegisterForm = (props: RegisterPageProps) => {
                 )}
               />
 
-              {/* <FormField
-              control={form.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Input
-                        type={isPasswordVisible ? "text" : "password"}
-                        autoComplete="off"
-                        placeholder="enter password"
-                        {...field}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (isPasswordVisible) setIsPasswordVisible(false);
-                          else setIsPasswordVisible(true);
-                        }}
-                        className=" h-full aspect-square absolute top-0 right-0 grid place-items-center "
-                      >
-                        {isPasswordVisible ? (
-                          <FiEyeOff className="stroke-muted-foreground w-5 h-5" />
-                        ) : (
-                          <FiEye className="stroke-muted-foreground w-5 h-5" />
-                        )}
-                      </button>
-                    </div>
-                  </FormControl>
-                  <div>{confirmPasswordError}</div>
-                </FormItem>
-              )}
-            /> */}
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirm Password</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          type={isPasswordVisible ? "text" : "password"}
+                          autoComplete="off"
+                          placeholder="enter password"
+                          {...field}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (isPasswordVisible) setIsPasswordVisible(false);
+                            else setIsPasswordVisible(true);
+                          }}
+                          className=" h-full aspect-square absolute top-0 right-0 grid place-items-center "
+                        >
+                          {isPasswordVisible ? (
+                            <FiEyeOff className="stroke-muted-foreground w-5 h-5" />
+                          ) : (
+                            <FiEye className="stroke-muted-foreground w-5 h-5" />
+                          )}
+                        </button>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <Button className="w-full" type="submit">
                 {isLoading && <FaSpinner className={"animate-spin mr-3"} />}
