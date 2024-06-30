@@ -140,11 +140,15 @@ export const CreateSellerAccount = async (data: SellerRegisterType) => {
     },
   });
 
+  let date = new Date();
+  let mId = date.getTime();
+
   const sub = await prisma.subscription.create({
     //@ts-ignore
     data: {
       plan: plan as Plan,
       active: false,
+      mId,
       currentPeriodEndDate: new Date(1000),
       sellerId: seller.id,
     },
@@ -165,4 +169,37 @@ export const GetSellerWithSubBySellerId = async () => {
     },
   });
   return res;
+};
+
+export const ChangeMpaisaId = async (id: string, mpaisa: number) => {
+  const orderRes = await prisma.subscription.update({
+    where: {
+      sellerId: id,
+    },
+    data: {
+      mId: mpaisa as number,
+    },
+  });
+  return orderRes;
+};
+
+export const UpdateSellerStatusAfterPayment = async (mId: number) => {
+  const res = await prisma.subscription.update({
+    where: {
+      mId: mId,
+    },
+    data: {
+      active: true,
+    },
+  });
+
+  const res2 = await prisma.seller.update({
+    where: {
+      id: res.sellerId,
+    },
+    data: {
+      isPaid: true,
+    },
+  });
+  return res2;
 };

@@ -1,6 +1,7 @@
 "use client";
 
 import { GetOrderById } from "@/actions/orders";
+import { UpdateSellerStatusAfterPayment } from "@/actions/seller";
 import { OrderType } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -16,9 +17,8 @@ const OrderConfig = () => {
     const getData = async () => {
       if (!tId || tId == "") return `no id given`;
 
-      const res = await GetOrderById(tId)
+      const res = await UpdateSellerStatusAfterPayment(parseInt(tId))
         .then((r) => {
-          setOrder(r);
           router.push("/");
           toast.success("Paid Successfully");
           console.log("first");

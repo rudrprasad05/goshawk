@@ -8,8 +8,14 @@ import Image from "next/image";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 import { GetSellerWithSubBySellerIdType } from "@/types";
-import { GetSellerWithSubBySellerId } from "@/actions/seller";
-import { ChangeMpaisaId } from "@/actions/orders";
+import { ChangeMpaisaId, GetSellerWithSubBySellerId } from "@/actions/seller";
+
+const PRICES = [
+  { name: "FREE", amt: 0 },
+  { name: "GOLD", amt: 20 },
+  { name: "DIAMOND", amt: 25 },
+  { name: "PLATINUM", amt: 30 },
+];
 
 const MpaisaButton = ({ data }: { data: GetSellerWithSubBySellerIdType }) => {
   const params = useParams();
@@ -25,13 +31,13 @@ const MpaisaButton = ({ data }: { data: GetSellerWithSubBySellerIdType }) => {
 
     let date = new Date();
     let mId = date.getTime() as number;
-    // const changempaisaid = await ChangeMpaisaId(seller?.id, mId);
+    const changempaisaid = await ChangeMpaisaId(data.id, mId);
     const res = await axios.get(
-      `/api/mpaisa?
-      url=${process.env.URL}/seller/${data.id}/mpaisa/orderconfig
-      &&tID=${mId.toString()}
-      &&amt=${data}
-      &&cID=26484&&iDet=detail`
+      `/api/mpaisa?url=${process.env.URL}/seller/${
+        data.id
+      }/mpaisa/orderconfig&&tID=${mId.toString()}&&amt=${
+        PRICES.find((i) => i.name == data.plan)?.amt
+      }&&cID=26484&&iDet=detail`
     );
     console.log(res, data);
     router.push(res.data);
