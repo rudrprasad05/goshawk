@@ -158,6 +158,13 @@ const BuyerLoginForm = (props: LoginPageProps) => {
                   )}
                 />
 
+                <Link
+                  className="text-sm text-primary underline-offset-4 hover:underline"
+                  href={"/changepassword"}
+                >
+                  Forgot Password?
+                </Link>
+
                 <Button className="w-full" type="submit">
                   {isLoading && <FaSpinner className={"animate-spin mr-3"} />}
                   Login

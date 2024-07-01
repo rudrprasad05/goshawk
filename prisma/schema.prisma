@@ -23,6 +23,12 @@ enum Plan {
   PLATINUM
 }
 
+enum AlertType {
+  SUCCESS
+  ERROR
+  INFO
+}
+
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
   userId            String  @db.ObjectId
@@ -42,6 +48,17 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
+model Alert {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  type      AlertType
+  seen      Boolean   @default(false)
+  message String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String    @unique @db.ObjectId
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
 model User {
   id                     String         @id @default(auto()) @map("_id") @db.ObjectId
   name                   String
@@ -54,7 +71,7 @@ model User {
   emailVerified          DateTime?
   image                  String?
   hashedPassword         String?
-  changePasswordToken    String?
+  changePasswordToken    String?        @unique
   createdAt              DateTime       @default(now())
   updatedAt              DateTime       @updatedAt
   conversationIds        String[]       @db.ObjectId
@@ -64,6 +81,7 @@ model User {
   orders                 Order[]
   messages               Message[]
   repairs                RepairOrder[]
+  alerts                 Alert[]
   seller                 Seller?
   wishlist               Wishlist?
   giftsOrders            GiftOrder[]
@@ -93,7 +111,7 @@ model Subscription {
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
   plan                 Plan     @default(FREE)
-  mId                  Int   @unique
+  mId                  Int      @unique
   active               Boolean  @default(false)
   currentPeriodEndDate DateTime
   sellerId             String   @unique @db.ObjectId

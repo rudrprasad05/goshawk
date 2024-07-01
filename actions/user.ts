@@ -6,6 +6,7 @@ import { sendEmail } from "./email";
 import { VerifyEmailTemplate } from "@/components/email/VerifyEmailTemplate";
 import { ChangePasswordEmail } from "@/components/email/ResetPasswordTemplate";
 import crypto from "crypto";
+import bcrypt from "bcrypt";
 
 export const NavbarUser = async () => {
   try {
@@ -129,6 +130,7 @@ export const GenerateChangePasswordToken = async (email: string) => {
       changePasswordToken: passwordToken,
     },
   });
+  if (!res) throw new Error("user not found");
   await sendEmail({
     from: "no-reply <no-reply@goshawkfiji.com>",
     to: [email],
@@ -139,4 +141,29 @@ export const GenerateChangePasswordToken = async (email: string) => {
     }) as React.ReactElement,
   });
   return res;
+};
+
+export const CheckChangePasswordToken = async (token: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      changePasswordToken: token,
+    },
+  });
+  console.log("first");
+
+  if (!user) return null;
+  if (user) return user;
+};
+
+export const ChangePassword = async (token: string, password: string) => {
+  const hashedPassword = await bcrypt.hash(password, 12);
+  const createdUser = await prisma.user.update({
+    where: {
+      changePasswordToken: token,
+    },
+    data: {
+      hashedPassword,
+    },
+  });
+  return createdUser;
 };
