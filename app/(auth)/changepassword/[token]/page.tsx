@@ -32,25 +32,6 @@ import { z } from "zod";
 import Pageloader from "@/components/global/Pageloader";
 import { signOut } from "next-auth/react";
 
-export const ChangePasswordForm = z
-  .object({
-    password: z
-      .string()
-      .min(6, { message: "Password must contain more than 2 characters" })
-      .max(32, { message: "Password must have less than 2 characters" }),
-    confirmPassword: z.string(),
-  })
-  .superRefine(({ confirmPassword, password }, ctx) => {
-    if (confirmPassword !== password) {
-      ctx.addIssue({
-        code: "custom",
-        message: "The passwords did not match",
-        path: ["confirmPassword"],
-      });
-    }
-  });
-export type ChangePasswordFormType = z.infer<typeof ChangePasswordForm>;
-
 const page = () => {
   const router = useRouter();
   const params = useParams();
@@ -60,6 +41,25 @@ const page = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   const token = params.token;
+
+  const ChangePasswordForm = z
+    .object({
+      password: z
+        .string()
+        .min(6, { message: "Password must contain more than 2 characters" })
+        .max(32, { message: "Password must have less than 2 characters" }),
+      confirmPassword: z.string(),
+    })
+    .superRefine(({ confirmPassword, password }, ctx) => {
+      if (confirmPassword !== password) {
+        ctx.addIssue({
+          code: "custom",
+          message: "The passwords did not match",
+          path: ["confirmPassword"],
+        });
+      }
+    });
+  type ChangePasswordFormType = z.infer<typeof ChangePasswordForm>;
 
   useEffect(() => {
     const checkToken = async () => {

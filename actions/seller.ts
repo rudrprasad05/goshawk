@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { SellerRegisterType } from "@/schemas/auth";
 import { Plan } from "@prisma/client";
 import { getCurrentUser } from "./user";
+import crypto from "crypto";
 
 export const GetSellerByName = async (companyName: string) => {
   try {
@@ -138,10 +139,11 @@ export const CreateSellerAccount = async (data: SellerRegisterType) => {
 
   let date = new Date();
   let mId = date.getTime();
+  let sha256 = crypto.randomBytes(32).toString("base64url");
 
   const sub = await prisma.subscription.create({
-    //@ts-ignore
     data: {
+      sha256,
       plan: plan as Plan,
       active: false,
       mId,

@@ -113,7 +113,7 @@ model Subscription {
   updatedAt            DateTime @updatedAt
   plan                 Plan     @default(FREE)
   mId                  Int      @unique
-  sha256                  String      @unique
+  sha256               String   @unique
   active               Boolean  @default(false)
   currentPeriodEndDate DateTime
   sellerId             String   @unique @db.ObjectId
@@ -144,7 +144,7 @@ model Products {
 model Review {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   stars     Int      @default(0)
-  isHidden Boolean @default(false)
+  isHidden  Boolean  @default(false)
   message   String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String   @unique @db.ObjectId
@@ -155,13 +155,12 @@ model Review {
 }
 
 model Order {
-  id             String          @id @default(auto()) @map("_id") @db.ObjectId
-  customer       User            @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  customerId     String          @db.ObjectId
-  total          Int
-  mpaisaId       Int             @unique
-  sha256                  String      @unique
-
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  customer   User   @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customerId String @db.ObjectId
+  total      Int
+  mpaisaId   Int    @unique
+  sha256     String @unique
   isDelivered    Boolean         @default(false)
   isPaid         Boolean         @default(false)
   address        String
