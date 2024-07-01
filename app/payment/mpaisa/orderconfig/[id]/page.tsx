@@ -1,6 +1,9 @@
 "use client";
 
-import { GetOrderById } from "@/actions/orders";
+import {
+  FindOrderBySha256AndUpdateOrderStatus,
+  GetOrderById,
+} from "@/actions/orders";
 import { CartContext } from "@/context/CartContext";
 import { OrderType } from "@/types";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -11,8 +14,11 @@ const OrderSync = () => {
   const { cartProducts, getTotal, removeCart, clearCart } =
     useContext(CartContext);
   const params = useParams();
+  const sparams = useSearchParams();
   const router = useRouter();
   const orderId = params.id as unknown as string;
+  const sha256 = sparams.get("token") as unknown as string;
+
   const [order, setOrder] = useState<OrderType | null>(null);
 
   useEffect(() => {
@@ -22,12 +28,14 @@ const OrderSync = () => {
         .then((r) => {
           setOrder(r);
           clearCart();
-          router.push("/");
           toast.success("Paid Successfully");
         })
         .catch((e) => {
           console.log(e);
         });
+      const settoken = await FindOrderBySha256AndUpdateOrderStatus(
+        sha256
+      ).finally(() => router.push("/"));
     };
     getData();
   }, [order]);

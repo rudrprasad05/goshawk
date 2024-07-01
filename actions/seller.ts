@@ -143,10 +143,10 @@ export const CreateSellerAccount = async (data: SellerRegisterType) => {
 
   const sub = await prisma.subscription.create({
     data: {
-      sha256,
       plan: plan as Plan,
       active: false,
       mId,
+      sha256: sha256,
       currentPeriodEndDate: new Date(1000),
       sellerId: seller.id,
     },

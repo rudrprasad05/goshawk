@@ -1,8 +1,9 @@
-import prisma from "@/lib/prismadb";
-import { NextResponse } from "next/server";
-import { ProductType } from "@/types";
-import { NewProductType } from "@/schemas/product";
 import getSession from "@/actions/getSession";
+import prisma from "@/lib/prismadb";
+import { NewProductType } from "@/schemas/product";
+import { ProductType } from "@/types";
+import crypto from "crypto";
+import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
@@ -25,8 +26,11 @@ export async function POST(request: Request) {
     if (!user) return new NextResponse("no user found, error", { status: 500 });
 
     let date = new Date().getTime();
+    let sha256 = crypto.randomBytes(32).toString("base64url");
+
     const order = await prisma.order.create({
       data: {
+        sha256: sha256,
         total,
         mpaisaId: date as number,
         address: user.address as string,
@@ -36,7 +40,6 @@ export async function POST(request: Request) {
         customerId: user.id,
       },
     });
-    console.log(order);
 
     for (let i = 0; i < data.length; i++) {
       let tempMerchantOrder = await prisma.merchantOrder.create({
@@ -56,7 +59,6 @@ export async function POST(request: Request) {
             price: parseInt(data[i][j].price),
           },
         });
-        console.log(tempOrderList);
       }
       orderListArr.push(tempMerchantOrder);
     }

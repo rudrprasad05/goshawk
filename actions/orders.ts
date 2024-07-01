@@ -147,13 +147,13 @@ export const GetOrdersForSingleProduct = async (id: string) => {
   return orderRes;
 };
 
-export const ChangeMpaisaId = async (id: string, mpaisa: number) => {
+export const ChangeMpaisaId = async (id: string, sha256: string) => {
   const orderRes = await prisma.order.update({
     where: {
       id: id,
     },
     data: {
-      mpaisaId: mpaisa as number,
+      sha256: sha256,
     },
   });
   return orderRes;
@@ -169,4 +169,12 @@ export const GetOrderById = async (id: string) => {
     },
   });
   return orderRes;
+};
+
+export const FindOrderBySha256AndUpdateOrderStatus = async (sha256: string) => {
+  const res = await prisma.order.update({
+    where: { sha256 },
+    data: { isPaid: true },
+  });
+  return res;
 };
