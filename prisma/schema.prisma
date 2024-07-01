@@ -52,7 +52,7 @@ model Alert {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   type      AlertType
   seen      Boolean   @default(false)
-  message String
+  message   String
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String    @unique @db.ObjectId
   createdAt DateTime  @default(now())
@@ -82,6 +82,7 @@ model User {
   messages               Message[]
   repairs                RepairOrder[]
   alerts                 Alert[]
+  reviews                Review[]
   seller                 Seller?
   wishlist               Wishlist?
   giftsOrders            GiftOrder[]
@@ -134,8 +135,21 @@ model Products {
   parentCategoryId String?        @db.ObjectId
   orders           OrderList[]
   wishlistItem     WishlistItem[]
+  reviews          Review[]
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
+}
+
+model Review {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  stars     Int      @default(0)
+  message   String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @unique @db.ObjectId
+  product   Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String   @unique @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Order {
