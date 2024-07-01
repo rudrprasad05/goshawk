@@ -2,7 +2,7 @@
 
 import {
   FindOrderBySha256AndUpdateOrderStatus,
-  GetOrderById,
+  UpdateOrderById,
 } from "@/actions/orders";
 import { CartContext } from "@/context/CartContext";
 import { OrderType } from "@/types";
@@ -24,18 +24,16 @@ const OrderSync = () => {
   useEffect(() => {
     const getData = async () => {
       if (!orderId || orderId == "") return;
-      const res = await GetOrderById(orderId)
+      const res = await UpdateOrderById(orderId, sha256)
         .then((r) => {
           setOrder(r);
           clearCart();
           toast.success("Paid Successfully");
+          router.push("/");
         })
         .catch((e) => {
           console.log(e);
         });
-      const settoken = await FindOrderBySha256AndUpdateOrderStatus(
-        sha256
-      ).finally(() => router.push("/"));
     };
     getData();
   }, [order]);
