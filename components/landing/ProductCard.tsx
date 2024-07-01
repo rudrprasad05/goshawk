@@ -20,6 +20,10 @@ import { ProductType } from "@/types";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import ProductQuantityButton from "../Admin/products/ProductQuantityButton";
+import { Heart } from "lucide-react";
+import clsx from "clsx";
+import { useSession } from "next-auth/react";
+import { AddItemToWishlist } from "@/actions/wishlist";
 
 interface props {
   product: ProductType;
@@ -27,8 +31,11 @@ interface props {
 
 export const ProductCard: React.FC<props> = ({ product }) => {
   const { cartProducts, addCart, removeCart } = useContext(CartContext);
+  const user = useSession();
   const [domLoaded, setDomLoaded] = useState(false);
   const [addToCart, setaddToCart] = useState(true);
+  const [addToWishList, setAddToWishList] = useState(false);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -46,12 +53,24 @@ export const ProductCard: React.FC<props> = ({ product }) => {
     setDomLoaded(true);
   }, [cartProducts, product.id]);
 
+  const handleWishList = async () => {
+    if (!user.data?.user) {
+      toast.error("Login first");
+      router.push("/login");
+      return;
+    }
+    setAddToWishList((prev) => !prev);
+    await AddItemToWishlist(user.data?.user.id, product.id).then(() =>
+      toast.success("Added to wishlist")
+    );
+  };
+
   if (!domLoaded) return null;
 
   return (
     <Card className="h-full  flex flex-col justify-between">
       <CardHeader>
-        <div className="w-full h-[220px]">
+        <div className="relative w-full h-[220px]">
           <Image
             src={product.imageUrl[0]}
             alt={product.name}
@@ -59,6 +78,11 @@ export const ProductCard: React.FC<props> = ({ product }) => {
             height={220}
             className="object-cover w-full h-full"
           />
+          <button onClick={handleWishList} className="absolute top-0 right-0">
+            <Heart
+              className={clsx(`${addToWishList ? "fill-white" : "fill-none"}`)}
+            />
+          </button>
         </div>
         <div className="flex gap-5 pt-5">
           <CardTitle className="grow truncate line-clamp-2 p-0">

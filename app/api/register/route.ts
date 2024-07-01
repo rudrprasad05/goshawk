@@ -33,18 +33,16 @@ export async function POST(request: Request) {
       hashedPassword,
       name,
       role: role as Role,
+      changePasswordToken: emailVerificationToken,
       emailVerificationToken: emailVerificationToken,
     },
   });
 
-  // await prisma.user.update({
-  //   where: {
-  //     id: createdUser.id,
-  //   },
-  //   data: {
-  //     emailVerificationToken: emailVerificationToken,
-  //   },
-  // });
+  const wishList = await prisma.wishlist.create({
+    data: {
+      userId: createdUser.id,
+    },
+  });
 
   await sendEmail({
     from: "no-reply <no-reply@goshawkfiji.com>",
