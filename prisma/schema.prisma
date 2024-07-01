@@ -54,6 +54,7 @@ model User {
   emailVerified          DateTime?
   image                  String?
   hashedPassword         String?
+  changePasswordToken    String?
   createdAt              DateTime       @default(now())
   updatedAt              DateTime       @updatedAt
   conversationIds        String[]       @db.ObjectId

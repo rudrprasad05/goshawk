@@ -95,7 +95,9 @@ const Page = () => {
   const handleClick = async () => {
     let groupingViaCommonProperty = Object.values(
       cartProducts.reduce((acc, current) => {
+        //@ts-ignore */
         acc[current.seller.id] = acc[current.seller.id] ?? [];
+        //@ts-ignore */
         acc[current.seller.id].push(current);
         return acc;
       }, {})

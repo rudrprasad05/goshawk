@@ -2,6 +2,10 @@
 
 import prisma from "@/lib/prismadb";
 import getSession from "./getSession";
+import { sendEmail } from "./email";
+import { VerifyEmailTemplate } from "@/components/email/VerifyEmailTemplate";
+import { ChangePasswordEmail } from "@/components/email/ResetPasswordTemplate";
+import crypto from "crypto";
 
 export const NavbarUser = async () => {
   try {
@@ -112,4 +116,27 @@ export const GetUseDataOnly = async () => {
   } catch (error) {
     return null;
   }
+};
+
+export const GenerateChangePasswordToken = async (email: string) => {
+  let passwordToken = crypto.randomBytes(32).toString("base64url");
+
+  const res = await prisma.user.update({
+    where: {
+      email,
+    },
+    data: {
+      changePasswordToken: passwordToken,
+    },
+  });
+  await sendEmail({
+    from: "no-reply <no-reply@goshawkfiji.com>",
+    to: [email],
+    subject: "Verify your email address",
+    react: ChangePasswordEmail({
+      email,
+      token: passwordToken,
+    }) as React.ReactElement,
+  });
+  return res;
 };

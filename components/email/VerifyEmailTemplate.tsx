@@ -38,16 +38,16 @@ export const VerifyEmailTemplate: React.FC<
                 src={`https://mctechfiji.s3.amazonaws.com/alibaba/logo-temp.png`}
                 width="75"
                 height="45"
-                alt="Goshawk's Logo"
+                alt="Goshawk Logo"
               />
             </Section>
             <Section style={upperSection}>
               <Heading style={h1}>Verify your email address</Heading>
               <Text style={mainText}>
                 Thanks for creating a new Goshawk account. We want to make sure
-                it's really you. Please click the following verification code
-                link. If you don&apos;t want to create an account, or if this
-                isnt you, you can ignore this message.
+                it&apos;s really you. Please click the following verification
+                code link. If you don&apos;t want to create an account, or if
+                this isnt you, you can ignore this message.
               </Text>
               <Section style={verificationSection}>
                 <Text style={verifyText}>Verification Link</Text>
