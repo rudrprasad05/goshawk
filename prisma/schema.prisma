@@ -113,6 +113,7 @@ model Subscription {
   updatedAt            DateTime @updatedAt
   plan                 Plan     @default(FREE)
   mId                  Int      @unique
+  sha256                  String      @unique
   active               Boolean  @default(false)
   currentPeriodEndDate DateTime
   sellerId             String   @unique @db.ObjectId
@@ -159,6 +160,8 @@ model Order {
   customerId     String          @db.ObjectId
   total          Int
   mpaisaId       Int             @unique
+  sha256                  String      @unique
+
   isDelivered    Boolean         @default(false)
   isPaid         Boolean         @default(false)
   address        String
