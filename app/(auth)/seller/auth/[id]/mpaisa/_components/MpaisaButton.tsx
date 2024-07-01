@@ -31,12 +31,17 @@ const MpaisaButton = ({ data }: { data: GetSellerWithSubBySellerIdType }) => {
 
     let date = new Date();
     let mId = date.getTime() as number;
-    const changempaisaid = await ChangeMpaisaId(data.id, mId);
+    const changempaisaid = await ChangeMpaisaId(
+      data.subscription?.id || "",
+      mId
+    );
+    console.log(mId);
     const res = await axios.get(
-      `/api/mpaisa?url=${process.env.URL}/seller/${
+      `/api/mpaisa?url=${process.env.URL}/seller/auth/${
         data.id
       }/mpaisa/orderconfig&&tID=${mId.toString()}&&amt=${
-        PRICES.find((i) => i.name == data.plan)?.amt
+        1
+        // PRICES.find((i) => i.name == data.plan)?.amt
       }&&cID=26484&&iDet=detail`
     );
     console.log(res, data);

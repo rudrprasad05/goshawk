@@ -325,7 +325,7 @@ const Page = () => {
                       Enter user details before checkout
                     </p>
                   )}
-                  {userDbData?.emailVerified && (
+                  {!userDbData?.emailVerified && (
                     <p className="text-rose-500 text-sm">Verify Email first</p>
                   )}
                   <Button

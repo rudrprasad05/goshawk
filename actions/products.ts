@@ -86,7 +86,7 @@ export const GetAllProductsPagination = async ({
 
   const total = await prisma.products.count();
 
-  // revalidatePath("/");
+  //
 
   return {
     data: results,
@@ -128,8 +128,6 @@ export const GetSingleMerchantProducts = async ({
   });
 
   const total = await prisma.products.count();
-
-  revalidatePath("/");
 
   return {
     data: results,

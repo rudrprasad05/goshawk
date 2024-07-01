@@ -20,6 +20,7 @@ export async function GET(req: Request) {
     let params = response.config.url?.split("?")[1];
     let fullParams = `${params}&&rID=${requestID}`;
     let finalUrl = `${mainUrl}?${fullParams}`;
+    console.log(response);
     return new NextResponse(finalUrl);
   } catch (error: any) {
     console.log(error, "NEW BRANCH ERROR");

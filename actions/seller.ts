@@ -64,8 +64,6 @@ export const GetMerchantForFeed = async ({
 
   const total = await prisma.products.count();
 
-  revalidatePath("/");
-
   return {
     data: results,
     metadata: {
@@ -85,8 +83,6 @@ export const GetAllMerchants = async () => {
   });
 
   const total = await prisma.products.count();
-
-  revalidatePath("/");
 
   return results;
 };
@@ -174,7 +170,7 @@ export const GetSellerWithSubBySellerId = async () => {
 export const ChangeMpaisaId = async (id: string, mpaisa: number) => {
   const orderRes = await prisma.subscription.update({
     where: {
-      sellerId: id,
+      id: id,
     },
     data: {
       mId: mpaisa as number,
@@ -184,6 +180,7 @@ export const ChangeMpaisaId = async (id: string, mpaisa: number) => {
 };
 
 export const UpdateSellerStatusAfterPayment = async (mId: number) => {
+  console.log(mId);
   const res = await prisma.subscription.update({
     where: {
       mId: mId,

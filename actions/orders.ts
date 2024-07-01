@@ -93,7 +93,7 @@ export const GetMerchantOrderForFeed = async ({
 
   const total = await prisma.products.count();
 
-  // revalidatePath("/");
+  //
 
   return {
     data: results,
