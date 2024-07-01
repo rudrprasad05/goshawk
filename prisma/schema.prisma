@@ -143,6 +143,7 @@ model Products {
 model Review {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   stars     Int      @default(0)
+  isHidden Boolean @default(false)
   message   String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String   @unique @db.ObjectId
