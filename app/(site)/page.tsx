@@ -1,6 +1,11 @@
 import { GetAllParentWithChildCategories } from "@/actions/category";
-import { GetAllProductsPagination, GetLandingCaroProducts, GetSuperAdminProducts } from "@/actions/products";
+import {
+  GetAllProductsPagination,
+  GetLandingCaroProducts,
+  GetSuperAdminProducts,
+} from "@/actions/products";
 import { GetMostRecentProduct } from "@/actions/queries";
+import { GetCurrentUserWishlistWithWishlistItems } from "@/actions/wishlist";
 import LandingPageHorizontal from "@/components/ads/LandingPageHorizontal";
 import AdCaroSection from "@/components/landing/AdCaroSection";
 import CategorySideNav from "@/components/landing/CategorySideNav";
@@ -15,7 +20,7 @@ import Link from "next/link";
 export default async function Home() {
   const AdminProducts = await GetSuperAdminProducts();
   const products = await GetLandingCaroProducts();
-
+  const wishlist = await GetCurrentUserWishlistWithWishlistItems();
   const cats = await GetAllParentWithChildCategories();
 
   return (
@@ -31,7 +36,7 @@ export default async function Home() {
         </div>
       </div>
       <div className="px-20">
-        <OtherCaroSection products={products} />
+        <OtherCaroSection wishlist={wishlist} products={products} />
       </div>
 
       <div className="px-20">

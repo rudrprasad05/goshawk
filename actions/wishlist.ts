@@ -7,6 +7,7 @@ import { VerifyEmailTemplate } from "@/components/email/VerifyEmailTemplate";
 import { ChangePasswordEmail } from "@/components/email/ResetPasswordTemplate";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
+import { getCurrentUser } from "./user";
 
 export const AddItemToWishlist = async (userId: string, productId: string) => {
   try {
@@ -38,4 +39,52 @@ export const AddItemToWishlist = async (userId: string, productId: string) => {
   } catch (error) {
     return null;
   }
+};
+
+export const RemoveItemFromWishlist = async (
+  userId: string,
+  productId: string
+) => {
+  try {
+    const session = await getSession();
+
+    const wishlist = await prisma.wishlist.findUnique({
+      where: {
+        userId: userId as string,
+      },
+      include: {
+        wishlistItems: true,
+      },
+    });
+
+    if (!wishlist) return null;
+
+    let wlI = wishlist.wishlistItems;
+    let deleteElementIndex = wlI.findIndex((e) => e.productId == productId);
+    let deleteElementId = wlI[deleteElementIndex].id;
+
+    const deletedWishlistItem = prisma.wishlistItem.delete({
+      where: {
+        id: deleteElementId,
+      },
+    });
+
+    return deletedWishlistItem;
+  } catch (error) {
+    return null;
+  }
+};
+
+export const GetCurrentUserWishlistWithWishlistItems = async () => {
+  const user = await getCurrentUser();
+  if (!user) throw new Error("login first");
+  const wishlist = await prisma.wishlist.findUnique({
+    where: {
+      userId: user.id,
+    },
+    include: {
+      wishlistItems: true,
+    },
+  });
+  return wishlist;
 };

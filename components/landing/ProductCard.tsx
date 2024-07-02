@@ -15,7 +15,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import { ProductType } from "@/types";
+import { ProductType, WishlistWithItems } from "@/types";
 
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
@@ -23,13 +23,14 @@ import ProductQuantityButton from "../Admin/products/ProductQuantityButton";
 import { Heart } from "lucide-react";
 import clsx from "clsx";
 import { useSession } from "next-auth/react";
-import { AddItemToWishlist } from "@/actions/wishlist";
+import { AddItemToWishlist, RemoveItemFromWishlist } from "@/actions/wishlist";
 
 interface props {
   product: ProductType;
+  wishlist: WishlistWithItems;
 }
 
-export const ProductCard: React.FC<props> = ({ product }) => {
+export const ProductCard: React.FC<props> = ({ product, wishlist }) => {
   const { cartProducts, addCart, removeCart } = useContext(CartContext);
   const user = useSession();
   const [domLoaded, setDomLoaded] = useState(false);
@@ -50,6 +51,11 @@ export const ProductCard: React.FC<props> = ({ product }) => {
         setaddToCart(true);
       }
     });
+    wishlist?.wishlistItems.map((wi) => {
+      if (wi.productId == product.id) {
+        setAddToWishList(true);
+      }
+    });
     setDomLoaded(true);
   }, [cartProducts, product.id]);
 
@@ -59,10 +65,17 @@ export const ProductCard: React.FC<props> = ({ product }) => {
       router.push("/login");
       return;
     }
-    setAddToWishList((prev) => !prev);
-    await AddItemToWishlist(user.data?.user.id, product.id).then(() =>
-      toast.success("Added to wishlist")
-    );
+    if (!addToWishList) {
+      setAddToWishList((prev) => !prev);
+      await AddItemToWishlist(user.data?.user.id, product.id).then(() =>
+        toast.success("Added to wishlist")
+      );
+    } else {
+      setAddToWishList((prev) => !prev);
+      await RemoveItemFromWishlist(user.data?.user.id, product.id).then(() =>
+        toast.success("Removed from wishlist")
+      );
+    }
   };
 
   if (!domLoaded) return null;

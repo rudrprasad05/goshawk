@@ -42,17 +42,29 @@ const EditProfileSheet: React.FC<props> = ({ children, user }) => {
           </SheetTitle>
         </SheetHeader>
         <SheetDescription className="flex flex-col gap-2 my-4">
-          <Link className="hover:underline" href={"/mydash"}>
+          <Link className="hover:underline" href={`/account/${user.id}/mydash`}>
             Dashboard
           </Link>
-          <Link className="hover:underline" href={"/myorders"}>
+          <Link
+            className="hover:underline"
+            href={`/account/${user.id}/myorders`}
+          >
             Orders
           </Link>
-          <Link className="hover:underline" href={"/myprofile"}>
+          <Link
+            className="hover:underline"
+            href={`/account/${user.id}/myprofile`}
+          >
             Profile
           </Link>
-          <Link className="hover:underline" href={"/faq"}>
+          <Link className="hover:underline" href={`/account/${user.id}/help`}>
             Customer Support
+          </Link>
+          <Link
+            className="hover:underline"
+            href={`/account/${user.id}/wishlist`}
+          >
+            Wish List
           </Link>
         </SheetDescription>
         <SheetFooter className="absolute bottom-0 left-0 p-8 w-full">

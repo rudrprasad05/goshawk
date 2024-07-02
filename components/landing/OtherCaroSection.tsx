@@ -10,15 +10,17 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
-import { ProductType } from "@/types";
+import { ProductType, WishlistWithItems } from "@/types";
 import { useSession } from "next-auth/react";
 import { ProductCard } from "../landing/ProductCard";
 import Autoplay from "embla-carousel-autoplay";
 
 export default function OtherCaroSection({
   products,
+  wishlist,
 }: {
   products: ProductType[];
+  wishlist: WishlistWithItems;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const session = useSession();
@@ -44,12 +46,12 @@ export default function OtherCaroSection({
       <CarouselContent className="">
         {products.map((product, index) => (
           <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/3">
-            <ProductCard product={product} />
+            <ProductCard wishlist={wishlist} product={product} />
           </CarouselItem>
         ))}
         {products.map((product, index) => (
           <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/3">
-            <ProductCard product={product} />
+            <ProductCard wishlist={wishlist} product={product} />
           </CarouselItem>
         ))}
       </CarouselContent>
