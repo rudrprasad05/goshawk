@@ -1,8 +1,23 @@
 import { GetOrderWithProductsForOneCustomer } from "@/actions/orders";
 import { GetProductDetails } from "@/actions/products";
 import { GetSellerWithSubBySellerId } from "@/actions/seller";
+import { GetUserForUserDash } from "@/actions/user";
 import { GetCurrentUserWishlistWithWishlistItems } from "@/actions/wishlist";
-import { Ad, Billboard, Category, Conversation, MerchantOrder, Message, Order, OrderList, Prisma, Products, Seller, Subcategory, User } from "@prisma/client";
+import {
+  Ad,
+  Billboard,
+  Category,
+  Conversation,
+  MerchantOrder,
+  Message,
+  Order,
+  OrderList,
+  Prisma,
+  Products,
+  Seller,
+  Subcategory,
+  User,
+} from "@prisma/client";
 
 export type UserType = User & {
   seller: SellerType;
@@ -77,4 +92,8 @@ export type GetSellerWithSubBySellerIdType = Prisma.PromiseReturnType<
   typeof GetSellerWithSubBySellerId
 >;
 
-export type WishlistWithItems = Prisma.PromiseReturnType<typeof GetCurrentUserWishlistWithWishlistItems>
+export type WishlistWithItems = Prisma.PromiseReturnType<
+  typeof GetCurrentUserWishlistWithWishlistItems
+>;
+
+export type DashUser = Prisma.PromiseReturnType<typeof GetUserForUserDash>;
