@@ -77,7 +77,7 @@ export const RemoveItemFromWishlist = async (
 
 export const GetCurrentUserWishlistWithWishlistItems = async () => {
   const user = await getCurrentUser();
-  if (!user) throw new Error("login first");
+  if (!user) return null;
   const wishlist = await prisma.wishlist.findUnique({
     where: {
       userId: user.id,

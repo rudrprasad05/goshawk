@@ -36,7 +36,38 @@ const NavItems = ({ classname }: { classname?: string }) => {
   useOnClickOutside(navRef, () => setActiveIndex(null));
 
   const checkRole = () => {
-    return user?.role == "SELLER" || user?.role == "ADMIN";
+    if (user?.role == "SELLER")
+      <div className="flex items-center">
+        <Link
+          href={`/seller`}
+          className={`${buttonVariants({ variant: "ghost" })}text-sm`}
+        >
+          Dashboard
+        </Link>
+      </div>;
+    else if (user?.role == "USER")
+      return (
+        <div className="flex items-center">
+          <Link
+            href={`/account/${user?.id}/mydash`}
+            className={`${buttonVariants({ variant: "ghost" })}text-sm`}
+          >
+            Dashboard
+          </Link>
+        </div>
+      );
+    else if (user?.role == "ADMIN")
+      return (
+        <div className="flex items-center">
+          <Link
+            href={`/seller/`}
+            className={`${buttonVariants({ variant: "ghost" })}text-sm`}
+          >
+            Dashboard
+          </Link>
+        </div>
+      );
+    else return;
   };
 
   return (
@@ -53,16 +84,7 @@ const NavItems = ({ classname }: { classname?: string }) => {
         </Link>
       </div>
       {/* dashboard */}
-      {checkRole() && (
-        <div className="flex items-center">
-          <Link
-            href={`/seller`}
-            className={`${buttonVariants({ variant: "ghost" })}text-sm`}
-          >
-            Dashboard
-          </Link>
-        </div>
-      )}
+      {checkRole()}
 
       {/* adminm panel */}
       {user?.role == "ADMIN" && (

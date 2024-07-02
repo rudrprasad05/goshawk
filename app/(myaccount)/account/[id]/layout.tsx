@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import ThemeSwitcher from "@/theme/ThemeSwitcher";
 import Footer from "@/components/Footer";
 import NavBar2 from "@/components/nav/NavBar2";
+import SideNavServerCont from "./_components/SideNavServerCont";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,7 @@ export default function RootLayout({
   return (
     <main className="min-h-screen bg-background">
       <div className="">
-        <NavBar2 />
+        <SideNavServerCont />
         {children}
         <Footer />
       </div>
