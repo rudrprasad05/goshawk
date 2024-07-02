@@ -88,3 +88,23 @@ export const GetCurrentUserWishlistWithWishlistItems = async () => {
   });
   return wishlist;
 };
+
+export const GetCurrentUserWithWishlistAndProducts = async (id: string) => {
+  const wishlist = await prisma.wishlist.findUnique({
+    where: {
+      userId: id,
+    },
+    include: {
+      wishlistItems: {
+        include: {
+          product: {
+            include: {
+              seller: true,
+            },
+          },
+        },
+      },
+    },
+  });
+  return wishlist;
+};

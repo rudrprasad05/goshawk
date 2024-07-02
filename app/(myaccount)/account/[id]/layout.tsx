@@ -18,12 +18,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="min-h-screen bg-background">
-      <div className="">
-        <SideNavServerCont />
-        {children}
-        <Footer />
-      </div>
-    </main>
+    <div className="flex">
+      <SideNavServerCont />
+      <div className="grow p-6">{children}</div>
+    </div>
   );
 }

@@ -23,6 +23,16 @@ export default withAuth(
   }
 );
 
+export function middleware(request: NextRequest) {
+  const headers = new Headers(request.headers);
+  headers.set("urlpath", request.nextUrl.pathname);
+  return NextResponse.next({ headers });
+}
+
 export const config = {
-  matcher: ["/seller/:path*", "/admin/:path*"],
+  matcher: [
+    "/seller/:path*",
+    "/admin/:path*",
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+  ],
 };

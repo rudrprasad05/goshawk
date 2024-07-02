@@ -4,6 +4,7 @@ import ThemeSwitcherOneClick from "@/theme/ThemeSwitcherOneClick";
 import {
   ArrowLeftToLine,
   ArrowRightToLine,
+  Bell,
   Blocks,
   Cog,
   Home,
@@ -12,7 +13,11 @@ import {
   Megaphone,
   MessageSquareMore,
   Package,
+  ShoppingCart,
   Store,
+  Info,
+  User,
+  Bookmark,
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -34,24 +39,30 @@ const SideNav = ({ user }: { user: DashUser }) => {
     {
       name: "Dashboard",
       icon: LayoutDashboard,
-      link: `/seller/${user?.id}/dashboard`,
+      link: `/account/${user?.id}/mydash`,
     },
     {
-      name: "Product",
+      name: "Order",
       icon: Package,
-      link: `/seller/${user?.id}/products`,
+      link: `/account/${user?.id}/myorders`,
     },
-    { name: "Orders", icon: Blocks, link: `/seller/${user?.id}/orders` },
+    { name: "Profile", icon: User, link: `/account/${user?.id}/profile` },
 
-    { name: "Ads", icon: Megaphone, link: `/seller/${user?.id}/ads` },
     {
-      name: "Chat",
-      icon: MessageSquareMore,
-      link: `/seller/${user?.id}/chat`,
+      name: "Notifications",
+      icon: Bell,
+      link: `/account/${user?.id}/notifications`,
+    },
+    { name: "Cart", icon: ShoppingCart, link: `/cart` },
+    { name: "Help", icon: Info, link: `/account/${user?.id}/help` },
+    {
+      name: "Wishlist",
+      icon: Bookmark,
+      link: `/account/${user?.id}/wishlist`,
     },
   ];
 
-  const [openNav, setOpenNav] = useState(false);
+  const [openNav, setOpenNav] = useState(true);
 
   const toggleCollapse = () => {
     if (openNav) setOpenNav(false);

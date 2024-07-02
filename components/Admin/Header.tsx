@@ -26,7 +26,7 @@ const Header: React.FC<props> = ({ name, children, showProfile = true }) => {
         <div className="flex gap-3 ml-auto">
           <div className="text-right">
             <p className="font-bold text-lg">{user?.name}</p>
-            <p className="text-sm text-primary">Merchant</p>
+            <p className="text-sm text-primary capitalize">{user?.role}</p>
           </div>
           <EditProfileSheet user={user}>
             <AvatarComponent

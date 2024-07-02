@@ -38,31 +38,34 @@ const EditProfileSheet: React.FC<props> = ({ children, user }) => {
       <SheetContent>
         <SheetHeader>
           <SheetTitle>
-            Welcome back {user && user.name.split(" ")[0]}
+            Welcome back {user && user?.name.split(" ")[0]}
           </SheetTitle>
         </SheetHeader>
         <SheetDescription className="flex flex-col gap-2 my-4">
-          <Link className="hover:underline" href={`/account/${user.id}/mydash`}>
+          <Link
+            className="hover:underline"
+            href={`/account/${user?.id}/mydash`}
+          >
             Dashboard
           </Link>
           <Link
             className="hover:underline"
-            href={`/account/${user.id}/myorders`}
+            href={`/account/${user?.id}/myorders`}
           >
             Orders
           </Link>
           <Link
             className="hover:underline"
-            href={`/account/${user.id}/myprofile`}
+            href={`/account/${user?.id}/myprofile`}
           >
             Profile
           </Link>
-          <Link className="hover:underline" href={`/account/${user.id}/help`}>
+          <Link className="hover:underline" href={`/account/${user?.id}/help`}>
             Customer Support
           </Link>
           <Link
             className="hover:underline"
-            href={`/account/${user.id}/wishlist`}
+            href={`/account/${user?.id}/wishlist`}
           >
             Wish List
           </Link>
