@@ -32,7 +32,7 @@ import { z } from "zod";
 import Pageloader from "@/components/global/Pageloader";
 import { signOut } from "next-auth/react";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const params = useParams();
   const [user, setuser] = useState<UserDataOnlyType | null | undefined>(null);
@@ -189,4 +189,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
