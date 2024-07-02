@@ -1,16 +1,17 @@
 import React from "react";
-import ProfileCont from "./_components/ProfileCont";
-import { GetOnlyCurrentUser } from "@/actions/user";
+import HelpCont from "./_components/HelpCont";
 import { headers } from "next/headers";
+import { GetOnlyCurrentUser } from "@/actions/user";
 
-const page = async () => {
+const Page = async () => {
   const headerList = headers();
   const pathname = headerList.get("urlpath");
   const userId = pathname?.split("/")[pathname?.split("/").length - 2];
   const user = await GetOnlyCurrentUser();
 
   if (!user) return null;
-  return <ProfileCont data={user} />;
+
+  return <HelpCont data={user} />;
 };
 
-export default page;
+export default Page;

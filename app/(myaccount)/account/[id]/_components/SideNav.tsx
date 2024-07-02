@@ -48,11 +48,6 @@ const SideNav = ({ user }: { user: DashUser }) => {
     },
     { name: "Profile", icon: User, link: `/account/${user?.id}/profile` },
 
-    {
-      name: "Notifications",
-      icon: Bell,
-      link: `/account/${user?.id}/notifications`,
-    },
     { name: "Cart", icon: ShoppingCart, link: `/cart` },
     { name: "Help", icon: Info, link: `/account/${user?.id}/help` },
     {

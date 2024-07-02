@@ -1,5 +1,6 @@
 "use server";
 
+import { ContactUsTemplate } from "@/components/email/ContactUsTemplate";
 import prisma from "@/lib/prismadb";
 
 import { Resend } from "resend";
@@ -48,4 +49,16 @@ export const VerifyGoogleAccount = async (id: string) => {
   if (!res) return null;
 
   return res;
+};
+
+export const SendContactEmail = async (content: string) => {
+  // await sendEmail({
+  //   from: "no-reply <no-reply@goshawkfiji.com>",
+  //   to: "info <info@goshawkfiji.com>",
+  //   subject: "Verify your email address",
+  //   react: ContactUsTemplate({
+  //     content: content,
+  //   }) as React.ReactElement,
+  // });
+  return;
 };

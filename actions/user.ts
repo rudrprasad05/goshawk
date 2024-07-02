@@ -7,6 +7,8 @@ import { VerifyEmailTemplate } from "@/components/email/VerifyEmailTemplate";
 import { ChangePasswordEmail } from "@/components/email/ResetPasswordTemplate";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
+import { UserDataOnlyType, UserType } from "@/types";
+import { EditProfileSchemaType } from "@/app/(myaccount)/account/[id]/profile/_components/ProfileCont";
 
 export const NavbarUser = async () => {
   try {
@@ -194,4 +196,14 @@ export const ChangePassword = async (token: string, password: string) => {
     },
   });
   return createdUser;
+};
+
+export const SaveUserDetailsProfile = async (data: EditProfileSchemaType) => {
+  const user = prisma.user.update({
+    where: {
+      email: data.email,
+    },
+    data: data,
+  });
+  return user;
 };
