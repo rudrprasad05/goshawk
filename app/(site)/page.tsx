@@ -25,15 +25,9 @@ export default async function Home() {
 
   return (
     <>
-      <LandingHeader />
+      <LandingHeader cats={cats} />
       <div className="grid gap-6 grid-cols-3 lg:grid-cols-4 px-20 relative">
-        <div className="hidden md:hidden lg:block py-6 col-span-1 relative">
-          <CategorySideNavCont cats={cats} />
-        </div>
-        <div className="col-span-3">
-          <SuperAdminProducts products={AdminProducts} />
-          {/* <AdCaroSection products={products} /> */}
-        </div>
+        <SuperAdminProducts products={AdminProducts} />
       </div>
       <div className="px-20">
         <OtherCaroSection wishlist={wishlist} products={products} />
@@ -48,15 +42,3 @@ export default async function Home() {
     </>
   );
 }
-
-const CategorySideNavCont = ({ cats }: { cats: any[] }) => {
-  return (
-    <Card className="overflow-auto pt-6">
-      <CardContent>
-        {cats.map((cat) => (
-          <CategorySideNav key={cat.id} category={cat} />
-        ))}
-      </CardContent>
-    </Card>
-  );
-};

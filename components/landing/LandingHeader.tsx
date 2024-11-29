@@ -4,11 +4,16 @@ import React from "react";
 
 import MaxWidthWrapper from "../MaxWidthWrapper";
 import { Button, buttonVariants } from "../ui/button";
+import { Card, CardContent } from "../ui/card";
+import CategorySideNav from "./CategorySideNav";
 
-const LandingHeader = () => {
+const LandingHeader = ({ cats }: { cats: any[] }) => {
   return (
-    <>
-      <MaxWidthWrapper>
+    <MaxWidthWrapper>
+      <div className="flex gap-8 w-full h-full">
+        <div className="hidden md:hidden lg:block py-6 col-span-1 relative">
+          <CategorySideNavCont cats={cats} />
+        </div>
         <div className="py-20 mx-auto text-center flex flex-col items-center max-w-3xl">
           <h1 className="text-4xl font-bold tracking-tight text-secondary-foreground sm:text-6xl">
             Your marketplace for high-quality
@@ -28,8 +33,20 @@ const LandingHeader = () => {
             <Button variant="ghost">Our quality promise &rarr;</Button>
           </div>
         </div>
-      </MaxWidthWrapper>
-    </>
+      </div>
+    </MaxWidthWrapper>
+  );
+};
+
+const CategorySideNavCont = ({ cats }: { cats: any[] }) => {
+  return (
+    <Card className="overflow-auto pt-6 h-full">
+      <CardContent>
+        {cats.map((cat) => (
+          <CategorySideNav key={cat.id} category={cat} />
+        ))}
+      </CardContent>
+    </Card>
   );
 };
 

@@ -6,7 +6,7 @@ import { Toaster } from "react-hot-toast";
 import AuthContext from "@/context/AuthContext";
 import { CartContextProvider } from "@/context/CartContext";
 import { Toaster as SonnarToaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { TooltipProvider } from "@/components/ui/tooltip";  
 
 const inter = Inter({ subsets: ["latin"] });
 

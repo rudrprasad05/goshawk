@@ -96,7 +96,7 @@ const Cart = () => {
               aria-hidden="true"
               className="relative flex items-center justify-center mb-4 h-60 w-60 text-muted-foreground"
             >
-              <ShoppingCart className="stroke-2 w-60 h-60 text-primary" />
+              <ShoppingCart className="stroke-1 w-60 h-60 text-primary" />
             </div>
             <div className="text-xl font-semibold">Your cart is empty</div>
             <SheetTrigger asChild>
